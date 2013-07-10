@@ -11,7 +11,7 @@ Rectangle {
             id: "inputString"
             text: model.inputString
             font.family: "Helvetica"
-            font.pointSize: 24
+            font.pointSize: 12
             color: "red"
         }
     }

@@ -6,14 +6,10 @@ Rectangle {
     id: main
     objectName: "mainWindowQml"
     
-    function update_input_string(string, attributes_list) {
-        inputString.text = string
-    }
-
     Column {
         Text {
             id: "inputString"
-            text: "Hello-Hinata!"
+            text: model.inputString
             font.family: "Helvetica"
             font.pointSize: 24
             color: "red"

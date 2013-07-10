@@ -5,7 +5,7 @@ find_package(Qt4 REQUIRED)
 include_directories(${QT_INCLUDES} ${CMAKE_CURRENT_BINARY_DIR} 
     ${CMAKE_CURRENT_SOURCE_DIR})
 
-set(fcitx-kimpanel_SRCS main.cpp main_application.cpp kimpanelagent.cpp)
+set(fcitx-kimpanel_SRCS main.cpp main_application.cpp main_controller.cpp main_model.cpp kimpanelagent.cpp)
 QT4_ADD_DBUS_ADAPTOR(fcitx-kimpanel_SRCS
     org.kde.impanel.xml
     kimpanelagent.h

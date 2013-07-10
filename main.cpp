@@ -14,7 +14,7 @@ int main(int argc, char** argv)
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
 
     MainApplication application(argc, argv);
-    if (!application.setup()) {
+    if (!application.init()) {
         return 0;
     }
     return application.exec();

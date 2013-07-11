@@ -3,36 +3,38 @@
 #define __MAIN_CONTROLLER_H__
 
 #include <QObject>
+#include <QApplication>
 #include "main_model.h"
 #include "kimpanelagent.h"
 
-class MainController : public QObject
+class MainController : public QApplication
 {
     Q_OBJECT
 
 public:
-    MainController();
+    MainController(int &argc, char **argv);
     virtual ~MainController();
     bool init();
 
 private:
     MainModel *mModel;
     PanelAgent *mAgent;
+    QDeclarativeView *mView;
 
 public
 slots:
     void updatePreeditText(const QString inputString, 
         QList<TextAttribute> attributes);
 
-    //lookup_table里存放各个候选词
     void updateLookupTable(const KimpanelLookupTable &lookup_table);
     void updateLookupTableFull(const KimpanelLookupTable &lookup_table,
         int cursor, int layout);
 
-public:
-	MainModel* getModel() {
-		return mModel;
-	}
+    void updateSpotLocation(int x, int y);
+    void updateSpotRect(int x, int y, int w, int h);
+    void showLookupTable(bool to_show);
+    void updateLookupTableCursor(int pos);
+
 };
 
 #endif // __MAIN_CONTROLLER_H__

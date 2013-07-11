@@ -92,7 +92,7 @@ Q_SIGNALS:
     void updateLookupTable(const KimpanelLookupTable &lookup_table);
     void updateLookupTableFull(const KimpanelLookupTable& lookup_table, int cursor, int layout);
     void updateSpotLocation(int x, int y);
-    void updateSpotRect(int x, int y, int w ,int h);
+    void updateSpotRect(int x, int y, int w, int h);
 
     void registerProperties(const QList<KimpanelProperty> &props);
 

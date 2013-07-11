@@ -2,8 +2,8 @@ import QtQuick 1.1
 
 Rectangle {
     width: 400
-    height: 300
-    id: main
+    height: 46
+    id: mainWindow
     objectName: "mainWindowQml"
     
     Column {

@@ -4,7 +4,7 @@
 #include <QDeclarativeView>
 #include <QtDeclarative>
 #include <QTextCodec>
-#include "main_application.h"
+#include "main_controller.h"
 
 int main(int argc, char** argv)
 {
@@ -13,10 +13,10 @@ int main(int argc, char** argv)
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
 
-    MainApplication application(argc, argv);
-    if (!application.init()) {
-        return 0;
+    MainController MainController(argc, argv);
+    if (!MainController.init()) {
+        return -1;
     }
-    return application.exec();
+    return MainController.exec();
 }
 

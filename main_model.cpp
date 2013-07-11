@@ -12,7 +12,6 @@ MainModel::~MainModel()
 
 }
 
-
 void MainModel::setInputString(const QString inputString) {
 	mInputString = inputString;
 	emit inputStringChanged();
@@ -48,12 +47,10 @@ void MainModel::setCandidateWords(const KimpanelLookupTable &lookup_table) {
     for (iter = entries.begin(); iter != entries.end(); ++ iter) {
         if ((candidate = new (std::nothrow)CandidateWord) == NULL)
             break;
+
         candidate->setCddLabel(iter->label);
         candidate->setCddText(iter->text);
-
         this->mCandidateWords.append(candidate);
-//        qDebug("label value: %s", qPrintable(iter->label));
-//        qDebug("text value: %s", qPrintable(iter->text));
     }
 
     emit candidateWordsChanged();
@@ -61,6 +58,6 @@ void MainModel::setCandidateWords(const KimpanelLookupTable &lookup_table) {
 
 QDeclarativeListProperty<CandidateWord> MainModel::candidateWords() {
     return QDeclarativeListProperty<CandidateWord>(this, &mCandidateWords, &candidateWordsPropAppend,
-            &candidateWordsPropCount, &candidateWordsPropAt, 0);
+        &candidateWordsPropCount, &candidateWordsPropAt, 0);
 }
 

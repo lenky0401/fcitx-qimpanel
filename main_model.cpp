@@ -43,14 +43,15 @@ void MainModel::setCandidateWords(const KimpanelLookupTable &lookup_table) {
     QList<KimpanelLookupTable::Entry>::iterator iter;
     QList<KimpanelLookupTable::Entry> entries = lookup_table.entries;
 
-    this->mCandidateWords.clear();
+    qDeleteAll(mCandidateWords);
+    mCandidateWords.clear();
     for (iter = entries.begin(); iter != entries.end(); ++ iter) {
         if ((candidate = new (std::nothrow)CandidateWord) == NULL)
             break;
 
         candidate->setCddLabel(iter->label);
         candidate->setCddText(iter->text);
-        this->mCandidateWords.append(candidate);
+        mCandidateWords.append(candidate);
     }
 
     emit candidateWordsChanged();

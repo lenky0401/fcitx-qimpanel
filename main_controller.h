@@ -24,9 +24,10 @@ slots:
     void updatePreeditText(const QString inputString, 
         QList<TextAttribute> attributes);
 
-    void UpdateLookupTable(const QStringList &labels,
-        const QStringList &candis, const QStringList &attrlists,
-        bool has_prev, bool has_next);
+    //lookup_table里存放各个候选词
+    void updateLookupTable(const KimpanelLookupTable &lookup_table);
+    void updateLookupTableFull(const KimpanelLookupTable &lookup_table,
+        int cursor, int layout);
 
 public:
 	MainModel* getModel() {

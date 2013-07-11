@@ -33,7 +33,7 @@ bool MainApplication::init()
     if ((mView = new (std::nothrow)QDeclarativeView) == NULL)
         return false;
 
-    mView->rootContext()->setContextProperty("model", ctrl->getModel());
+    mView->rootContext()->setContextProperty("mainModel", ctrl->getModel());
     mView->setSource(QUrl::fromLocalFile("../main.qml"));
     
     mView->setStyleSheet("background:transparent;");
@@ -43,15 +43,15 @@ bool MainApplication::init()
     mView->setAutoFillBackground(false);
     mView->setWindowOpacity(10);
 
-    QDesktopWidget* desktop = QApplication::desktop();
-    QSize size = mView->sizeHint();
-    int width = desktop->width();
-    int height = desktop->height();
-    int mw = size.width();
-    int mh = size.height();
-    int centerW = (width/2) - (mw/2);
-    int centerH = (height/2) - (mh/2);
-    mView->move(centerW, centerH);
+//    QDesktopWidget* desktop = QApplication::desktop();
+//    QSize size = mView->sizeHint();
+//    int width = desktop->width();
+//    int height = desktop->height();
+//    int mw = size.width();
+//    int mh = size.height();
+//    int centerW = (width/2) - (mw/2);
+//    int centerH = (height/2) - (mh/2);
+//    mView->move(centerW, centerH);
 
     QObject::connect(mView->engine(), SIGNAL(quit()), qApp, SLOT(quit()));
     mView->show();

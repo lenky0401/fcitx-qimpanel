@@ -7,12 +7,30 @@ Rectangle {
     objectName: "mainWindowQml"
     
     Column {
+        spacing: 2
+
         Text {
             id: "inputString"
-            text: model.inputString
+            text: mainModel.inputString
             font.family: "Helvetica"
             font.pointSize: 12
             color: "red"
+        }
+        Row {
+            spacing: 0
+            
+            Repeater {
+                id: repeater
+                model: mainModel.candidateWords
+
+                Text {
+                    id: "candidateWord"
+                    text: cddLabel + " " + cddText + "  "
+                    font.family: "Helvetica"
+                    font.pointSize: 12
+                    color: "red"
+                }
+            }
         }
     }
 }

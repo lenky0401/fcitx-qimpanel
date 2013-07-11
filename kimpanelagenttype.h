@@ -77,8 +77,8 @@ Q_DECLARE_OPERATORS_FOR_FLAGS(KimpanelProperty::States)
 
 struct KimpanelLookupTable {
     struct Entry {
-        QString label;
-        QString text;
+        QString label;  //存放标号字符串，比如“1.”，“2.”，“3.”，“4.”，“5.”
+        QString text;   //存放候选词字符串，比如“啊”，“阿”，“吖”，“呵”，“腌”
         QList<TextAttribute> attr;
     };
 

@@ -1,5 +1,7 @@
-
+#include <QDebug>
+#include <stdio.h>
 #include "main_model.h"
+#include "candidate_word.h"
 #include "main_controller.h"
 #include "kimpanelagent.h"
 
@@ -11,6 +13,8 @@ MainController::MainController()
 
 bool MainController::init()
 {
+    qmlRegisterType<CandidateWord>();
+
     if ((mModel = new (std::nothrow)MainModel) == NULL)
         return false;
 
@@ -22,10 +26,12 @@ bool MainController::init()
         this, SLOT(updatePreeditText(QString, QList<TextAttribute>)));
 
     QObject::connect(mAgent,
-        SIGNAL(UpdateLookupTable(QStringList, QStringList, QStringList,
-                bool, bool)),
-        this, SLOT(UpdateLookupTable(QStringList, QStringList, QStringList,
-                bool, bool)));
+        SIGNAL(updateLookupTable(KimpanelLookupTable)),
+        this, SLOT(updateLookupTable(KimpanelLookupTable)));
+
+    QObject::connect(mAgent,
+        SIGNAL(updateLookupTableFull(KimpanelLookupTable, int, int)),
+        this, SLOT(updateLookupTableFull(KimpanelLookupTable, int, int)));
 
     mAgent->created();
 
@@ -49,10 +55,23 @@ void MainController::updatePreeditText(const QString inputString,
     mModel->setInputString(inputString);
 }
 
-void MainController::UpdateLookupTable(const QStringList &labels,
-    const QStringList &candis, const QStringList &attrlists,
-    bool has_prev, bool has_next)
+void MainController::updateLookupTable(const KimpanelLookupTable &lookup_table)
 {
+//    QList<KimpanelLookupTable::Entry>::iterator iter;
+//    QList<KimpanelLookupTable::Entry> entries = lookup_table.entries;
+//
+//    for (iter = entries.begin(); iter != entries.end(); ++ iter) {
+//        qDebug("label value: %s", qPrintable(iter->label));
+//        qDebug("text value: %s", qPrintable(iter->text));
+//    }
 
+    mModel->setCandidateWords(lookup_table);
+}
+
+void MainController::updateLookupTableFull(const KimpanelLookupTable &lookup_table,
+    int cursor, int layout)
+{
+    updateLookupTable(lookup_table);
+//    printf("cursor:%d, layout:%d\n", cursor, layout);
 }
 

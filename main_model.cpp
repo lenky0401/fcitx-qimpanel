@@ -54,11 +54,34 @@ void MainModel::setCandidateWords(const KimpanelLookupTable &lookup_table) {
         mCandidateWords.append(candidate);
     }
 
+    setHasPrev(lookup_table.has_prev);
+    setHasNext(lookup_table.has_next);
+
     emit candidateWordsChanged();
+    emit hasPrevChanged();
+    emit hasNextChanged();
 }
 
 QDeclarativeListProperty<CandidateWord> MainModel::candidateWords() {
     return QDeclarativeListProperty<CandidateWord>(this, &mCandidateWords, &candidateWordsPropAppend,
         &candidateWordsPropCount, &candidateWordsPropAt, 0);
+}
+
+void MainModel::setHasPrev(const bool hasPrev) {
+    mHasPrev = hasPrev;
+    emit hasPrevChanged();
+}
+
+bool MainModel::hasPrev() const {
+    return mHasPrev;
+}
+
+void MainModel::setHasNext(const bool hasNext) {
+    mHasNext = hasNext;
+    emit hasNextChanged();
+}
+
+bool MainModel::hasNext() const {
+    return mHasNext;
 }
 

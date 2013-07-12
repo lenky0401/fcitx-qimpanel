@@ -21,8 +21,7 @@ private:
     PanelAgent *mAgent;
     QDeclarativeView *mView;
 
-public
-slots:
+public slots:
     void updatePreeditText(const QString inputString, 
         QList<TextAttribute> attributes);
 
@@ -35,6 +34,10 @@ slots:
     void showLookupTable(bool to_show);
     void updateLookupTableCursor(int pos);
 
+public:
+    //return value: Have prev/next page?
+    Q_INVOKABLE void getPrevPage();
+    Q_INVOKABLE void getNextPage();
 };
 
 #endif // __MAIN_CONTROLLER_H__

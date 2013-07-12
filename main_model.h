@@ -16,6 +16,10 @@ class MainModel : public QObject
 
     Q_PROPERTY(QDeclarativeListProperty<CandidateWord> candidateWords
         READ candidateWords NOTIFY candidateWordsChanged)
+    Q_PROPERTY(bool hasPrev READ hasPrev WRITE setHasPrev
+        NOTIFY hasPrevChanged)
+    Q_PROPERTY(bool hasNext READ hasNext WRITE setHasNext
+        NOTIFY hasNextChanged)
 
 
 public:
@@ -27,13 +31,22 @@ public:
     QString inputString() const;
     void setCandidateWords(const KimpanelLookupTable &lookup_table);
     QDeclarativeListProperty<CandidateWord> candidateWords();
+    void setHasPrev(const bool hasPrev);
+    bool hasPrev() const;
+    void setHasNext(const bool hasNext);
+    bool hasNext() const;
 
 signals:
     void inputStringChanged();
     void candidateWordsChanged();
+    void hasPrevChanged();
+    void hasNextChanged();
+
 private:
     QString mInputString;
     QList<CandidateWord *> mCandidateWords;
+    bool mHasPrev;
+    bool mHasNext;
 
 };
 

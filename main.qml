@@ -35,19 +35,36 @@ Rectangle {
                 }
             }
         }
-        Text {
-            id: "prev_page"
-            text: "<"
-            font.family: "Helvetica"
-            font.pointSize: 12
-            color: "#ACD6FF"
-        }
-        Text {
-            id: "next_page"
-            text: ">"
-            font.family: "Helvetica"
-            font.pointSize: 12
-            color: "#46A3FF"
+        Row {
+            visible : mainModel.hasPrev | mainModel.hasNext
+            Text {
+                id: "prev_page"
+                text: "<"
+                font.family: "Helvetica"
+                font.pointSize: 12
+                color: mainModel.hasPrev ? "#005AB5" : "#ACD6FF"
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: { 
+                        if (mainModel.hasPrev)
+                            mainCtrl.getPrevPage() 
+                    }
+                }
+            }
+            Text {
+                id: "next_page"
+                text: ">"
+                font.family: "Helvetica"
+                font.pointSize: 12
+                color: mainModel.hasNext ? "#005AB5" : "#ACD6FF"
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        if (mainModel.hasNext)
+                            mainCtrl.getNextPage() 
+                    }
+                }
+            }
         }
     }
 }

@@ -44,6 +44,7 @@ bool MainController::init()
 
     mAgent->created();
 
+    mView->rootContext()->setContextProperty("mainCtrl", this);
     mView->rootContext()->setContextProperty("mainModel", mModel);
     mView->setSource(QUrl::fromLocalFile("../main.qml"));
 
@@ -127,3 +128,18 @@ void MainController::updateLookupTableCursor(int pos)
 {
     //printf("pos: %d\n", pos);
 }
+
+void MainController::getPrevPage()
+{
+    mAgent->lookupTablePageUp();
+}
+
+void MainController::getNextPage()
+{
+    mAgent->lookupTablePageDown();
+}
+
+
+
+
+

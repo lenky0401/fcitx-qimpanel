@@ -114,6 +114,7 @@ void MainController::updateSpotRect(int x, int y, int w, int h)
 {
     int yOffset = 10;
     mView->move(x, y + h + yOffset);
+    //printf("w:%d, h:%d\n", w, h);
 }
 
 void MainController::showLookupTable(bool to_show)

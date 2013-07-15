@@ -35,7 +35,6 @@ public slots:
     void updateLookupTableCursor(int pos);
 
 public:
-    //return value: Have prev/next page?
     Q_INVOKABLE void getPrevPage();
     Q_INVOKABLE void getNextPage();
 };

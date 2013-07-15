@@ -58,8 +58,6 @@ void MainModel::setCandidateWords(const KimpanelLookupTable &lookup_table) {
     setHasNext(lookup_table.has_next);
 
     emit candidateWordsChanged();
-    emit hasPrevChanged();
-    emit hasNextChanged();
 }
 
 QDeclarativeListProperty<CandidateWord> MainModel::candidateWords() {

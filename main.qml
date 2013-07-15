@@ -1,13 +1,14 @@
 import QtQuick 1.1
 
 Rectangle {
-    width: 400
-    height: 46
+    width: layout.width
+    height: layout.height
     id: mainWindow
     objectName: "mainWindowQml"
     
     Row {
-        spacing: 4
+        id: layout
+        spacing: 36
         Column {
             spacing: 2
     
@@ -27,7 +28,7 @@ Rectangle {
     
                     Text {
                         id: "candidateWord"
-                        text: cddLabel + " " + cddText + "  "
+                        text: cddLabel + " " + cddText + " "
                         font.family: "Helvetica"
                         font.pointSize: 12
                         color: "#0080FF"
@@ -45,9 +46,9 @@ Rectangle {
                 color: mainModel.hasPrev ? "#005AB5" : "#ACD6FF"
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: { 
+                    onClicked: {
                         if (mainModel.hasPrev)
-                            mainCtrl.getPrevPage() 
+                            mainCtrl.getPrevPage()
                     }
                 }
             }
@@ -61,7 +62,7 @@ Rectangle {
                     anchors.fill: parent
                     onClicked: {
                         if (mainModel.hasNext)
-                            mainCtrl.getNextPage() 
+                            mainCtrl.getNextPage()
                     }
                 }
             }

@@ -1,13 +1,14 @@
 import QtQuick 1.1
 
 Rectangle {
-    width: layout.width
-    height: layout.height
+    width: layout.width + 10
+    height: layout.height + 5
     id: mainWindow
     objectName: "mainWindowQml"
     
     Row {
         id: layout
+        x: 5
         spacing: 36
         Column {
             spacing: 2
@@ -28,8 +29,8 @@ Rectangle {
     
                     Text {
                         id: "candidateWord"
-                        text: cddLabel + " " + cddText + " "
-                        font.family: "Helvetica"
+                        text: cddLabel + cddText
+                        font.family: "宋体"
                         font.pointSize: 12
                         color: "#0080FF"
                     }

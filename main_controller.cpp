@@ -51,6 +51,11 @@ bool MainController::init()
     mView->setWindowFlags(Qt::FramelessWindowHint | Qt::Tool |
         Qt::WindowStaysOnTopHint | Qt::X11BypassWindowManagerHint);
     mView->setAttribute(Qt::WA_TranslucentBackground, true);
+
+    //直接使用hide()会出现元素错位的情况，应该是qt/qml的内部bug
+    //这里采用将窗体大小设置为(0, 0)的方式实现hide()的等同效果
+    mView->resize(0, 0);
+    mView->show();
     //mView->setWindowTitle("fcitx-kimpanel");
     //mView->setAutoFillBackground(true);
     //mView->setWindowOpacity(10);
@@ -119,10 +124,8 @@ void MainController::updateSpotRect(int x, int y, int w, int h)
 
 void MainController::showLookupTable(bool to_show)
 {
-    if (to_show)
-        mView->show();
-    else
-        mView->hide();
+    if (!to_show)
+        mView->resize(0, 0);
 }
 
 void MainController::updateLookupTableCursor(int pos)

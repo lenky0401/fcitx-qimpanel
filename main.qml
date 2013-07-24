@@ -18,7 +18,7 @@ Rectangle {
                 text: mainModel.inputString
                 font.family: "Helvetica"
                 font.pointSize: 12
-                color: "red"
+                color: "#FF0080"
             }
             Row {
                 spacing: 0
@@ -32,7 +32,13 @@ Rectangle {
                         text: cddLabel + cddText
                         font.family: "宋体"
                         font.pointSize: 12
-                        color: "#0080FF"
+                        color: (index == 0) ? "#FF0080" : "#0080FF"
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: {
+                                    mainCtrl.selectCandidate(index)
+                            }
+                        }
                     }
                 }
             }

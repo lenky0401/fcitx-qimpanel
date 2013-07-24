@@ -143,6 +143,12 @@ void MainController::getNextPage()
     mAgent->lookupTablePageDown();
 }
 
+void MainController::selectCandidate(int index)
+{
+    mAgent->selectCandidate(index);
+}
+
+
 
 
 

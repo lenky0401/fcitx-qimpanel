@@ -37,6 +37,7 @@ public slots:
 public:
     Q_INVOKABLE void getPrevPage();
     Q_INVOKABLE void getNextPage();
+    Q_INVOKABLE void selectCandidate(int index);
 };
 
 #endif // __MAIN_CONTROLLER_H__

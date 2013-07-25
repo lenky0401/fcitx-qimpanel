@@ -46,7 +46,7 @@ public:
     void selectCandidate(int idx);
     void lookupTablePageUp();
     void lookupTablePageDown();
-    void movePreeditCaret(int pos);
+    void movePreeditCaret(int pos);     //preedit的光标位置，eg：那个竖线的位置…
     void triggerProperty(const QString& key);
 
 public: // PROPERTIES
@@ -65,7 +65,7 @@ public Q_SLOTS: // METHODS
     void SetSpotRect(int x, int y, int w, int h);
     void SetLookupTable(const QStringList &labels,
                         const QStringList &candis,
-                        const QStringList &attrlists,
+                        const QStringList &attrlists,       //layout参数：用来覆盖是否要强制竖排/横排
                         bool hasPrev, bool hasNext, int cursor, int layout);
     void serviceUnregistered(const QString& service);
 

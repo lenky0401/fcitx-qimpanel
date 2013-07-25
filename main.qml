@@ -18,8 +18,6 @@ Rectangle {
             Text {
                 id: "inputString"
                 text: mainModel.inputString
-                font.family: "Helvetica"
-                font.pointSize: 12
                 color: "#FF0080"
             }
             Row {
@@ -31,10 +29,8 @@ Rectangle {
     
                     Text {
                         id: "candidateWord"
-                        text: cddLabel + cddText
-                        font.family: "宋体"
-                        font.pointSize: 12
-                        color: (index == 0) ? "#FF0080" : "#0080FF"
+                        text: cddLabel + cddText + "  "
+                       color: (index == 0) ? "#FF0080" : "#0080FF"
                         MouseArea {
                             anchors.fill: parent
                             onClicked: {
@@ -50,8 +46,6 @@ Rectangle {
             Text {
                 id: "prev_page"
                 text: "<"
-                font.family: "Helvetica"
-                font.pointSize: 12
                 color: mainModel.hasPrev ? "#005AB5" : "#ACD6FF"
                 MouseArea {
                     anchors.fill: parent
@@ -64,8 +58,6 @@ Rectangle {
             Text {
                 id: "next_page"
                 text: ">"
-                font.family: "Helvetica"
-                font.pointSize: 12
                 color: mainModel.hasNext ? "#005AB5" : "#ACD6FF"
                 MouseArea {
                     anchors.fill: parent

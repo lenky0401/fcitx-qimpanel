@@ -46,7 +46,7 @@ bool MainController::init()
 
     mView->rootContext()->setContextProperty("mainCtrl", this);
     mView->rootContext()->setContextProperty("mainModel", mModel);
-    mView->setSource(QUrl::fromLocalFile("../main.qml"));
+    mView->setSource(QUrl("qrc:/main.qml"));
 
     mView->setWindowFlags(Qt::FramelessWindowHint | Qt::Tool |
         Qt::WindowStaysOnTopHint | Qt::X11BypassWindowManagerHint);

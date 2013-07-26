@@ -35,6 +35,7 @@ public:
     bool hasPrev() const;
     void setHasNext(const bool hasNext);
     bool hasNext() const;
+    void setInputStringCursorPos(int pos);
 
 signals:
     void inputStringChanged();

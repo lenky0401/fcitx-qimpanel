@@ -90,6 +90,10 @@ bool MainController::init()
         SIGNAL(updateLookupTableCursor(int)),
         this, SLOT(updateLookupTableCursor(int)));
 
+    QObject::connect(mAgent,
+        SIGNAL(updatePreeditCaret(int)),
+        this, SLOT(updatePreeditCaret(int)));
+
 	return true;
 }
 
@@ -148,7 +152,10 @@ void MainController::selectCandidate(int index)
     mAgent->selectCandidate(index);
 }
 
-
+void MainController::updatePreeditCaret(int pos)
+{
+    mModel->setInputStringCursorPos(pos);
+}
 
 
 

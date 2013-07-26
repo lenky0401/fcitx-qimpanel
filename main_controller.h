@@ -33,6 +33,7 @@ public slots:
     void updateSpotRect(int x, int y, int w, int h);
     void showLookupTable(bool to_show);
     void updateLookupTableCursor(int pos);
+    void updatePreeditCaret(int pos);
 
 public:
     Q_INVOKABLE void getPrevPage();

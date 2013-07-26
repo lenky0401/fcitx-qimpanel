@@ -21,6 +21,10 @@ QString MainModel::inputString() const {
 	return mInputString;
 }
 
+void MainModel::setInputStringCursorPos(int pos) {
+    setInputString(mInputString.insert(pos, QString("|")));
+}
+
 void candidateWordsPropAppend(QDeclarativeListProperty<CandidateWord>* prop, CandidateWord* value)
 {
     Q_UNUSED(prop);

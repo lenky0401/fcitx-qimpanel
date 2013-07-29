@@ -21,8 +21,8 @@ class MainModel : public QObject
     Q_PROPERTY(bool hasNext READ hasNext WRITE setHasNext
         NOTIFY hasNextChanged)
 
-	Q_PROPERTY(int highLight READ highLight WRITE setHighLight
-		NOTIFY highLightChanged)
+    Q_PROPERTY(int highLight READ highLight WRITE setHighLight
+        NOTIFY highLightChanged)
 
 public:
     MainModel();

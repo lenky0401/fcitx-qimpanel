@@ -88,7 +88,7 @@ bool MainModel::hasNext() const {
 }
 
 void MainModel::setHighLight(const int highLight) {
-	mHighLight = highLight;
+    mHighLight = highLight;
     emit highLightChanged();
 }
 

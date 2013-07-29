@@ -27,6 +27,8 @@ class MainModel : public QObject
 public:
     MainModel();
     virtual ~MainModel();
+    void resetData();
+    void setInputStringCursorPos(int pos);
 
 public:
     void setInputString(const QString inputString);
@@ -37,7 +39,6 @@ public:
     bool hasPrev() const;
     void setHasNext(const bool hasNext);
     bool hasNext() const;
-    void setInputStringCursorPos(int pos);
     void setHighLight(const int highLight);
     int highLight() const;
 

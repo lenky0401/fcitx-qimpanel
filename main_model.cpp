@@ -12,6 +12,16 @@ MainModel::~MainModel()
 
 }
 
+void MainModel::resetData() {
+    KimpanelLookupTable lookup_table;
+    setCandidateWords(lookup_table);
+    setInputString("");
+    setHasPrev(false);
+    setHasNext(false);
+    setInputStringCursorPos(-1);
+    setHighLight(-1);
+}
+
 void MainModel::setInputString(const QString inputString) {
 	mInputString = inputString;
 	emit inputStringChanged();

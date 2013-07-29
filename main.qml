@@ -11,6 +11,7 @@ Rectangle {
     Row {
         id: layout
         x: 5
+        y: 2
         spacing: 36
         Column {
             spacing: 2

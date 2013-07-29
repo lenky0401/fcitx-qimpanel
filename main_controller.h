@@ -22,6 +22,7 @@ private:
     QDeclarativeView *mView;
 
 public slots:
+    void updateProperty(const KimpanelProperty &prop);
     void updatePreeditText(const QString inputString, 
         QList<TextAttribute> attributes);
 

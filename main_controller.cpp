@@ -63,6 +63,10 @@ bool MainController::init()
     //QObject::connect(mView->engine(), SIGNAL(quit()), qApp, SLOT(quit()));
 
     QObject::connect(mAgent,
+        SIGNAL(updateProperty(KimpanelProperty)), this,
+        SLOT(updateProperty(KimpanelProperty)));
+
+    QObject::connect(mAgent,
         SIGNAL(updatePreeditText(QString, QList<TextAttribute>)),
         this, SLOT(updatePreeditText(QString, QList<TextAttribute>)));
 
@@ -95,6 +99,11 @@ bool MainController::init()
         this, SLOT(updatePreeditCaret(int)));
 
 	return true;
+}
+
+void MainController::updateProperty(const KimpanelProperty &prop)
+{
+    mModel->resetData();
 }
 
 void MainController::updatePreeditText(const QString inputString,

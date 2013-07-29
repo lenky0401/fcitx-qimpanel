@@ -46,7 +46,7 @@ public:
     void selectCandidate(int idx);
     void lookupTablePageUp();
     void lookupTablePageDown();
-    void movePreeditCaret(int pos);     //preedit的光标位置，eg：那个竖线的位置…
+    void movePreeditCaret(int pos);
     void triggerProperty(const QString& key);
 
 public: // PROPERTIES

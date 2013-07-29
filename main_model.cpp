@@ -87,3 +87,12 @@ bool MainModel::hasNext() const {
     return mHasNext;
 }
 
+void MainModel::setHighLight(const int highLight) {
+	mHighLight = highLight;
+    emit highLightChanged();
+}
+
+int MainModel::highLight() const {
+    return mHighLight;
+}
+

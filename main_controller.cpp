@@ -111,6 +111,7 @@ void MainController::updateLookupTable(const KimpanelLookupTable &lookup_table)
 void MainController::updateLookupTableFull(const KimpanelLookupTable &lookup_table,
     int cursor, int layout)
 {
+	mModel->setHighLight(cursor);
     updateLookupTable(lookup_table);
 }
 

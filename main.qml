@@ -30,7 +30,7 @@ Rectangle {
                     Text {
                         id: "candidateWord"
                         text: cddLabel + cddText + "  "
-                        color: (index == 0) ? "#FF0080" : "#0080FF"
+                        color: (index == mainModel.highLight) ? "#FF0080" : "#0080FF"
                         MouseArea {
                             anchors.fill: parent
                             onClicked: {

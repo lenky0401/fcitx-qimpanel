@@ -3,7 +3,6 @@
 #include <QApplication>
 #include <QDeclarativeView>
 #include <QtDeclarative/QDeclarativeContext>
-
 #include "main_model.h"
 #include "candidate_word.h"
 #include "main_controller.h"
@@ -43,6 +42,20 @@ bool MainController::init()
         return false;
 
     mAgent->created();
+
+    if ((systemTray = new (std::nothrow)QSystemTrayIcon(
+        QIcon::fromTheme("fcitx-kbd"), this)) == NULL)
+    {
+        return false;
+    }
+    if ((trayMenu = new (std::nothrow)SystemTrayMenu()) == NULL)
+        return false;
+
+    trayMenu->init();
+
+    systemTray->setContextMenu(trayMenu);
+    systemTray->setToolTip("fcitx-kimpanel");
+    systemTray->show();
 
     mView->rootContext()->setContextProperty("mainCtrl", this);
     mView->rootContext()->setContextProperty("mainModel", mModel);
@@ -103,6 +116,10 @@ bool MainController::init()
 
 void MainController::updateProperty(const KimpanelProperty &prop)
 {
+    QIcon icon = QIcon::fromTheme(prop.icon, QIcon::fromTheme("fcitx-kbd"));
+    systemTray->setIcon(icon);
+    //systemTray->showMessage(prop.label, prop.tip, QSystemTrayIcon::Information, 100);
+
     mModel->resetData();
 }
 

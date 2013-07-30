@@ -4,7 +4,11 @@
 
 #include <QObject>
 #include <QApplication>
+#include <QSystemTrayIcon>
+#include <QMenu>
+#include <QIcon>
 #include "main_model.h"
+#include "system_tray_menu.h"
 #include "kimpanelagent.h"
 
 class MainController : public QApplication
@@ -20,6 +24,10 @@ private:
     MainModel *mModel;
     PanelAgent *mAgent;
     QDeclarativeView *mView;
+
+private:
+    QSystemTrayIcon *systemTray;
+    SystemTrayMenu *trayMenu;
 
 public slots:
     void updateProperty(const KimpanelProperty &prop);

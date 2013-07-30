@@ -7,7 +7,7 @@ include_directories(${QT_INCLUDES} ${CMAKE_CURRENT_BINARY_DIR}
 
 SET(fcitx-kimpanel_RCCS qml.qrc)
 set(fcitx-kimpanel_SRCS main.cpp main_controller.cpp 
-    main_model.cpp kimpanelagent.cpp candidate_word.cpp)
+    main_model.cpp kimpanelagent.cpp candidate_word.cpp system_tray_menu.cpp)
 QT4_ADD_DBUS_ADAPTOR(fcitx-kimpanel_SRCS
     org.kde.impanel.xml
     kimpanelagent.h

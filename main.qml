@@ -5,8 +5,9 @@ Rectangle {
     height: layout.height + 5
     id: mainWindow
     objectName: "mainWindowQml"
+
     border.color: "#0080FF"
-    border.width: 2
+    border.width: 1
     
     Row {
         id: layout

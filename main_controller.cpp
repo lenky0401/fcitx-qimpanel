@@ -7,9 +7,10 @@
 #include "candidate_word.h"
 #include "main_controller.h"
 #include "kimpanelagent.h"
+#include "toplevel.h"
 
 MainController::MainController(int &argc, char **argv)
-    : QApplication(argc, argv), mModel(0), mAgent(0), mView(0)
+    : QApplication(argc, argv), mTopLevel(0), mModel(0), mAgent(0), mView(0)
 {
 
 }
@@ -24,6 +25,9 @@ MainController::~MainController()
 
     if (mView)
         delete mView;
+
+    if (mTopLevel)
+        delete mTopLevel;
 }
 
 bool MainController::init()
@@ -31,6 +35,9 @@ bool MainController::init()
     MainController::setApplicationName("fcitx-kimpanel");
 
     qmlRegisterType<CandidateWord>();
+
+    if ((mTopLevel = new (std::nothrow)TopLevel) == NULL)
+        return false;
 
     if ((mView = new (std::nothrow)QDeclarativeView) == NULL)
         return false;
@@ -57,18 +64,19 @@ bool MainController::init()
     systemTray->setToolTip("fcitx-kimpanel");
     systemTray->show();
 
+    mTopLevel->setCenterWidget(mView);
+
+    mView->setContentsMargins(0, 0, 0, 0);
+    mView->setResizeMode(QDeclarativeView::SizeViewToRootObject);
+    mView->setResizeAnchor(QGraphicsView::AnchorViewCenter);
+    mView->viewport()->setAutoFillBackground(false);
     mView->rootContext()->setContextProperty("mainCtrl", this);
     mView->rootContext()->setContextProperty("mainModel", mModel);
     mView->setSource(QUrl("qrc:/main.qml"));
-
-    mView->setWindowFlags(Qt::FramelessWindowHint | Qt::Tool |
-        Qt::WindowStaysOnTopHint | Qt::X11BypassWindowManagerHint);
-    mView->setAttribute(Qt::WA_TranslucentBackground, true);
+    //mView->setAttribute(Qt::WA_X11NetWmWindowTypeToolTip, true);
 
     //直接使用hide()会出现元素错位的情况，应该是qt/qml的内部bug
     //这里采用将窗体大小设置为(0, 0)的方式实现hide()的等同效果
-    mView->resize(0, 0);
-    mView->show();
     //mView->setWindowTitle("fcitx-kimpanel");
     //mView->setAutoFillBackground(true);
     //mView->setWindowOpacity(10);
@@ -148,15 +156,13 @@ void MainController::updateSpotLocation(int x, int y)
 
 void MainController::updateSpotRect(int x, int y, int w, int h)
 {
-    int yOffset = 10;
-    mView->move(x, y + h + yOffset);
+    mTopLevel->setSpotRect(QRect(QPoint(x, y), QSize(w, h)));
     //printf("w:%d, h:%d\n", w, h);
 }
 
 void MainController::showLookupTable(bool to_show)
 {
-    if (!to_show)
-        mView->resize(0, 0);
+    mTopLevel->setVisible(to_show);
 }
 
 void MainController::updateLookupTableCursor(int pos)

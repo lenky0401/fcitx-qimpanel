@@ -10,6 +10,7 @@
 #include "main_model.h"
 #include "system_tray_menu.h"
 #include "kimpanelagent.h"
+#include "toplevel.h"
 
 class MainController : public QApplication
 {
@@ -21,6 +22,7 @@ public:
     bool init();
 
 private:
+    TopLevel* mTopLevel;
     MainModel *mModel;
     PanelAgent *mAgent;
     QDeclarativeView *mView;

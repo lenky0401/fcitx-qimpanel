@@ -32,7 +32,7 @@ MainController::~MainController()
 
 bool MainController::init()
 {
-    MainController::setApplicationName("fcitx-kimpanel");
+    MainController::setApplicationName("fcitx-qimpanel");
 
     qmlRegisterType<CandidateWord>();
 
@@ -61,7 +61,7 @@ bool MainController::init()
     trayMenu->init();
 
     systemTray->setContextMenu(trayMenu);
-    systemTray->setToolTip("fcitx-kimpanel");
+    systemTray->setToolTip("fcitx-qimpanel");
     systemTray->show();
 
     mTopLevel->setCenterWidget(mView);
@@ -77,7 +77,7 @@ bool MainController::init()
 
     //直接使用hide()会出现元素错位的情况，应该是qt/qml的内部bug
     //这里采用将窗体大小设置为(0, 0)的方式实现hide()的等同效果
-    //mView->setWindowTitle("fcitx-kimpanel");
+    //mView->setWindowTitle("fcitx-qimpanel");
     //mView->setAutoFillBackground(true);
     //mView->setWindowOpacity(10);
 

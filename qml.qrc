@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
+        <file>qml/horizontal.qml</file>
+        <file>qml/tips.qml</file>
+        <file>qml/vertical.qml</file>
     </qresource>
 </RCC>
-

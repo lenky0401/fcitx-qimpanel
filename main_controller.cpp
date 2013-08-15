@@ -45,6 +45,9 @@ bool MainController::init()
     if ((mModel = new (std::nothrow)MainModel) == NULL)
         return false;
 
+    if ((mTimer = new (std::nothrow)QTimer(this)) == NULL)
+        return false;
+
     if ((mAgent = new (std::nothrow)PanelAgent(this)) == NULL)
         return false;
 
@@ -72,7 +75,8 @@ bool MainController::init()
     mView->viewport()->setAutoFillBackground(false);
     mView->rootContext()->setContextProperty("mainCtrl", this);
     mView->rootContext()->setContextProperty("mainModel", mModel);
-    mView->setSource(QUrl("qrc:/main.qml"));
+    this->mUrl = QUrl("qrc:/qml/horizontal.qml");
+    mView->setSource(this->mUrl);
     //mView->setAttribute(Qt::WA_X11NetWmWindowTypeToolTip, true);
 
     //直接使用hide()会出现元素错位的情况，应该是qt/qml的内部bug
@@ -82,10 +86,15 @@ bool MainController::init()
     //mView->setWindowOpacity(10);
 
     //QObject::connect(mView->engine(), SIGNAL(quit()), qApp, SLOT(quit()));
+    QObject::connect(mTimer, SIGNAL(timeout()), this, SLOT(hideTips()));
 
     QObject::connect(mAgent,
         SIGNAL(updateProperty(KimpanelProperty)), this,
         SLOT(updateProperty(KimpanelProperty)));
+
+    QObject::connect(mAgent,
+        SIGNAL(registerProperties(const QList<KimpanelProperty>)), this,
+        SLOT(registerProperties(const QList<KimpanelProperty>)));
 
     QObject::connect(mAgent,
         SIGNAL(updatePreeditText(QString, QList<TextAttribute>)),
@@ -108,6 +117,14 @@ bool MainController::init()
         this, SLOT(updateSpotRect(int, int, int, int)));
 
     QObject::connect(mAgent,
+        SIGNAL(showPreedit(bool)),
+        this, SLOT(showPreedit(bool)));
+
+    QObject::connect(mAgent,
+        SIGNAL(showAux(bool)),
+        this, SLOT(showAux(bool)));
+
+    QObject::connect(mAgent,
         SIGNAL(showLookupTable(bool)),
         this, SLOT(showLookupTable(bool)));
 
@@ -122,13 +139,44 @@ bool MainController::init()
 	return true;
 }
 
+void MainController::hideTips()
+{
+    this->mTimer->stop();
+    mModel->setTipsString("");
+    mTopLevel->setVisible(false);
+    mView->setSource(this->mUrl);
+}
+
+void MainController::showTips(const QString tipsString)
+{
+    if (QUrl("qrc:/qml/tips.qml") != mView->source())
+        mView->setSource(QUrl("qrc:/qml/tips.qml"));
+
+    mModel->setTipsString(tipsString);
+    mTopLevel->setVisible(true);
+    this->mTimer->start(1000);
+}
+
 void MainController::updateProperty(const KimpanelProperty &prop)
 {
     QIcon icon = QIcon::fromTheme(prop.icon, QIcon::fromTheme("fcitx-kbd"));
     systemTray->setIcon(icon);
     //systemTray->showMessage(prop.label, prop.tip, QSystemTrayIcon::Information, 100);
-
+    //qDebug() << QString("updateProperty(1:%1 2:%2 3:%3 4:%4 5:%5)").arg(prop.key)
+    //        .arg(prop.label).arg(prop.icon).arg(prop.tip).arg(prop.state);
+    printf("updateProperty\n");
+    this->showTips(prop.tip);
     mModel->resetData();
+}
+
+void MainController::registerProperties(const QList<KimpanelProperty> &props)
+{
+    QList<KimpanelProperty>::const_iterator iter;
+
+    //for (iter = props.begin(); iter != props.end(); ++ iter) {
+    //    qDebug() << QString("updateProperty(1:%1 2:%2 3:%3 4:%4 5:%5)").arg(iter->key)
+    //            .arg(iter->label).arg(iter->icon).arg(iter->tip).arg(iter->state);
+    //}
 }
 
 void MainController::updatePreeditText(const QString inputString,
@@ -160,8 +208,25 @@ void MainController::updateSpotRect(int x, int y, int w, int h)
     //printf("w:%d, h:%d\n", w, h);
 }
 
+void MainController::showPreedit(bool to_show)
+{
+    printf("showPreedit: %d\n", to_show);
+}
+
+void MainController::showAux(bool to_show)
+{
+    printf("showAux: %d\n", to_show);
+}
+
 void MainController::showLookupTable(bool to_show)
 {
+    if (this->mTimer->isActive()) {
+        if (to_show == false)
+            return;
+        else
+            hideTips();
+    }
+
     mTopLevel->setVisible(to_show);
 }
 
@@ -189,7 +254,3 @@ void MainController::updatePreeditCaret(int pos)
 {
     mModel->setInputStringCursorPos(pos);
 }
-
-
-
-

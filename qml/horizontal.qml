@@ -1,3 +1,4 @@
+//横排布局
 import QtQuick 1.1
 
 Rectangle {

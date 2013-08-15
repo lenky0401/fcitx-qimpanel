@@ -7,6 +7,7 @@
 #include <QSystemTrayIcon>
 #include <QMenu>
 #include <QIcon>
+#include <QTimer>
 #include "main_model.h"
 #include "system_tray_menu.h"
 #include "kimpanelagent.h"
@@ -22,17 +23,22 @@ public:
     bool init();
 
 private:
-    TopLevel* mTopLevel;
+    TopLevel *mTopLevel;
     MainModel *mModel;
     PanelAgent *mAgent;
     QDeclarativeView *mView;
+    QUrl mUrl;
+    QTimer *mTimer;
 
 private:
     QSystemTrayIcon *systemTray;
     SystemTrayMenu *trayMenu;
 
 public slots:
+    void hideTips();
+    void showTips(const QString tipsString);
     void updateProperty(const KimpanelProperty &prop);
+    void registerProperties(const QList<KimpanelProperty> &props);
     void updatePreeditText(const QString inputString, 
         QList<TextAttribute> attributes);
 
@@ -42,6 +48,8 @@ public slots:
 
     void updateSpotLocation(int x, int y);
     void updateSpotRect(int x, int y, int w, int h);
+    void showPreedit(bool to_show);
+    void showAux(bool to_show);
     void showLookupTable(bool to_show);
     void updateLookupTableCursor(int pos);
     void updatePreeditCaret(int pos);

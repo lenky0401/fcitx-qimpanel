@@ -23,12 +23,21 @@ void MainModel::resetData() {
 }
 
 void MainModel::setInputString(const QString inputString) {
-	mInputString = inputString;
-	emit inputStringChanged();
+    mInputString = inputString;
+    emit inputStringChanged();
 }
 
 QString MainModel::inputString() const {
-	return mInputString;
+    return mInputString;
+}
+
+void MainModel::setTipsString(const QString tipsString) {
+    mTipsString = tipsString;
+    emit tipsStringChanged();
+}
+
+QString MainModel::tipsString() const {
+    return mTipsString;
 }
 
 void MainModel::setInputStringCursorPos(int pos) {

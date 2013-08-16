@@ -1,5 +1,4 @@
 #include <QDebug>
-#include <stdio.h>
 #include <QApplication>
 #include <QDeclarativeView>
 #include <QtDeclarative/QDeclarativeContext>
@@ -148,7 +147,6 @@ void MainController::hideTips()
     this->mTimer->stop();
     mModel->setTipsString("");
     mTopLevel->setVisible(false);
-    printf("hideTips()\n");
     mView->setSource(this->mUrl);
 }
 
@@ -204,23 +202,22 @@ void MainController::updateLookupTableFull(const KimpanelLookupTable &lookup_tab
 
 void MainController::updateSpotLocation(int x, int y)
 {
-    //printf("%d %d\n", x, y);
+
 }
 
 void MainController::updateSpotRect(int x, int y, int w, int h)
 {
     mTopLevel->setSpotRect(QRect(QPoint(x, y), QSize(w, h)));
-    //printf("w:%d, h:%d\n", w, h);
 }
 
 void MainController::showPreedit(bool to_show)
 {
-    printf("showPreedit: %d\n", to_show);
+    qDebug() << QString("showPreedit: %1").arg(to_show);
 }
 
 void MainController::showAux(bool to_show)
 {
-    printf("showAux: %d\n", to_show);
+    qDebug() << QString("showAux: %1").arg(to_show);
 }
 
 void MainController::updateAux(const QString &text, const QList<TextAttribute> &attr)
@@ -233,20 +230,13 @@ void MainController::updateAux(const QString &text, const QList<TextAttribute> &
 
 void MainController::showLookupTable(bool to_show)
 {
-    printf("showLookupTable: %d\n", to_show);
-    if (this->mTimer->isActive()) {
-        if (to_show == false)
-            return;
-        else
-            hideTips();
-    }
-
+    qDebug() << QString("showLookupTable: %1").arg(to_show);
     mTopLevel->setVisible(to_show);
 }
 
 void MainController::updateLookupTableCursor(int pos)
 {
-    //printf("pos: %d\n", pos);
+    qDebug() << QString("updateLookupTableCursor: %1").arg(pos);
 }
 
 void MainController::getPrevPage()

@@ -16,7 +16,8 @@ public:
 
 private slots:
     void clickOnlineHelp();
-    void clickSystemRestart();
+    void clickConfigure();
+    void clickRestart();
 
 };
 

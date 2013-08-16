@@ -125,6 +125,10 @@ bool MainController::init()
         this, SLOT(showAux(bool)));
 
     QObject::connect(mAgent,
+        SIGNAL(updateAux(QString, QList<TextAttribute>)),
+        this, SLOT(updateAux(QString, QList<TextAttribute>)));
+
+    QObject::connect(mAgent,
         SIGNAL(showLookupTable(bool)),
         this, SLOT(showLookupTable(bool)));
 
@@ -144,6 +148,7 @@ void MainController::hideTips()
     this->mTimer->stop();
     mModel->setTipsString("");
     mTopLevel->setVisible(false);
+    printf("hideTips()\n");
     mView->setSource(this->mUrl);
 }
 
@@ -154,6 +159,8 @@ void MainController::showTips(const QString tipsString)
 
     mModel->setTipsString(tipsString);
     mTopLevel->setVisible(true);
+    if (this->mTimer->isActive())
+        this->mTimer->stop();
     this->mTimer->start(1000);
 }
 
@@ -164,8 +171,6 @@ void MainController::updateProperty(const KimpanelProperty &prop)
     //systemTray->showMessage(prop.label, prop.tip, QSystemTrayIcon::Information, 100);
     //qDebug() << QString("updateProperty(1:%1 2:%2 3:%3 4:%4 5:%5)").arg(prop.key)
     //        .arg(prop.label).arg(prop.icon).arg(prop.tip).arg(prop.state);
-    printf("updateProperty\n");
-    this->showTips(prop.tip);
     mModel->resetData();
 }
 
@@ -218,8 +223,17 @@ void MainController::showAux(bool to_show)
     printf("showAux: %d\n", to_show);
 }
 
+void MainController::updateAux(const QString &text, const QList<TextAttribute> &attr)
+{
+    if (text == "")
+        return;
+    this->showTips(text);
+    qDebug() << QString("updateAux(%1)").arg(text);
+}
+
 void MainController::showLookupTable(bool to_show)
 {
+    printf("showLookupTable: %d\n", to_show);
     if (this->mTimer->isActive()) {
         if (to_show == false)
             return;

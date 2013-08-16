@@ -50,6 +50,7 @@ public slots:
     void updateSpotRect(int x, int y, int w, int h);
     void showPreedit(bool to_show);
     void showAux(bool to_show);
+    void updateAux(const QString &text, const QList<TextAttribute> &attr);
     void showLookupTable(bool to_show);
     void updateLookupTableCursor(int pos);
     void updatePreeditCaret(int pos);

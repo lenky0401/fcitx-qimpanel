@@ -23,7 +23,7 @@ Rectangle {
                 text: mainModel.inputString
                 color: "#FF0080"
             }
-            Row {
+            Column {
                 spacing: 0
                 
                 Repeater {

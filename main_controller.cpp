@@ -75,7 +75,7 @@ bool MainController::init()
     mView->viewport()->setAutoFillBackground(false);
     mView->rootContext()->setContextProperty("mainCtrl", this);
     mView->rootContext()->setContextProperty("mainModel", mModel);
-    this->mUrl = QUrl("qrc:/qml/horizontal.qml");
+    this->mUrl = QUrl("qrc:/qml/vertical.qml");
     mView->setSource(this->mUrl);
     //mView->setAttribute(Qt::WA_X11NetWmWindowTypeToolTip, true);
 

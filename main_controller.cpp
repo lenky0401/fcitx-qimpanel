@@ -57,7 +57,7 @@ bool MainController::init()
     {
         return false;
     }
-    if ((trayMenu = new (std::nothrow)SystemTrayMenu()) == NULL)
+    if ((trayMenu = new (std::nothrow)SystemTrayMenu(this)) == NULL)
         return false;
 
     trayMenu->init();

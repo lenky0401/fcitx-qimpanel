@@ -26,18 +26,19 @@ SystemTrayMenu::~SystemTrayMenu()
 
 void SystemTrayMenu::init()
 {
+    QIcon::setThemeName("Humanity");
     this->addAction(QIcon::fromTheme("help-contents"),
         tr("Online &Help!"), this, SLOT(clickOnlineHelp()));
     
     this->addSeparator();
 
-    this->addAction(QIcon::fromTheme("gnome-desktop-config"),
+    this->addAction(QIcon::fromTheme("preferences-desktop"),
         tr("Configure"), this, SLOT(clickConfigure()));
 
-    this->addAction(QIcon::fromTheme("system-restart"),
+    this->addAction(QIcon::fromTheme("view-refresh"),
         tr("Restart"), this, SLOT(clickRestart()));
-//crash QWidget::~QWidget (this=0x80b3778, __in_chrg=<optimized out>)
-    this->addAction(QIcon::fromTheme("system-shutdown"),
+
+    this->addAction(QIcon::fromTheme("application-exit"),
         tr("Exit"), m_parent, SLOT(quit()));
 }
 

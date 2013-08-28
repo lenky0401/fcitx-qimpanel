@@ -32,6 +32,19 @@ void SystemTrayMenu::init()
     
     this->addSeparator();
 
+    m_imMenu = this->addMenu(tr("Input Method"));
+    //test
+    QStringList imlist;
+    imlist << "Pinyin" << "Sunpinyin" << "Google Pinyin";
+
+    for (int i = 0; i < imlist.size(); ++i)
+    {
+       m_imMenu->addAction(imlist[i]); 
+    }
+
+    connect(m_imMenu, SIGNAL(triggered(QAction*)), 
+            this, SLOT(imSelection(QAction*)));
+
     this->addAction(QIcon::fromTheme("preferences-desktop"),
         tr("Configure"), this, SLOT(clickConfigure()));
 
@@ -42,6 +55,15 @@ void SystemTrayMenu::init()
         tr("Exit"), m_parent, SLOT(quit()));
 }
 
+void SystemTrayMenu::imSelection(QAction* action)
+{
+//  qDebug() << "Triggered: " << action->text();
+  QString im = action->text();
+
+  if (m_improxy) {
+      m_improxy->SetCurrentIM(im);
+  }
+} 
 bool SystemTrayMenu::connected()
 {
     if (!m_connection->isConnected())

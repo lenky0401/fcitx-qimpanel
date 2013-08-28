@@ -23,6 +23,7 @@ public:
 private:
     QObject *m_parent;
     QStringList m_im_list;
+    QMenu *m_imMenu;
     FcitxQtConnection *m_connection;
     FcitxQtInputMethodProxy *m_improxy;
 private slots:
@@ -30,6 +31,8 @@ private slots:
     void clickConfigure();
     void clickRestart();
     bool connected();
+    void imSelection(QAction* action);
+
 
 };
 

@@ -18,5 +18,5 @@ add_executable(fcitx-qimpanel ${fcitx-qimpanel_SRCS} ${fcitx-qimpanel_RCC_SRCS})
 set_target_properties(fcitx-qimpanel PROPERTIES AUTOMOC TRUE)
 target_link_libraries(fcitx-qimpanel ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} 
     ${QT_QTDBUS_LIBRARY} ${QT_QTDECLARATIVE_LIBRARY})
-target_link_libraries(fcitx-qimpanel fcitx-utils)
+target_link_libraries(fcitx-qimpanel fcitx-utils fcitx-qt)
 install(TARGETS fcitx-qimpanel RUNTIME DESTINATION bin)

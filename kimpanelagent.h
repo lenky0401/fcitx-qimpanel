@@ -42,6 +42,7 @@ public:
     void configure();
     void created();
     void exit();
+    void restart();
     void reloadConfig();
     void selectCandidate(int idx);
     void lookupTablePageUp();
@@ -80,6 +81,7 @@ Q_SIGNALS:
     void PanelCreated();
     void PanelCreated2();
     void Exit();
+    void Restart();
     void ReloadConfig();
 
     // signals to inform kimpanel

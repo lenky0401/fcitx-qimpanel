@@ -53,7 +53,7 @@ bool MainController::init()
     mAgent->created();
 
     if ((systemTray = new (std::nothrow)QSystemTrayIcon(
-        QIcon::fromTheme("fcitx-kbd"), this)) == NULL)
+        QIcon::fromTheme("fcitx"), this)) == NULL)
     {
         return false;
     }
@@ -90,10 +90,6 @@ bool MainController::init()
     QObject::connect(mAgent,
         SIGNAL(updateProperty(KimpanelProperty)), this,
         SLOT(updateProperty(KimpanelProperty)));
-
-    QObject::connect(mAgent,
-        SIGNAL(registerProperties(const QList<KimpanelProperty>)), this,
-        SLOT(registerProperties(const QList<KimpanelProperty>)));
 
     QObject::connect(mAgent,
         SIGNAL(updatePreeditText(QString, QList<TextAttribute>)),
@@ -164,25 +160,14 @@ void MainController::showTips(const QString tipsString)
 
 void MainController::updateProperty(const KimpanelProperty &prop)
 {
-    if (tr("No input window") == prop.label)
+    if (tr("No input window") == prop.label) {
+        QIcon icon = QIcon::fromTheme("fcitx");
+        systemTray->setIcon(icon);
         return;
+    }
     QIcon icon = QIcon::fromTheme(prop.icon, QIcon::fromTheme("fcitx-kbd"));
     systemTray->setIcon(icon);
-    trayMenu->setCurtIMLabel(prop.label);
-    //systemTray->showMessage(prop.label, prop.tip, QSystemTrayIcon::Information, 100);
-    //qDebug() << QString("updateProperty(1:%1 2:%2 3:%3 4:%4 5:%5)").arg(prop.key)
-    //    .arg(prop.label).arg(prop.icon).arg(prop.tip).arg(prop.state);
     mModel->resetData();
-}
-
-void MainController::registerProperties(const QList<KimpanelProperty> &props)
-{
-    //QList<KimpanelProperty>::const_iterator iter;
-
-    //for (iter = props.begin(); iter != props.end(); ++ iter) {
-    //    qDebug() << QString("updateProperty(1:%1 2:%2 3:%3 4:%4 5:%5)").arg(iter->key)
-    //            .arg(iter->label).arg(iter->icon).arg(iter->tip).arg(iter->state);
-    //}
 }
 
 void MainController::updatePreeditText(const QString inputString,

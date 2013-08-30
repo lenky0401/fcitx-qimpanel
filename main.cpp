@@ -4,6 +4,7 @@
 #include <QDeclarativeView>
 #include <QtDeclarative>
 #include <QTextCodec>
+#include <QTranslator>
 #include "main_controller.h"
 
 int main(int argc, char** argv)
@@ -15,7 +16,8 @@ int main(int argc, char** argv)
 
     MainController MainController(argc, argv);
     QTranslator translator;
-    translator.load(QString("zh_CN.pm"));
+    if (translator.load(QString("zh_CN.qm")) == false)
+        qDebug() << "load qm error.";
     MainController.installTranslator(&translator);
 
     if (!MainController.init()) {

@@ -32,13 +32,45 @@ void SystemTrayMenu::init()
     QObject::connect(mAgent, SIGNAL(execMenu(const QList<KimpanelProperty>)),
         this, SLOT(execMenu(const QList<KimpanelProperty>)));
 
+    QObject::connect(mAgent, SIGNAL(registerProperties(const QList<KimpanelProperty>)),
+        this, SLOT(registerProperties(const QList<KimpanelProperty>)));
+
+    QObject::connect(mAgent, SIGNAL(updateProperty(KimpanelProperty)), this,
+        SLOT(updateProperty(KimpanelProperty)));
+
+}
+
+void SystemTrayMenu::registerProperties(const QList<KimpanelProperty> &props)
+{
+    mDynamicMenuList.clear();
+    foreach(const KimpanelProperty &prop, props) {
+        this->mDynamicMenuList << prop;
+    }
+}
+
+void SystemTrayMenu::updateProperty(const KimpanelProperty &prop)
+{
+    if (tr("No input window") == prop.label)
+        return;
+
+    this->mCurtIMLabel = prop.label;
 }
 
 void SystemTrayMenu::triggerUpdateMainMenu()
 {
+    int count = 0;
     this->clear();
 
     this->addAction(QIcon::fromTheme("help-contents"), tr("Online &Help!"));
+    this->addSeparator();
+
+    foreach(const KimpanelProperty &prop, this->mDynamicMenuList) {
+        //qDebug() << QString("triggerUpdateMainMenu(1:%1 2:%2 3:%3 4:%4 5:%5)").arg(prop.key)
+        //    .arg(prop.label).arg(prop.icon).arg(prop.tip).arg(prop.state);
+        if (count ++ < 2)
+            continue;
+        this->addAction(QIcon::fromTheme(prop.icon), prop.label);
+    }
     this->addSeparator();
 
     this->addMenu(mIMListMenu);
@@ -54,35 +86,37 @@ void SystemTrayMenu::triggerUpdateMainMenu()
 
 void SystemTrayMenu::triggerUpdateIMListMenu()
 {
-    execMenuType = updateIMListMenu;
+    mExecMenuType = updateIMListMenu;
     QString key = "/Fcitx/im";
     mAgent->triggerProperty(key);
 }
 
-void SystemTrayMenu::setCurtIMLabel(QString label)
-{
-    this->curtIMLabel = label;
-}
-
 void SystemTrayMenu::doUpdateIMListMenu(const QList<KimpanelProperty> &prop_list)
 {
-    QAction *menu;
+    bool checked = false;
+    QAction *firstMenu = NULL, *menu;
     QList<KimpanelProperty>::const_iterator iter;
 
     mIMListMenu->clear();
     for (iter = prop_list.begin(); iter != prop_list.end(); ++ iter) {
         menu = mIMListMenu->addAction(iter->label);
+        if (firstMenu == NULL)
+            firstMenu = menu;
         menu->setCheckable(true);
-        if (iter->label == this->curtIMLabel)
+        if (iter->label == this->mCurtIMLabel) {
+            checked = true;
             menu->setChecked(true);
+        }
     }
+    if (!checked)
+        firstMenu->setChecked(true);
 }
 
 void SystemTrayMenu::execMenu(const QList<KimpanelProperty> &prop_list)
 {
     QList<KimpanelProperty>::const_iterator iter;
 
-    switch (execMenuType) {
+    switch (mExecMenuType) {
     case updateIMListMenu:
         doUpdateIMListMenu(prop_list);
         break;
@@ -94,12 +128,18 @@ void SystemTrayMenu::execMenu(const QList<KimpanelProperty> &prop_list)
             qDebug() << QString("execMenuCallback(1:%1 2:%2 3:%3 4:%4 5:%5)").arg(iter->key)
                 .arg(iter->label).arg(iter->icon).arg(iter->tip).arg(iter->state);
         }
-        return;
+        break;
     }
+    mExecMenuType = nullExecMenuType;
 }
 
 void SystemTrayMenu::menuItemOnClick(QAction* action)
 {
+    //qDebug() << action->text();
+    //QString key = "/Fcitx/chttrans/1";
+    //mAgent->triggerProperty("/Fcitx/chttrans/1");
+    //return;
+
     if (tr("Online &Help!") == action->text()) {
         QDesktopServices::openUrl(QUrl("http://fcitx-im.org/"));
 

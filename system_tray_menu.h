@@ -8,6 +8,7 @@
 
 enum ExecMenuType
 {
+    nullExecMenuType,
     updateIMListMenu,
     //updateSkinMenu,
 };
@@ -20,7 +21,6 @@ public:
     SystemTrayMenu(PanelAgent *agent);
     virtual ~SystemTrayMenu();
     void init();
-    void setCurtIMLabel(QString label);
 
 private slots:
     void triggerUpdateMainMenu();
@@ -31,15 +31,19 @@ private:
     PanelAgent *mAgent;
 public slots:
     void execMenu(const QList<KimpanelProperty> &prop_list);
+    void registerProperties(const QList<KimpanelProperty> &props);
+    void updateProperty(const KimpanelProperty &prop);
+
 private:
     void doUpdateIMListMenu(const QList<KimpanelProperty> &prop_list);
 
 private:
-    QString curtIMLabel;
+    QString mCurtIMLabel;
+    QList<KimpanelProperty> mDynamicMenuList;
     QMenu *mIMListMenu;
     //皮肤由前端自己组织
     //QMenu *mSkinMenu;
-    ExecMenuType execMenuType;
+    ExecMenuType mExecMenuType;
 };
 
 #endif // __SYSTEM_TRAY_MENU_H__

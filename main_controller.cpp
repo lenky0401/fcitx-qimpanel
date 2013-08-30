@@ -57,7 +57,7 @@ bool MainController::init()
     {
         return false;
     }
-    if ((trayMenu = new (std::nothrow)SystemTrayMenu()) == NULL)
+    if ((trayMenu = new (std::nothrow)SystemTrayMenu(mAgent)) == NULL)
         return false;
 
     trayMenu->init();
@@ -139,7 +139,7 @@ bool MainController::init()
         SIGNAL(updatePreeditCaret(int)),
         this, SLOT(updatePreeditCaret(int)));
 
-	return true;
+    return true;
 }
 
 void MainController::hideTips()
@@ -164,17 +164,20 @@ void MainController::showTips(const QString tipsString)
 
 void MainController::updateProperty(const KimpanelProperty &prop)
 {
+    if (tr("No input window") == prop.label)
+        return;
     QIcon icon = QIcon::fromTheme(prop.icon, QIcon::fromTheme("fcitx-kbd"));
     systemTray->setIcon(icon);
+    trayMenu->setCurtIMLabel(prop.label);
     //systemTray->showMessage(prop.label, prop.tip, QSystemTrayIcon::Information, 100);
     //qDebug() << QString("updateProperty(1:%1 2:%2 3:%3 4:%4 5:%5)").arg(prop.key)
-    //        .arg(prop.label).arg(prop.icon).arg(prop.tip).arg(prop.state);
+    //    .arg(prop.label).arg(prop.icon).arg(prop.tip).arg(prop.state);
     mModel->resetData();
 }
 
 void MainController::registerProperties(const QList<KimpanelProperty> &props)
 {
-    QList<KimpanelProperty>::const_iterator iter;
+    //QList<KimpanelProperty>::const_iterator iter;
 
     //for (iter = props.begin(); iter != props.end(); ++ iter) {
     //    qDebug() << QString("updateProperty(1:%1 2:%2 3:%3 4:%4 5:%5)").arg(iter->key)
@@ -212,12 +215,12 @@ void MainController::updateSpotRect(int x, int y, int w, int h)
 
 void MainController::showPreedit(bool to_show)
 {
-    qDebug() << QString("showPreedit: %1").arg(to_show);
+//    qDebug() << QString("showPreedit: %1").arg(to_show);
 }
 
 void MainController::showAux(bool to_show)
 {
-    qDebug() << QString("showAux: %1").arg(to_show);
+//    qDebug() << QString("showAux: %1").arg(to_show);
 }
 
 void MainController::updateAux(const QString &text, const QList<TextAttribute> &attr)
@@ -225,18 +228,18 @@ void MainController::updateAux(const QString &text, const QList<TextAttribute> &
     if (text == "")
         return;
     this->showTips(text);
-    qDebug() << QString("updateAux(%1)").arg(text);
+//    qDebug() << QString("updateAux(%1)").arg(text);
 }
 
 void MainController::showLookupTable(bool to_show)
 {
-    qDebug() << QString("showLookupTable: %1").arg(to_show);
+//    qDebug() << QString("showLookupTable: %1").arg(to_show);
     mTopLevel->setVisible(to_show);
 }
 
 void MainController::updateLookupTableCursor(int pos)
 {
-    qDebug() << QString("updateLookupTableCursor: %1").arg(pos);
+//    qDebug() << QString("updateLookupTableCursor: %1").arg(pos);
 }
 
 void MainController::getPrevPage()
@@ -258,3 +261,4 @@ void MainController::updatePreeditCaret(int pos)
 {
     mModel->setInputStringCursorPos(pos);
 }
+

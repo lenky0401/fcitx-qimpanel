@@ -14,6 +14,10 @@ int main(int argc, char** argv)
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
 
     MainController MainController(argc, argv);
+    QTranslator translator;
+    translator.load(QString("zh_CN.pm"));
+    MainController.installTranslator(&translator);
+
     if (!MainController.init()) {
         return -1;
     }

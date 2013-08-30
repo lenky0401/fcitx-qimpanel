@@ -224,6 +224,11 @@ void PanelAgent::exit()
     emit Exit();
 }
 
+void PanelAgent::restart()
+{
+    emit Restart();
+}
+
 void PanelAgent::reloadConfig()
 {
     emit ReloadConfig();

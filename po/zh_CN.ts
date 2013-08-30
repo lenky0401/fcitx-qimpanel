@@ -14,31 +14,31 @@
     <message>
         <location filename="../system_tray_menu.cpp" line="21"/>
         <source>Input Method</source>
-        <translation type="unfinished"></translation>
+        <translation>输入法</translation>
     </message>
     <message>
         <location filename="../system_tray_menu.cpp" line="41"/>
         <location filename="../system_tray_menu.cpp" line="103"/>
         <source>Online &amp;Help!</source>
-        <translation type="unfinished"></translation>
+        <translation>在线帮助</translation>
     </message>
     <message>
         <location filename="../system_tray_menu.cpp" line="48"/>
         <location filename="../system_tray_menu.cpp" line="106"/>
         <source>Configure</source>
-        <translation type="unfinished"></translation>
+        <translation>配置</translation>
     </message>
     <message>
         <location filename="../system_tray_menu.cpp" line="51"/>
         <location filename="../system_tray_menu.cpp" line="109"/>
         <source>Restart</source>
-        <translation type="unfinished"></translation>
+        <translation>重新启动</translation>
     </message>
     <message>
         <location filename="../system_tray_menu.cpp" line="52"/>
         <location filename="../system_tray_menu.cpp" line="112"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>退出</translation>
     </message>
 </context>
 </TS>

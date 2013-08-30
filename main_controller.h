@@ -38,7 +38,6 @@ public slots:
     void hideTips();
     void showTips(const QString tipsString);
     void updateProperty(const KimpanelProperty &prop);
-    void registerProperties(const QList<KimpanelProperty> &props);
     void updatePreeditText(const QString inputString, 
         QList<TextAttribute> attributes);
 

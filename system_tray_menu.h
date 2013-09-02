@@ -36,10 +36,14 @@ public slots:
 
 private:
     void doUpdateIMListMenu(const QList<KimpanelProperty> &prop_list);
+    bool dynamicMenuItemOnClick(QAction *action);
 
 private:
     QString mCurtIMLabel;
-    QList<KimpanelProperty> mDynamicMenuList;
+    //前两个用不到，见后端KimpanelRegisterAllStatus()函数
+#define StatusMenuSkip (2)
+    QList<KimpanelProperty> mStatusMenuList;
+    QList<KimpanelProperty> mIMListMenuList;
     QMenu *mIMListMenu;
     //皮肤由前端自己组织
     //QMenu *mSkinMenu;

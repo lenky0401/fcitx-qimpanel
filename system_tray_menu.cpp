@@ -42,9 +42,12 @@ void SystemTrayMenu::init()
 
 void SystemTrayMenu::registerProperties(const QList<KimpanelProperty> &props)
 {
-    mDynamicMenuList.clear();
+    int count = 0;
+    mStatusMenuList.clear();
     foreach(const KimpanelProperty &prop, props) {
-        this->mDynamicMenuList << prop;
+        if (count ++ < StatusMenuSkip)
+            continue;
+        this->mStatusMenuList << prop;
     }
 }
 
@@ -58,16 +61,16 @@ void SystemTrayMenu::updateProperty(const KimpanelProperty &prop)
 
 void SystemTrayMenu::triggerUpdateMainMenu()
 {
-    int count = 0;
     this->clear();
 
     this->addAction(QIcon::fromTheme("help-contents"), tr("Online &Help!"));
     this->addSeparator();
 
-    foreach(const KimpanelProperty &prop, this->mDynamicMenuList) {
+    foreach(const KimpanelProperty &prop, this->mStatusMenuList) {
         //qDebug() << QString("triggerUpdateMainMenu(1:%1 2:%2 3:%3 4:%4 5:%5)").arg(prop.key)
         //    .arg(prop.label).arg(prop.icon).arg(prop.tip).arg(prop.state);
-        if (count ++ < 2)
+        //暂不实现虚拟键盘功能
+        if (prop.key == "/Fcitx/vk")
             continue;
         this->addAction(QIcon::fromTheme(prop.icon), prop.label);
     }
@@ -77,6 +80,7 @@ void SystemTrayMenu::triggerUpdateMainMenu()
     //this->addMenu(mSkinMenu);
     this->addSeparator();
 
+    this->addAction(QIcon::fromTheme("preferences-desktop"), tr("ConfigureIM"));
     this->addAction(QIcon::fromTheme("preferences-desktop"), tr("Configure"));
     this->addSeparator();
 
@@ -87,8 +91,7 @@ void SystemTrayMenu::triggerUpdateMainMenu()
 void SystemTrayMenu::triggerUpdateIMListMenu()
 {
     mExecMenuType = updateIMListMenu;
-    QString key = "/Fcitx/im";
-    mAgent->triggerProperty(key);
+    mAgent->triggerProperty(QString("/Fcitx/im"));
 }
 
 void SystemTrayMenu::doUpdateIMListMenu(const QList<KimpanelProperty> &prop_list)
@@ -98,7 +101,9 @@ void SystemTrayMenu::doUpdateIMListMenu(const QList<KimpanelProperty> &prop_list
     QList<KimpanelProperty>::const_iterator iter;
 
     mIMListMenu->clear();
+    mIMListMenuList.clear();
     for (iter = prop_list.begin(); iter != prop_list.end(); ++ iter) {
+        this->mIMListMenuList << (*iter);
         menu = mIMListMenu->addAction(iter->label);
         if (firstMenu == NULL)
             firstMenu = menu;
@@ -130,18 +135,37 @@ void SystemTrayMenu::execMenu(const QList<KimpanelProperty> &prop_list)
         }
         break;
     }
+
     mExecMenuType = nullExecMenuType;
 }
 
-void SystemTrayMenu::menuItemOnClick(QAction* action)
+bool SystemTrayMenu::dynamicMenuItemOnClick(QAction *action)
 {
-    //qDebug() << action->text();
-    //QString key = "/Fcitx/chttrans/1";
-    //mAgent->triggerProperty("/Fcitx/chttrans/1");
-    //return;
+    foreach(const KimpanelProperty &prop, this->mStatusMenuList) {
+        if (prop.label == action->text()) {
+            mAgent->triggerProperty(prop.key);
+            return true;
+        }
+    }
+    foreach(const KimpanelProperty &prop, this->mIMListMenuList) {
+        if (prop.label == action->text()) {
+            mAgent->triggerProperty(prop.key);
+            return true;
+        }
+    }
+    return false;
+}
+
+void SystemTrayMenu::menuItemOnClick(QAction *action)
+{
+    if (dynamicMenuItemOnClick(action))
+        return;
 
     if (tr("Online &Help!") == action->text()) {
         QDesktopServices::openUrl(QUrl("http://fcitx-im.org/"));
+
+    } else if (tr("ConfigureIM") == action->text()) {
+        mAgent->triggerProperty(QString("/Fcitx/logo/configureim"));
 
     } else if (tr("Configure") == action->text()) {
         mAgent->configure();

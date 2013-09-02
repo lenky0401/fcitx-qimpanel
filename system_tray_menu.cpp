@@ -42,8 +42,11 @@ void SystemTrayMenu::init()
 
 void SystemTrayMenu::registerProperties(const QList<KimpanelProperty> &props)
 {
+    int count = 0;
     mDynamicMenuList.clear();
     foreach(const KimpanelProperty &prop, props) {
+        if (count ++ < DynamicMenuSkip)
+            continue;
         this->mDynamicMenuList << prop;
     }
 }
@@ -58,7 +61,6 @@ void SystemTrayMenu::updateProperty(const KimpanelProperty &prop)
 
 void SystemTrayMenu::triggerUpdateMainMenu()
 {
-    int count = 0;
     this->clear();
 
     this->addAction(QIcon::fromTheme("help-contents"), tr("Online &Help!"));
@@ -67,8 +69,6 @@ void SystemTrayMenu::triggerUpdateMainMenu()
     foreach(const KimpanelProperty &prop, this->mDynamicMenuList) {
         //qDebug() << QString("triggerUpdateMainMenu(1:%1 2:%2 3:%3 4:%4 5:%5)").arg(prop.key)
         //    .arg(prop.label).arg(prop.icon).arg(prop.tip).arg(prop.state);
-        if (count ++ < 2)
-            continue;
         this->addAction(QIcon::fromTheme(prop.icon), prop.label);
     }
     this->addSeparator();
@@ -87,8 +87,7 @@ void SystemTrayMenu::triggerUpdateMainMenu()
 void SystemTrayMenu::triggerUpdateIMListMenu()
 {
     mExecMenuType = updateIMListMenu;
-    QString key = "/Fcitx/im";
-    mAgent->triggerProperty(key);
+    mAgent->triggerProperty(QString("/Fcitx/im"));
 }
 
 void SystemTrayMenu::doUpdateIMListMenu(const QList<KimpanelProperty> &prop_list)
@@ -133,12 +132,21 @@ void SystemTrayMenu::execMenu(const QList<KimpanelProperty> &prop_list)
     mExecMenuType = nullExecMenuType;
 }
 
-void SystemTrayMenu::menuItemOnClick(QAction* action)
+bool SystemTrayMenu::dynamicMenuItemOnClick(QAction *action)
 {
-    //qDebug() << action->text();
-    //QString key = "/Fcitx/chttrans/1";
-    //mAgent->triggerProperty("/Fcitx/chttrans/1");
-    //return;
+    foreach(const KimpanelProperty &prop, this->mDynamicMenuList) {
+        if (prop.label == action->text()) {
+            mAgent->triggerProperty(prop.key);
+            return true;
+        }
+    }
+    return false;
+}
+
+void SystemTrayMenu::menuItemOnClick(QAction *action)
+{
+    if (dynamicMenuItemOnClick(action))
+        return;
 
     if (tr("Online &Help!") == action->text()) {
         QDesktopServices::openUrl(QUrl("http://fcitx-im.org/"));

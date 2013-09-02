@@ -13,6 +13,13 @@
 #include "kimpanelagent.h"
 #include "toplevel.h"
 
+//必须与FcitxCandidateLayoutHint的定义一致
+enum CandidateLayout {
+    CLH_NotSet,
+    CLH_Vertical,
+    CLH_Horizontal
+};
+
 class MainController : public QApplication
 {
     Q_OBJECT
@@ -29,10 +36,9 @@ private:
     QDeclarativeView *mView;
     QUrl mUrl;
     QTimer *mTimer;
-
-private:
-    QSystemTrayIcon *systemTray;
-    SystemTrayMenu *trayMenu;
+    QSystemTrayIcon *mSystemTray;
+    SystemTrayMenu *mTrayMenu;
+    CandidateLayout mLayout;
 
 public slots:
     void hideTips();

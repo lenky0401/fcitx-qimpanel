@@ -179,6 +179,10 @@ static KimpanelProperty String2Property(const QString &str)
     result.label = list.at(1);
     result.icon = list.at(2);
     result.tip = list.at(3);
+
+    if (list.size() >= 5)
+        result.menu = list.at(4);
+
 //X     {
 //X         result.state = KimpanelProperty::None;
 //X         int n = list.at(4).toInt();

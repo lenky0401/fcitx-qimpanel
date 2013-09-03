@@ -9,6 +9,7 @@
 enum ExecMenuType
 {
     nullExecMenuType,
+    updateVKListMenu,
     updateIMListMenu,
     //updateSkinMenu,
 };
@@ -24,6 +25,7 @@ public:
 
 private slots:
     void triggerUpdateMainMenu();
+    void triggerUpdateVKListMenu();
     void triggerUpdateIMListMenu();
     void menuItemOnClick(QAction* action);
 
@@ -35,6 +37,7 @@ public slots:
     void updateProperty(const KimpanelProperty &prop);
 
 private:
+    void doUpdateVKListMenu(const QList<KimpanelProperty> &prop_list);
     void doUpdateIMListMenu(const QList<KimpanelProperty> &prop_list);
     bool dynamicMenuItemOnClick(QAction *action);
 
@@ -43,6 +46,8 @@ private:
     //前两个用不到，见后端KimpanelRegisterAllStatus()函数
 #define StatusMenuSkip (2)
     QList<KimpanelProperty> mStatusMenuList;
+    QList<KimpanelProperty> mVKListMenuList;
+    QMenu *mVKListMenu;
     QList<KimpanelProperty> mIMListMenuList;
     QMenu *mIMListMenu;
     //皮肤由前端自己组织

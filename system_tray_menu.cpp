@@ -12,14 +12,19 @@ SystemTrayMenu::SystemTrayMenu(PanelAgent *agent)
 
 SystemTrayMenu::~SystemTrayMenu()
 {
+    delete mVKListMenu;
     delete mIMListMenu;
     //delete mSkinMenu;
 }
 
 void SystemTrayMenu::init()
 {
+    mVKListMenu = new QMenu(tr("Virtual Keyboard"), this);
     mIMListMenu = new QMenu(tr("Input Method"), this);
     //mSkinMenu = new QMenu(tr("Skin"), this);
+
+    QObject::connect(mVKListMenu, SIGNAL(aboutToShow()), this,
+        SLOT(triggerUpdateVKListMenu()));
 
     QObject::connect(mIMListMenu, SIGNAL(aboutToShow()), this,
         SLOT(triggerUpdateIMListMenu()));
@@ -45,6 +50,8 @@ void SystemTrayMenu::registerProperties(const QList<KimpanelProperty> &props)
     int count = 0;
     mStatusMenuList.clear();
     foreach(const KimpanelProperty &prop, props) {
+        //qDebug() << QString("triggerUpdateMainMenu(1:%1 2:%2 3:%3 4:%4 5:%5 6:%6)").arg(prop.key)
+        //    .arg(prop.label).arg(prop.icon).arg(prop.tip).arg(prop.state).arg(prop.menu);
         if (count ++ < StatusMenuSkip)
             continue;
         this->mStatusMenuList << prop;
@@ -67,15 +74,11 @@ void SystemTrayMenu::triggerUpdateMainMenu()
     this->addSeparator();
 
     foreach(const KimpanelProperty &prop, this->mStatusMenuList) {
-        //qDebug() << QString("triggerUpdateMainMenu(1:%1 2:%2 3:%3 4:%4 5:%5)").arg(prop.key)
-        //    .arg(prop.label).arg(prop.icon).arg(prop.tip).arg(prop.state);
-        //暂不实现虚拟键盘功能
-        if (prop.key == "/Fcitx/vk")
-            continue;
         this->addAction(QIcon::fromTheme(prop.icon), prop.label);
     }
     this->addSeparator();
 
+    this->addMenu(mVKListMenu);
     this->addMenu(mIMListMenu);
     //this->addMenu(mSkinMenu);
     this->addSeparator();
@@ -88,10 +91,28 @@ void SystemTrayMenu::triggerUpdateMainMenu()
     this->addAction(QIcon::fromTheme("application-exit"), tr("Exit"));
 }
 
+void SystemTrayMenu::triggerUpdateVKListMenu()
+{
+    mExecMenuType = updateVKListMenu;
+    mAgent->triggerProperty(QString("/Fcitx/vk"));
+}
+
 void SystemTrayMenu::triggerUpdateIMListMenu()
 {
     mExecMenuType = updateIMListMenu;
     mAgent->triggerProperty(QString("/Fcitx/im"));
+}
+
+void SystemTrayMenu::doUpdateVKListMenu(const QList<KimpanelProperty> &prop_list)
+{
+    QList<KimpanelProperty>::const_iterator iter;
+
+    mVKListMenu->clear();
+    mVKListMenuList.clear();
+    for (iter = prop_list.begin(); iter != prop_list.end(); ++ iter) {
+        this->mVKListMenuList << (*iter);
+        mVKListMenu->addAction(iter->label);
+    }
 }
 
 void SystemTrayMenu::doUpdateIMListMenu(const QList<KimpanelProperty> &prop_list)
@@ -122,6 +143,9 @@ void SystemTrayMenu::execMenu(const QList<KimpanelProperty> &prop_list)
     QList<KimpanelProperty>::const_iterator iter;
 
     switch (mExecMenuType) {
+    case updateVKListMenu:
+        doUpdateVKListMenu(prop_list);
+        break;
     case updateIMListMenu:
         doUpdateIMListMenu(prop_list);
         break;
@@ -130,8 +154,8 @@ void SystemTrayMenu::execMenu(const QList<KimpanelProperty> &prop_list)
     //    break;
     default:
         for (iter = prop_list.begin(); iter != prop_list.end(); ++ iter) {
-            qDebug() << QString("execMenuCallback(1:%1 2:%2 3:%3 4:%4 5:%5)").arg(iter->key)
-                .arg(iter->label).arg(iter->icon).arg(iter->tip).arg(iter->state);
+            qDebug() << QString("execMenuCallback(1:%1 2:%2 3:%3 4:%4 5:%5 6:%6)").arg(iter->key)
+                .arg(iter->label).arg(iter->icon).arg(iter->tip).arg(iter->state).arg(iter->menu);
         }
         break;
     }
@@ -142,6 +166,12 @@ void SystemTrayMenu::execMenu(const QList<KimpanelProperty> &prop_list)
 bool SystemTrayMenu::dynamicMenuItemOnClick(QAction *action)
 {
     foreach(const KimpanelProperty &prop, this->mStatusMenuList) {
+        if (prop.label == action->text()) {
+            mAgent->triggerProperty(prop.key);
+            return true;
+        }
+    }
+    foreach(const KimpanelProperty &prop, this->mVKListMenuList) {
         if (prop.label == action->text()) {
             mAgent->triggerProperty(prop.key);
             return true;

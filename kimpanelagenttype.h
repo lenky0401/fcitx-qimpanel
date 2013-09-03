@@ -49,12 +49,13 @@ struct KimpanelProperty {
 
     KimpanelProperty() { }
 
-    KimpanelProperty(QString key, QString label, QString icon, QString tip, int state) {
+    KimpanelProperty(QString key, QString label, QString icon, QString tip, int state, QString menu) {
         this->key = key;
         this->label = label;
         this->tip = tip;
         this->icon = icon;
         this->state = (State) state;
+        this->menu = menu;
     }
 
     QString key;
@@ -62,6 +63,7 @@ struct KimpanelProperty {
     QString icon;
     QString tip;
     States state;
+    QString menu;
 
     QVariantMap toMap() const {
         QVariantMap map;
@@ -70,6 +72,7 @@ struct KimpanelProperty {
         map["icon"] = icon;
         map["tip"] = tip;
         map["state"] = (int) state;
+        map["menu"] = menu;
         return map;
     }
 };

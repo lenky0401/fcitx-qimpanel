@@ -4,7 +4,7 @@
 <context>
     <name>MainController</name>
     <message>
-        <location filename="../main_controller.cpp" line="163"/>
+        <location filename="../main_controller.cpp" line="146"/>
         <source>No input window</source>
         <translation>无输入窗口</translation>
     </message>
@@ -12,17 +12,22 @@
 <context>
     <name>SystemTrayMenu</name>
     <message>
-        <location filename="../system_tray_menu.cpp" line="21"/>
+        <location filename="../system_tray_menu.cpp" line="22"/>
+        <source>Virtual Keyboard</source>
+        <translation>虚拟键盘</translation>
+    </message>
+    <message>
+        <location filename="../system_tray_menu.cpp" line="23"/>
         <source>Input Method</source>
         <translation>输入法</translation>
     </message>
     <message>
-        <location filename="../system_tray_menu.cpp" line="56"/>
+        <location filename="../system_tray_menu.cpp" line="58"/>
         <source>No input window</source>
         <translation>无输入窗口</translation>
     </message>
     <message>
-        <location filename="../system_tray_menu.cpp" line="66"/>
+        <location filename="../system_tray_menu.cpp" line="68"/>
         <location filename="../system_tray_menu.cpp" line="164"/>
         <source>Online &amp;Help!</source>
         <translation>在线帮助</translation>

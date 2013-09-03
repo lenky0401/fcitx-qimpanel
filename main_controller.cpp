@@ -11,7 +11,7 @@
 MainController::MainController(int &argc, char **argv)
     : QApplication(argc, argv), mTopLevel(0), mModel(0), mAgent(0), mView(0)
 {
-
+    mLayout = CLH_Horizontal;
 }
 
 MainController::~MainController()
@@ -27,6 +27,15 @@ MainController::~MainController()
 
     if (mTopLevel)
         delete mTopLevel;
+
+    if (mTimer)
+        delete mTimer;
+
+    if (mSystemTray)
+        delete mSystemTray;
+
+    if (mTrayMenu)
+        delete mTrayMenu;
 }
 
 bool MainController::init()
@@ -52,19 +61,19 @@ bool MainController::init()
 
     mAgent->created();
 
-    if ((systemTray = new (std::nothrow)QSystemTrayIcon(
+    if ((mSystemTray = new (std::nothrow)QSystemTrayIcon(
         QIcon::fromTheme("fcitx"), this)) == NULL)
     {
         return false;
     }
-    if ((trayMenu = new (std::nothrow)SystemTrayMenu(mAgent)) == NULL)
+    if ((mTrayMenu = new (std::nothrow)SystemTrayMenu(mAgent)) == NULL)
         return false;
 
-    trayMenu->init();
+    mTrayMenu->init();
 
-    systemTray->setContextMenu(trayMenu);
-    systemTray->setToolTip("fcitx-qimpanel");
-    systemTray->show();
+    mSystemTray->setContextMenu(mTrayMenu);
+    mSystemTray->setToolTip("fcitx-qimpanel");
+    mSystemTray->show();
 
     mTopLevel->setCenterWidget(mView);
 
@@ -74,7 +83,7 @@ bool MainController::init()
     mView->viewport()->setAutoFillBackground(false);
     mView->rootContext()->setContextProperty("mainCtrl", this);
     mView->rootContext()->setContextProperty("mainModel", mModel);
-    this->mUrl = QUrl("qrc:/qml/vertical.qml");
+    this->mUrl = QUrl("qrc:/qml/horizontal.qml");
     mView->setSource(this->mUrl);
     //mView->setAttribute(Qt::WA_X11NetWmWindowTypeToolTip, true);
 
@@ -162,11 +171,11 @@ void MainController::updateProperty(const KimpanelProperty &prop)
 {
     if (tr("No input window") == prop.label) {
         QIcon icon = QIcon::fromTheme("fcitx");
-        systemTray->setIcon(icon);
+        mSystemTray->setIcon(icon);
         return;
     }
     QIcon icon = QIcon::fromTheme(prop.icon, QIcon::fromTheme("fcitx-kbd"));
-    systemTray->setIcon(icon);
+    mSystemTray->setIcon(icon);
     mModel->resetData();
 }
 
@@ -184,6 +193,19 @@ void MainController::updateLookupTable(const KimpanelLookupTable &lookup_table)
 void MainController::updateLookupTableFull(const KimpanelLookupTable &lookup_table,
     int cursor, int layout)
 {
+    if (layout != mLayout) {
+        mLayout = (CandidateLayout)layout;
+        switch (mLayout) {
+        case CLH_Vertical:
+            this->mUrl = QUrl("qrc:/qml/vertical.qml");
+            mView->setSource(this->mUrl);
+            break;
+        case CLH_Horizontal:
+            this->mUrl = QUrl("qrc:/qml/horizontal.qml");
+            mView->setSource(this->mUrl);
+            break;
+        }
+    }
     mModel->setHighLight(cursor);
     updateLookupTable(lookup_table);
 }
@@ -219,6 +241,12 @@ void MainController::updateAux(const QString &text, const QList<TextAttribute> &
 void MainController::showLookupTable(bool to_show)
 {
 //    qDebug() << QString("showLookupTable: %1").arg(to_show);
+    if (this->mTimer->isActive()) {
+        if (to_show == false)
+            return;
+        else
+            hideTips();
+    }
     mTopLevel->setVisible(to_show);
 }
 

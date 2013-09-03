@@ -5,6 +5,9 @@
 #include <QMenu>
 #include <QIcon>
 #include "kimpanelagent.h"
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 enum ExecMenuType
 {
@@ -39,6 +42,7 @@ public slots:
 private:
     void doUpdateVKListMenu(const QList<KimpanelProperty> &prop_list);
     void doUpdateIMListMenu(const QList<KimpanelProperty> &prop_list);
+    void restart();
 
 private:
     QString mCurtIMLabel;

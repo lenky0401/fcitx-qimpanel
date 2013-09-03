@@ -161,6 +161,36 @@ void SystemTrayMenu::execMenu(const QList<KimpanelProperty> &prop_list)
     mExecMenuType = nullExecMenuType;
 }
 
+void SystemTrayMenu::restart()
+{
+    /* exec command */
+    pid_t child_pid;
+
+    child_pid = fork();
+    if (child_pid < 0) {
+        perror("fork");
+    } else if (child_pid == 0) {         /* child process  */
+        pid_t grandchild_pid;
+
+        grandchild_pid = fork();
+        if (grandchild_pid < 0) {
+            perror("fork");
+            _exit(1);
+        } else if (grandchild_pid == 0) { /* grandchild process  */
+            execvp("fcitx-qimpanel", NULL);
+            perror("execvp");
+            _exit(1);
+        } else {
+            _exit(0);
+        }
+    } else {                              /* parent process */
+        int status;
+        waitpid(child_pid, &status, 0);
+        _exit(0);
+    }
+}
+
+
 void SystemTrayMenu::menuItemOnClick(QAction *action)
 {
     if (tr("Online &Help!") == action->text()) {
@@ -174,6 +204,7 @@ void SystemTrayMenu::menuItemOnClick(QAction *action)
 
     } else if (tr("Restart") == action->text()) {
         mAgent->restart();
+        this->restart();
 
     } else if (tr("Exit") == action->text()) {
         mAgent->exit();

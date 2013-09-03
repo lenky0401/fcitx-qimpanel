@@ -7,11 +7,17 @@
 #include "main_controller.h"
 #include "kimpanelagent.h"
 #include "toplevel.h"
+#include "cfg/readcfg.h"
 
 MainController::MainController(int &argc, char **argv)
     : QApplication(argc, argv), mTopLevel(0), mModel(0), mAgent(0), mView(0)
 {
-    mLayout = true;
+    int isHorizontal = 0;
+
+    get_fcitx_cfg_value("configdesc", "fcitx-classic-ui.desc", "conf",
+        "fcitx-classic-ui.config", "ClassicUI", "VerticalList", &isHorizontal);
+
+    mLayout = (isHorizontal == 0) ? true : false;
 }
 
 MainController::~MainController()

@@ -2,6 +2,7 @@
 #include <QDesktopServices>
 #include <QUrl>
 
+#include "my_action.h"
 #include "system_tray_menu.h"
 
 SystemTrayMenu::SystemTrayMenu(PanelAgent *agent)
@@ -74,7 +75,7 @@ void SystemTrayMenu::triggerUpdateMainMenu()
     this->addSeparator();
 
     foreach(const KimpanelProperty &prop, this->mStatusMenuList) {
-        this->addAction(QIcon::fromTheme(prop.icon), prop.label);
+        this->addAction(new MyAction(QIcon::fromTheme(prop.icon), prop.label, prop, this));
     }
     this->addSeparator();
 
@@ -108,10 +109,8 @@ void SystemTrayMenu::doUpdateVKListMenu(const QList<KimpanelProperty> &prop_list
     QList<KimpanelProperty>::const_iterator iter;
 
     mVKListMenu->clear();
-    mVKListMenuList.clear();
     for (iter = prop_list.begin(); iter != prop_list.end(); ++ iter) {
-        this->mVKListMenuList << (*iter);
-        mVKListMenu->addAction(iter->label);
+        mVKListMenu->addAction(new MyAction(QIcon::fromTheme(iter->icon), iter->label, *iter, this));
     }
 }
 
@@ -122,10 +121,9 @@ void SystemTrayMenu::doUpdateIMListMenu(const QList<KimpanelProperty> &prop_list
     QList<KimpanelProperty>::const_iterator iter;
 
     mIMListMenu->clear();
-    mIMListMenuList.clear();
     for (iter = prop_list.begin(); iter != prop_list.end(); ++ iter) {
-        this->mIMListMenuList << (*iter);
-        menu = mIMListMenu->addAction(iter->label);
+        menu = new MyAction(QIcon::fromTheme(iter->icon), iter->label, *iter, this);
+        mIMListMenu->addAction(menu);
         if (firstMenu == NULL)
             firstMenu = menu;
         menu->setCheckable(true);
@@ -163,34 +161,8 @@ void SystemTrayMenu::execMenu(const QList<KimpanelProperty> &prop_list)
     mExecMenuType = nullExecMenuType;
 }
 
-bool SystemTrayMenu::dynamicMenuItemOnClick(QAction *action)
-{
-    foreach(const KimpanelProperty &prop, this->mStatusMenuList) {
-        if (prop.label == action->text()) {
-            mAgent->triggerProperty(prop.key);
-            return true;
-        }
-    }
-    foreach(const KimpanelProperty &prop, this->mVKListMenuList) {
-        if (prop.label == action->text()) {
-            mAgent->triggerProperty(prop.key);
-            return true;
-        }
-    }
-    foreach(const KimpanelProperty &prop, this->mIMListMenuList) {
-        if (prop.label == action->text()) {
-            mAgent->triggerProperty(prop.key);
-            return true;
-        }
-    }
-    return false;
-}
-
 void SystemTrayMenu::menuItemOnClick(QAction *action)
 {
-    if (dynamicMenuItemOnClick(action))
-        return;
-
     if (tr("Online &Help!") == action->text()) {
         QDesktopServices::openUrl(QUrl("http://fcitx-im.org/"));
 
@@ -206,5 +178,8 @@ void SystemTrayMenu::menuItemOnClick(QAction *action)
     } else if (tr("Exit") == action->text()) {
         mAgent->exit();
         exit(0);
+    } else {
+        MyAction *myAction = (MyAction *)action;
+        mAgent->triggerProperty(myAction->getProp().key);
     }
 }

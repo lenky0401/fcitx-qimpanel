@@ -38,11 +38,9 @@ private:
     QTimer *mTimer;
     QSystemTrayIcon *mSystemTray;
     SystemTrayMenu *mTrayMenu;
-    CandidateLayout mLayout;
+    bool mLayout;
 
 public slots:
-    void hideTips();
-    void showTips(const QString tipsString);
     void updateProperty(const KimpanelProperty &prop);
     void updatePreeditText(const QString inputString, 
         QList<TextAttribute> attributes);

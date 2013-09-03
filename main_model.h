@@ -26,6 +26,14 @@ class MainModel : public QObject
 
     Q_PROPERTY(int highLight READ highLight WRITE setHighLight
         NOTIFY highLightChanged)
+    Q_PROPERTY(bool isHorizontal READ isHorizontal WRITE setIsHorizontal
+        NOTIFY isHorizontalChanged)
+    Q_PROPERTY(bool showTips READ showTips WRITE setShowTips
+        NOTIFY showTipsChanged)
+    Q_PROPERTY(bool showPreedit READ showPreedit WRITE setShowPreedit
+        NOTIFY showPreeditChanged)
+    Q_PROPERTY(bool showLookupTable READ showLookupTable WRITE setShowLookupTable
+        NOTIFY showLookupTableChanged)
 
 public:
     MainModel();
@@ -46,6 +54,14 @@ public:
     bool hasNext() const;
     void setHighLight(const int highLight);
     int highLight() const;
+    void setIsHorizontal(const bool isHorizontal);
+    bool isHorizontal() const;
+    void setShowTips(const bool showTips);
+    bool showTips() const;
+    void setShowPreedit(const bool showPreedit);
+    bool showPreedit() const;
+    void setShowLookupTable(const bool showLookupTable);
+    bool showLookupTable() const;
 
 signals:
     void inputStringChanged();
@@ -54,6 +70,10 @@ signals:
     void hasPrevChanged();
     void hasNextChanged();
     void highLightChanged();
+    void isHorizontalChanged();
+    void showTipsChanged();
+    void showPreeditChanged();
+    void showLookupTableChanged();
 
 private:
     QString mInputString;
@@ -62,7 +82,10 @@ private:
     bool mHasPrev;
     bool mHasNext;
     int mHighLight;
-
+    bool mIsHorizontal;
+    bool mShowTips;
+    bool mShowPreedit;
+    bool mShowLookupTable;
 };
 
 #endif // __MAIN_MODEL_H__

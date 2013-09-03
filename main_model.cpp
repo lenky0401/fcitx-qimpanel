@@ -1,4 +1,4 @@
-
+#include <QDebug>
 #include "main_model.h"
 #include "candidate_word.h"
 
@@ -20,6 +20,10 @@ void MainModel::resetData() {
     setHasNext(false);
     setInputStringCursorPos(-1);
     setHighLight(-1);
+    setIsHorizontal(true);
+    setShowTips(false);
+    setShowPreedit(false);
+    setShowLookupTable(false);
 }
 
 void MainModel::setInputString(const QString inputString) {
@@ -115,3 +119,38 @@ int MainModel::highLight() const {
     return mHighLight;
 }
 
+void MainModel::setIsHorizontal(const bool isHorizontal) {
+    mIsHorizontal = isHorizontal;
+    emit isHorizontalChanged();
+}
+
+bool MainModel::isHorizontal() const {
+    return mIsHorizontal;
+}
+
+void MainModel::setShowTips(const bool showTips) {
+    mShowTips = showTips;
+    emit showTipsChanged();
+}
+
+bool MainModel::showTips() const {
+    return mShowTips;
+}
+
+void MainModel::setShowPreedit(const bool showPreedit) {
+    mShowPreedit = showPreedit;
+    emit showPreeditChanged();
+}
+
+bool MainModel::showPreedit() const {
+    return mShowPreedit;
+}
+
+void MainModel::setShowLookupTable(const bool showLookupTable) {
+    mShowLookupTable = showLookupTable;
+    emit showLookupTableChanged();
+}
+
+bool MainModel::showLookupTable() const {
+    return mShowLookupTable;
+}

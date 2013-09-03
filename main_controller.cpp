@@ -11,7 +11,7 @@
 MainController::MainController(int &argc, char **argv)
     : QApplication(argc, argv), mTopLevel(0), mModel(0), mAgent(0), mView(0)
 {
-    mLayout = CLH_Horizontal;
+    mLayout = true;
 }
 
 MainController::~MainController()
@@ -27,9 +27,6 @@ MainController::~MainController()
 
     if (mTopLevel)
         delete mTopLevel;
-
-    if (mTimer)
-        delete mTimer;
 
     if (mSystemTray)
         delete mSystemTray;
@@ -51,9 +48,6 @@ bool MainController::init()
         return false;
 
     if ((mModel = new (std::nothrow)MainModel) == NULL)
-        return false;
-
-    if ((mTimer = new (std::nothrow)QTimer(this)) == NULL)
         return false;
 
     if ((mAgent = new (std::nothrow)PanelAgent(this)) == NULL)
@@ -83,8 +77,7 @@ bool MainController::init()
     mView->viewport()->setAutoFillBackground(false);
     mView->rootContext()->setContextProperty("mainCtrl", this);
     mView->rootContext()->setContextProperty("mainModel", mModel);
-    this->mUrl = QUrl("qrc:/qml/horizontal.qml");
-    mView->setSource(this->mUrl);
+    mView->setSource(QUrl("qrc:/qml/main.qml"));
     //mView->setAttribute(Qt::WA_X11NetWmWindowTypeToolTip, true);
 
     //直接使用hide()会出现元素错位的情况，应该是qt/qml的内部bug
@@ -94,7 +87,8 @@ bool MainController::init()
     //mView->setWindowOpacity(10);
 
     //QObject::connect(mView->engine(), SIGNAL(quit()), qApp, SLOT(quit()));
-    QObject::connect(mTimer, SIGNAL(timeout()), this, SLOT(hideTips()));
+
+    mTopLevel->setVisible(true);
 
     QObject::connect(mAgent,
         SIGNAL(updateProperty(KimpanelProperty)), this,
@@ -147,26 +141,6 @@ bool MainController::init()
     return true;
 }
 
-void MainController::hideTips()
-{
-    this->mTimer->stop();
-    mModel->setTipsString("");
-    mTopLevel->setVisible(false);
-    mView->setSource(this->mUrl);
-}
-
-void MainController::showTips(const QString tipsString)
-{
-    if (QUrl("qrc:/qml/tips.qml") != mView->source())
-        mView->setSource(QUrl("qrc:/qml/tips.qml"));
-
-    mModel->setTipsString(tipsString);
-    mTopLevel->setVisible(true);
-    if (this->mTimer->isActive())
-        this->mTimer->stop();
-    this->mTimer->start(1000);
-}
-
 void MainController::updateProperty(const KimpanelProperty &prop)
 {
     if (tr("No input window") == prop.label) {
@@ -193,19 +167,18 @@ void MainController::updateLookupTable(const KimpanelLookupTable &lookup_table)
 void MainController::updateLookupTableFull(const KimpanelLookupTable &lookup_table,
     int cursor, int layout)
 {
-    if (layout != mLayout) {
-        mLayout = (CandidateLayout)layout;
-        switch (mLayout) {
-        case CLH_Vertical:
-            this->mUrl = QUrl("qrc:/qml/vertical.qml");
-            mView->setSource(this->mUrl);
-            break;
-        case CLH_Horizontal:
-            this->mUrl = QUrl("qrc:/qml/horizontal.qml");
-            mView->setSource(this->mUrl);
-            break;
-        }
+    switch (layout) {
+    case CLH_Vertical:
+        mModel->setIsHorizontal(false);
+        break;
+    case CLH_Horizontal:
+        mModel->setIsHorizontal(true);
+        break;
+    default:
+        mModel->setIsHorizontal(mLayout);
+        break;
     }
+
     mModel->setHighLight(cursor);
     updateLookupTable(lookup_table);
 }
@@ -222,32 +195,22 @@ void MainController::updateSpotRect(int x, int y, int w, int h)
 
 void MainController::showPreedit(bool to_show)
 {
-//    qDebug() << QString("showPreedit: %1").arg(to_show);
+    mModel->setShowPreedit(to_show);
 }
 
 void MainController::showAux(bool to_show)
 {
-//    qDebug() << QString("showAux: %1").arg(to_show);
+    mModel->setShowTips(to_show);
 }
 
 void MainController::updateAux(const QString &text, const QList<TextAttribute> &attr)
 {
-    if (text == "")
-        return;
-    this->showTips(text);
-//    qDebug() << QString("updateAux(%1)").arg(text);
+    mModel->setTipsString(text);
 }
 
 void MainController::showLookupTable(bool to_show)
 {
-//    qDebug() << QString("showLookupTable: %1").arg(to_show);
-    if (this->mTimer->isActive()) {
-        if (to_show == false)
-            return;
-        else
-            hideTips();
-    }
-    mTopLevel->setVisible(to_show);
+    mModel->setShowLookupTable(to_show);
 }
 
 void MainController::updateLookupTableCursor(int pos)

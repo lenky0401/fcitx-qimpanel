@@ -9,6 +9,8 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
+#include "skin/skin_menu.h"
+
 enum ExecMenuType
 {
     nullExecMenuType,
@@ -49,6 +51,7 @@ private:
     //前两个用不到，见后端KimpanelRegisterAllStatus()函数
 #define StatusMenuSkip (2)
     QList<KimpanelProperty> mStatusMenuList;
+    SkinMenu *mSkinMenu;
     QMenu *mVKListMenu;
     QMenu *mIMListMenu;
     //皮肤由前端自己组织

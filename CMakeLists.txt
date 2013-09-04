@@ -11,7 +11,7 @@ SET(fcitx-qimpanel_TRANS po/zh_CN.ts)
 SET(fcitx-qimpanel_RCCS qml.qrc)
 set(fcitx-qimpanel_SRCS main.cpp main_controller.cpp toplevel.cpp
     main_model.cpp kimpanelagent.cpp candidate_word.cpp system_tray_menu.cpp 
-    my_action.cpp cfg/readcfg.cpp)
+    my_action.cpp cfg/readcfg.cpp skin/skin_menu.cpp)
 QT4_ADD_DBUS_ADAPTOR(fcitx-qimpanel_SRCS
     org.kde.impanel.xml
     kimpanelagent.h
@@ -22,7 +22,8 @@ QT4_ADD_RESOURCES(fcitx-qimpanel_RCC_SRCS ${fcitx-qimpanel_RCCS})
 add_executable(fcitx-qimpanel ${fcitx-qimpanel_SRCS} ${fcitx-qimpanel_TRAN_SRCS}
     ${fcitx-qimpanel_RCC_SRCS})
 set_target_properties(fcitx-qimpanel PROPERTIES AUTOMOC TRUE)
-target_link_libraries(fcitx-qimpanel fcitx-config ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} 
+target_link_libraries(fcitx-qimpanel fcitx-config fcitx-utils
+    ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} 
     ${QT_QTDBUS_LIBRARY} ${QT_QTDECLARATIVE_LIBRARY})
 
 install(FILES ${fcitx-qimpanel_TRAN_SRCS} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)

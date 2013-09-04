@@ -15,14 +15,14 @@ SystemTrayMenu::~SystemTrayMenu()
 {
     delete mVKListMenu;
     delete mIMListMenu;
-    //delete mSkinMenu;
+    delete mSkinMenu;
 }
 
 void SystemTrayMenu::init()
 {
     mVKListMenu = new QMenu(tr("Virtual Keyboard"), this);
     mIMListMenu = new QMenu(tr("Input Method"), this);
-    //mSkinMenu = new QMenu(tr("Skin"), this);
+    mSkinMenu = new SkinMenu(tr("Skin"), this);
 
     QObject::connect(mVKListMenu, SIGNAL(aboutToShow()), this,
         SLOT(triggerUpdateVKListMenu()));
@@ -83,7 +83,7 @@ void SystemTrayMenu::triggerUpdateMainMenu()
 
     this->addMenu(mVKListMenu);
     this->addMenu(mIMListMenu);
-    //this->addMenu(mSkinMenu);
+    this->addMenu(mSkinMenu);
     this->addSeparator();
 
     this->addAction(QIcon::fromTheme("preferences-desktop"), tr("ConfigureIM"));
@@ -214,6 +214,8 @@ void SystemTrayMenu::menuItemOnClick(QAction *action)
         exit(0);
     } else {
         MyAction *myAction = (MyAction *)action;
-        mAgent->triggerProperty(myAction->getProp().key);
+        if (myAction->getProp().key != "") {
+            mAgent->triggerProperty(myAction->getProp().key);
+        }
     }
 }

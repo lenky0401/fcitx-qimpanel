@@ -10,6 +10,7 @@ class MyAction : public QAction
     Q_OBJECT
 
 public:
+    MyAction(const QString &text, QObject *parent);
     MyAction(const QIcon &icon, const QString &text, const KimpanelProperty &prop, QObject *parent);
     virtual ~MyAction();
 

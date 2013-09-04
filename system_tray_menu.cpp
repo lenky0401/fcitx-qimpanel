@@ -55,6 +55,8 @@ void SystemTrayMenu::registerProperties(const QList<KimpanelProperty> &props)
         //    .arg(prop.label).arg(prop.icon).arg(prop.tip).arg(prop.state).arg(prop.menu);
         if (count ++ < StatusMenuSkip)
             continue;
+        if (prop.key == "/Fcitx/vk")
+            continue;
         this->mStatusMenuList << prop;
     }
 }
@@ -207,7 +209,8 @@ void SystemTrayMenu::menuItemOnClick(QAction *action)
         this->restart();
 
     } else if (tr("Exit") == action->text()) {
-        mAgent->exit();
+        //仅退出qim-panel
+        //mAgent->exit();
         exit(0);
     } else {
         MyAction *myAction = (MyAction *)action;

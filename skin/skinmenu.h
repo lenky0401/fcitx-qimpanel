@@ -4,6 +4,7 @@
 
 #include <QMenu>
 #include <QIcon>
+#include "../my_action.h"
 
 class SkinMenu : public QMenu
 {
@@ -19,6 +20,8 @@ private slots:
 
 private:
     QString mCurtSkinLabel;
+
+    MyAction *mSkinTypeMenu;
 };
 
 #endif // __SKIN_MENU_H__

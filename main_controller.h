@@ -12,6 +12,7 @@
 #include "system_tray_menu.h"
 #include "kimpanelagent.h"
 #include "toplevel.h"
+#include "skin/skinbase.h"
 
 //必须与FcitxCandidateLayoutHint的定义一致
 enum CandidateLayout {
@@ -20,25 +21,35 @@ enum CandidateLayout {
     CLH_Horizontal
 };
 
-class MainController : public QApplication
+class MainController : public QObject
 {
     Q_OBJECT
 
 public:
-    MainController(int &argc, char **argv);
+    static MainController* self();
     virtual ~MainController();
-    bool init();
+    void init();
+
+private:
+    explicit MainController();
+    static MainController *mSelf;
 
 private:
     TopLevel *mTopLevel;
     MainModel *mModel;
     PanelAgent *mAgent;
+    SkinBase *mSkinBase;
     QDeclarativeView *mView;
     QUrl mUrl;
     QTimer *mTimer;
     QSystemTrayIcon *mSystemTray;
     SystemTrayMenu *mTrayMenu;
     bool mLayout;
+    QString mSkinType;
+
+public:
+    void setSkinBase(SkinBase *skinBase);
+    QString getSkinType();
 
 public slots:
     void updateProperty(const KimpanelProperty &prop);

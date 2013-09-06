@@ -11,14 +11,19 @@ class MyAction : public QAction
 
 public:
     MyAction(const QString &text, QObject *parent);
-    MyAction(const QIcon &icon, const QString &text, const KimpanelProperty &prop, QObject *parent);
+    MyAction(const QIcon &icon, const QString &text, QObject *parent);
     virtual ~MyAction();
 
 public:
-    KimpanelProperty getProp();
+    void setProp(const KimpanelProperty &prop);
+    const KimpanelProperty& getProp();
+    void setSkinPath(const QString skinPath);
+    const QString getSkinPath();
 
 private:
+
     KimpanelProperty mProp;
+    QString mSkinPath;
 };
 
 #endif // __MY_ACTION_H__

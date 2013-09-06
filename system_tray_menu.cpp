@@ -71,13 +71,16 @@ void SystemTrayMenu::updateProperty(const KimpanelProperty &prop)
 
 void SystemTrayMenu::triggerUpdateMainMenu()
 {
+    MyAction *menu;
     this->clear();
 
     this->addAction(QIcon::fromTheme("help-contents"), tr("Online &Help!"));
     this->addSeparator();
 
     foreach(const KimpanelProperty &prop, this->mStatusMenuList) {
-        this->addAction(new MyAction(QIcon::fromTheme(prop.icon), prop.label, prop, this));
+        menu = new MyAction(QIcon::fromTheme(prop.icon), prop.label, this);
+        menu->setProp(prop);
+        this->addAction(menu);
     }
     this->addSeparator();
 
@@ -108,23 +111,27 @@ void SystemTrayMenu::triggerUpdateIMListMenu()
 
 void SystemTrayMenu::doUpdateVKListMenu(const QList<KimpanelProperty> &prop_list)
 {
+    MyAction *menu;
     QList<KimpanelProperty>::const_iterator iter;
 
     mVKListMenu->clear();
     for (iter = prop_list.begin(); iter != prop_list.end(); ++ iter) {
-        mVKListMenu->addAction(new MyAction(QIcon::fromTheme(iter->icon), iter->label, *iter, this));
+        menu = new MyAction(QIcon::fromTheme(iter->icon), iter->label, this);
+        menu->setProp(*iter);
+        mVKListMenu->addAction(menu);
     }
 }
 
 void SystemTrayMenu::doUpdateIMListMenu(const QList<KimpanelProperty> &prop_list)
 {
     bool checked = false;
-    QAction *firstMenu = NULL, *menu;
+    MyAction *firstMenu = NULL, *menu;
     QList<KimpanelProperty>::const_iterator iter;
 
     mIMListMenu->clear();
     for (iter = prop_list.begin(); iter != prop_list.end(); ++ iter) {
-        menu = new MyAction(QIcon::fromTheme(iter->icon), iter->label, *iter, this);
+        menu = new MyAction(QIcon::fromTheme(iter->icon), iter->label, this);
+        menu->setProp(*iter);
         mIMListMenu->addAction(menu);
         if (firstMenu == NULL)
             firstMenu = menu;
@@ -149,7 +156,7 @@ void SystemTrayMenu::execMenu(const QList<KimpanelProperty> &prop_list)
     case updateIMListMenu:
         doUpdateIMListMenu(prop_list);
         break;
-    //case updateSkinMenu:
+    //case updateThemerMenu:
     //    tmpMenu = mSkinMenu;
     //    break;
     default:

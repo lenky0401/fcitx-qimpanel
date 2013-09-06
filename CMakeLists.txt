@@ -11,7 +11,7 @@ SET(fcitx-qimpanel_TRANS po/zh_CN.ts)
 SET(fcitx-qimpanel_RCCS qml.qrc)
 set(fcitx-qimpanel_SRCS main.cpp main_controller.cpp toplevel.cpp
     main_model.cpp kimpanelagent.cpp candidate_word.cpp system_tray_menu.cpp 
-    my_action.cpp cfg/readcfg.cpp skin/skin_menu.cpp)
+    my_action.cpp cfg/readcfg.cpp skin/skinmenu.cpp skin/skinbase.cpp skin/skinfcitx.cpp)
 QT4_ADD_DBUS_ADAPTOR(fcitx-qimpanel_SRCS
     org.kde.impanel.xml
     kimpanelagent.h

@@ -9,14 +9,14 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-#include "skin/skin_menu.h"
+#include "skin/skinmenu.h"
 
 enum ExecMenuType
 {
     nullExecMenuType,
     updateVKListMenu,
     updateIMListMenu,
-    //updateSkinMenu,
+    //updateThemerMenu,
 };
 
 class SystemTrayMenu : public QMenu
@@ -54,8 +54,6 @@ private:
     SkinMenu *mSkinMenu;
     QMenu *mVKListMenu;
     QMenu *mIMListMenu;
-    //皮肤由前端自己组织
-    //QMenu *mSkinMenu;
     ExecMenuType mExecMenuType;
 };
 

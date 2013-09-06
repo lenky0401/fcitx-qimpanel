@@ -1,5 +1,4 @@
 #include <QApplication>
-#include <QApplication>
 #include <QDeclarativeEngine>
 #include <QDeclarativeView>
 #include <QtDeclarative>
@@ -36,15 +35,21 @@ int main(int argc, char** argv)
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
 
-    MainController MainController(argc, argv);
     QTranslator translator;
     if (translator.load(QString(exec_name)) == false)
         qDebug() << "load qm error.";
-    MainController.installTranslator(&translator);
 
-    if (!MainController.init()) {
-        return -1;
-    }
-    return MainController.exec();
+    QApplication *app = new QApplication(argc, argv);
+    app->installTranslator(&translator);
+    app->setApplicationName("fcitx-qimpanel");
+
+    MainController *ctrl = MainController::self();
+
+    int ret = app->exec();
+
+    delete ctrl;
+    delete app;
+    qDebug() << ret;
+    return ret;
 }
 

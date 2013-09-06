@@ -1,5 +1,4 @@
 #include <QDebug>
-#include <QApplication>
 #include <QDeclarativeView>
 #include <QtDeclarative/QDeclarativeContext>
 #include "main_model.h"
@@ -9,71 +8,44 @@
 #include "toplevel.h"
 #include "cfg/readcfg.h"
 
-MainController::MainController(int &argc, char **argv)
-    : QApplication(argc, argv), mTopLevel(0), mModel(0), mAgent(0), mView(0)
+MainController* MainController::mSelf = 0;
+
+MainController* MainController::self()
+{
+    if (!mSelf) {
+        mSelf = new MainController;
+        mSelf->init();
+    }
+    return mSelf;
+}
+
+MainController::MainController()
+{
+
+}
+
+void MainController::init()
 {
     int isHorizontal = 0;
+    char *skinType;
 
     get_fcitx_cfg_value("configdesc", "fcitx-classic-ui.desc", "conf",
         "fcitx-classic-ui.config", "ClassicUI", "VerticalList", &isHorizontal);
 
+    skinType = (char *)malloc(32);
+    get_fcitx_cfg_value("configdesc", "fcitx-classic-ui.desc", "conf",
+        "fcitx-classic-ui.config", "ClassicUI", "SkinType", &skinType);
+
     mLayout = (isHorizontal == 0) ? true : false;
-}
-
-MainController::~MainController()
-{
-    if (mModel)
-        delete mModel;
-
-    if (mAgent)
-        delete mAgent;
-
-    if (mView)
-        delete mView;
-
-    if (mTopLevel)
-        delete mTopLevel;
-
-    if (mSystemTray)
-        delete mSystemTray;
-
-    if (mTrayMenu)
-        delete mTrayMenu;
-}
-
-bool MainController::init()
-{
-    MainController::setApplicationName("fcitx-qimpanel");
+    mSkinType = skinType;
+    free(skinType);
 
     qmlRegisterType<CandidateWord>();
 
-    if ((mTopLevel = new (std::nothrow)TopLevel) == NULL)
-        return false;
-
-    if ((mView = new (std::nothrow)QDeclarativeView) == NULL)
-        return false;
-
-    if ((mModel = new (std::nothrow)MainModel) == NULL)
-        return false;
-
-    if ((mAgent = new (std::nothrow)PanelAgent(this)) == NULL)
-        return false;
-
-    mAgent->created();
-
-    if ((mSystemTray = new (std::nothrow)QSystemTrayIcon(
-        QIcon::fromTheme("fcitx"), this)) == NULL)
-    {
-        return false;
-    }
-    if ((mTrayMenu = new (std::nothrow)SystemTrayMenu(mAgent)) == NULL)
-        return false;
-
-    mTrayMenu->init();
-
-    mSystemTray->setContextMenu(mTrayMenu);
-    mSystemTray->setToolTip("fcitx-qimpanel");
-    mSystemTray->show();
+    mTopLevel = new TopLevel;
+    mView = new QDeclarativeView;
+    mModel = new MainModel;
+    mSkinBase = new SkinBase;
 
     mTopLevel->setCenterWidget(mView);
 
@@ -83,16 +55,19 @@ bool MainController::init()
     mView->viewport()->setAutoFillBackground(false);
     mView->rootContext()->setContextProperty("mainCtrl", this);
     mView->rootContext()->setContextProperty("mainModel", mModel);
+    mView->rootContext()->setContextProperty("mainSkin", mSkinBase);
     mView->setSource(QUrl("qrc:/qml/main.qml"));
-    //mView->setAttribute(Qt::WA_X11NetWmWindowTypeToolTip, true);
 
-    //直接使用hide()会出现元素错位的情况，应该是qt/qml的内部bug
-    //这里采用将窗体大小设置为(0, 0)的方式实现hide()的等同效果
-    //mView->setWindowTitle("fcitx-qimpanel");
-    //mView->setAutoFillBackground(true);
-    //mView->setWindowOpacity(10);
+    mAgent = new PanelAgent(this);
+    mSystemTray = new QSystemTrayIcon(QIcon::fromTheme("fcitx"), this);
+    mTrayMenu = new SystemTrayMenu(mAgent);
 
-    //QObject::connect(mView->engine(), SIGNAL(quit()), qApp, SLOT(quit()));
+    mAgent->created();
+    mTrayMenu->init();
+
+    mSystemTray->setContextMenu(mTrayMenu);
+    mSystemTray->setToolTip("fcitx-qimpanel");
+    mSystemTray->show();
 
     mTopLevel->setVisible(true);
 
@@ -143,8 +118,41 @@ bool MainController::init()
     QObject::connect(mAgent,
         SIGNAL(updatePreeditCaret(int)),
         this, SLOT(updatePreeditCaret(int)));
+}
 
-    return true;
+MainController::~MainController()
+{
+    if (mModel)
+        delete mModel;
+
+    if (mAgent)
+        delete mAgent;
+
+    if (mView)
+        delete mView;
+
+    if (mTopLevel)
+        delete mTopLevel;
+
+    if (mSystemTray)
+        delete mSystemTray;
+
+    if (mTrayMenu)
+        delete mTrayMenu;
+}
+
+void MainController::setSkinBase(SkinBase *skinBase)
+{
+   if (mSkinBase)
+       delete mSkinBase;
+   mSkinBase = skinBase;
+   mView->rootContext()->setContextProperty("mainSkin", mSkinBase);
+   mView->setSource(QUrl("qrc:/qml/main.qml"));
+}
+
+QString MainController::getSkinType()
+{
+    return mSkinType;
 }
 
 void MainController::updateProperty(const KimpanelProperty &prop)

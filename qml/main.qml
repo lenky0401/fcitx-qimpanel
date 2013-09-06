@@ -2,19 +2,32 @@
 import QtQuick 1.1
 
 Rectangle {
-    width: layout.width + 10 
-    height: layout.height + 5
+    width: layout.width + 10 + mainSkin.marginLeft + mainSkin.marginRight
+    height: layout.height + 5 + mainSkin.marginTop + mainSkin.marginBottom
     id: mainWindow
     objectName: "mainWindowQml"
     visible : mainModel.showTips || mainModel.showPreedit || mainModel.showLookupTable
 
     border.color: "#0080FF"
-    border.width: 1
-    
+    border.width: mainSkin.inputBackImg ? 0 : 1
+
+    BorderImage {
+        anchors.fill: parent
+        border { 
+            left: mainSkin.marginLeft; 
+            top: mainSkin.marginTop; 
+            right: mainSkin.marginRight; 
+            bottom: mainSkin.marginBottom; 
+        }
+        horizontalTileMode: BorderImage.Stretch
+        verticalTileMode: BorderImage.Stretch
+        source: mainSkin.inputBackImg
+    }
+
     Row {
         id: layout
-        x: 5
-        y: 2
+        x: 5 + mainSkin.marginLeft
+        y: 2 + mainSkin.marginTop
         spacing: 36
         Column {
             spacing: 2
@@ -78,9 +91,14 @@ Rectangle {
         }
         Row {
             visible : mainModel.hasPrev | mainModel.hasNext
+            spacing: mainSkin.backArrowImg ? 5 : 0
             Text {
                 id: "prev_page"
-                text: "<"
+                Image {
+                    source: mainSkin.backArrowImg
+                    opacity: mainModel.hasPrev ? 1 : 0.5
+                }
+                text: mainSkin.backArrowImg ? " " : "<"
                 color: mainModel.hasPrev ? "#005AB5" : "#ACD6FF"
                 MouseArea {
                     anchors.fill: parent
@@ -92,7 +110,11 @@ Rectangle {
             }
             Text {
                 id: "next_page"
-                text: ">"
+                Image {
+                    source: mainSkin.forwardArrowImg
+                    opacity: mainModel.hasNext ? 1 : 0.5
+                }
+                text: mainSkin.forwardArrowImg ? " " : ">"
                 color: mainModel.hasNext ? "#005AB5" : "#ACD6FF"
                 MouseArea {
                     anchors.fill: parent

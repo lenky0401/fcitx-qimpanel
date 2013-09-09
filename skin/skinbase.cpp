@@ -109,3 +109,59 @@ QString SkinBase::forwardArrowImg() const
     return mForwardArrowImg;
 }
 
+void SkinBase::setFontSize(const int fontSize)
+{
+    mFontSize = fontSize;
+    emit fontSizeChanged();
+}
+
+int SkinBase::fontSize() const
+{
+    return mFontSize;
+}
+
+void SkinBase::setInputColor(const QColor inputColor)
+{
+    mInputColor = inputColor;
+    emit inputColorChanged();
+}
+
+QColor SkinBase::inputColor() const
+{
+    return mInputColor;
+}
+
+void SkinBase::setIndexColor(const QColor indexColor)
+{
+    mIndexColor = indexColor;
+    emit indexColorChanged();
+}
+
+QColor SkinBase::indexColor() const
+{
+    return mIndexColor;
+}
+
+void SkinBase::setFirstCandColor(const QColor firstCandColor)
+{
+    mFirstCandColor = firstCandColor;
+    emit fontSizeChanged();
+}
+
+QColor SkinBase::firstCandColor() const
+{
+    return mFirstCandColor;
+}
+
+void SkinBase::setOtherColor(const QColor otherColor)
+{
+    mOtherColor = otherColor;
+    emit otherColorChanged();
+}
+
+QColor SkinBase::otherColor() const
+{
+    return mOtherColor;
+}
+
+

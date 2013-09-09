@@ -29,6 +29,17 @@ class SkinBase : public QObject
     Q_PROPERTY(QString forwardArrowImg READ forwardArrowImg WRITE setForwardArrowImg
         NOTIFY forwardArrowImgChanged)
 
+    Q_PROPERTY(int fontSize READ fontSize WRITE setFontSize
+        NOTIFY fontSizeChanged)
+    Q_PROPERTY(QColor inputColor READ inputColor WRITE setInputColor
+        NOTIFY inputColorChanged)
+    Q_PROPERTY(QColor indexColor READ indexColor WRITE setIndexColor
+        NOTIFY indexColorChanged)
+    Q_PROPERTY(QColor firstCandColor READ firstCandColor WRITE setFirstCandColor
+        NOTIFY firstCandColorChanged)
+    Q_PROPERTY(QColor otherColor READ otherColor WRITE setOtherColor
+        NOTIFY otherColorChanged)
+
 public:
     void setInputBackImg(const QString inputBackImg);
     QString inputBackImg() const;
@@ -44,6 +55,16 @@ public:
     QString backArrowImg() const;
     void setForwardArrowImg(const QString forwardArrowImg);
     QString forwardArrowImg() const;
+    void setFontSize(const int fontSize);
+    int fontSize() const;
+    void setInputColor(const QColor inputColor);
+    QColor inputColor() const;
+    void setIndexColor(const QColor indexColor);
+    QColor indexColor() const;
+    void setFirstCandColor(const QColor firstCandColor);
+    QColor firstCandColor() const;
+    void setOtherColor(const QColor otherColor);
+    QColor otherColor() const;
 signals:
     void inputBackImgChanged();
     void marginLeftChanged();
@@ -52,8 +73,14 @@ signals:
     void marginBottomChanged();
     void backArrowImgChanged();
     void forwardArrowImgChanged();
+    void fontSizeChanged();
+    void inputColorChanged();
+    void indexColorChanged();
+    void firstCandColorChanged();
+    void otherColorChanged();
 
 private:
+    //Fcitx SkinInputBar
     QString mInputBackImg;
     int mMarginLeft;
     int mMarginRight;
@@ -61,6 +88,12 @@ private:
     int mMarginBottom;
     QString mBackArrowImg;
     QString mForwardArrowImg;
+    //Fcitx SkinFont
+    int mFontSize;
+    QColor mInputColor;
+    QColor mIndexColor;
+    QColor mFirstCandColor;
+    QColor mOtherColor;
 
 public:
     SkinBase();

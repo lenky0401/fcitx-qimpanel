@@ -43,7 +43,8 @@ Rectangle {
                 id: "inputString"
                 visible : mainModel.showPreedit
                 text: mainModel.inputString
-                color: "#FF0080"
+                font.pointSize : mainSkin.fontSize 
+                color: mainSkin.inputColor
             }
             
             Row {
@@ -56,8 +57,10 @@ Rectangle {
     
                     Text {
                         id: "candidateWord"
-                        text: cddLabel + cddText + "  "
-                        color: (index == mainModel.highLight) ? "#FF0080" : "#0080FF"
+                        text: "<font style='color:" + mainSkin.indexColor + "'>" + cddLabel + "</font>" + 
+                                 "<font style='color:" + ((index == mainModel.highLight) ? mainSkin.firstCandColor : 
+                                    mainSkin.otherColor) + "'>" + cddText + "</font>" + "  "
+                        font.pointSize : mainSkin.fontSize
                         MouseArea {
                             anchors.fill: parent
                             onClicked: {
@@ -77,8 +80,10 @@ Rectangle {
     
                     Text {
                         id: "candidateWord"
-                        text: cddLabel + cddText + "  "
-                        color: (index == mainModel.highLight) ? "#FF0080" : "#0080FF"
+                        text: "<font style='color:" + mainSkin.indexColor + "'>" + cddLabel + "</font>" + 
+                                 "<font style='color:" + ((index == mainModel.highLight) ? mainSkin.firstCandColor : 
+                                    mainSkin.otherColor) + "'>" + cddText + "</font>" + "  "
+                        font.pointSize : mainSkin.fontSize
                         MouseArea {
                             anchors.fill: parent
                             onClicked: {

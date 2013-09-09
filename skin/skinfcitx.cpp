@@ -57,7 +57,24 @@ bool SkinFcitx::loadSkin(const QString skinPath)
         if (value.isEmpty())
             continue;
 
-        if (skininputbar) {
+        if (skinfont) {
+            if (key == "FontSize") {
+                setFontSize(value.toInt());
+
+            } else if (key == "InputColor") {
+                setInputColor(value2color(value));
+
+            } else if (key == "IndexColor") {
+                setIndexColor(value2color(value));
+
+            } else if (key == "FirstCandColor") {
+                setFirstCandColor(value2color(value));
+
+            } else if (key == "OtherColor") {
+                setOtherColor(value2color(value));
+
+            }
+        } else if (skininputbar) {
             if (key == "BackImg") {
                 setInputBackImg("file:/" + skinPath + value);
 

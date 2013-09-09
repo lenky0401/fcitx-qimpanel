@@ -50,6 +50,7 @@ private:
 public:
     void setSkinBase(SkinBase *skinBase);
     QString getSkinType();
+    void setSkinType(QString skinType);
 
 public slots:
     void updateProperty(const KimpanelProperty &prop);

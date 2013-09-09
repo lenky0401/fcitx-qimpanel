@@ -79,7 +79,7 @@ void SkinMenu::menuItemOnClick(QAction *action)
 {
     SkinBase *skin;
     MyAction *myAction = (MyAction *)action;
-    mCurtSkinLabel = myAction->text();
+    MainController::self()->setSkinType(myAction->text());
 
     skin = new SkinFcitx;
     MainController::self()->setSkinBase(skin);

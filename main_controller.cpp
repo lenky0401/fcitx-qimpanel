@@ -6,7 +6,7 @@
 #include "main_controller.h"
 #include "kimpanelagent.h"
 #include "toplevel.h"
-#include "cfg/readcfg.h"
+#include "cfg/readwritecfg.h"
 
 MainController* MainController::mSelf = 0;
 
@@ -27,18 +27,18 @@ MainController::MainController()
 void MainController::init()
 {
     int isHorizontal = 0;
-    char *skinType;
+    char *tmpBuff;
 
     get_fcitx_cfg_value("configdesc", "fcitx-classic-ui.desc", "conf",
         "fcitx-classic-ui.config", "ClassicUI", "VerticalList", &isHorizontal);
 
-    skinType = (char *)malloc(32);
+    tmpBuff = (char *)malloc(32);
     get_fcitx_cfg_value("configdesc", "fcitx-classic-ui.desc", "conf",
-        "fcitx-classic-ui.config", "ClassicUI", "SkinType", &skinType);
+        "fcitx-classic-ui.config", "ClassicUI", "SkinType", &tmpBuff);
 
     mLayout = (isHorizontal == 0) ? true : false;
-    mSkinType = skinType;
-    free(skinType);
+    mSkinType = tmpBuff;
+    free(tmpBuff);
 
     qmlRegisterType<CandidateWord>();
 
@@ -153,6 +153,20 @@ void MainController::setSkinBase(SkinBase *skinBase)
 QString MainController::getSkinType()
 {
     return mSkinType;
+}
+
+void MainController::setSkinType(QString skinType)
+{
+    char *tmpBuff;
+
+    mSkinType = skinType;
+    tmpBuff = (char *)malloc(32);
+
+    save_q_string_2_m_string(mSkinType, &tmpBuff);
+    set_fcitx_cfg_value("configdesc", "fcitx-classic-ui.desc", "conf",
+        "fcitx-classic-ui.config", "ClassicUI", "SkinType", &tmpBuff);
+
+    free(tmpBuff);
 }
 
 void MainController::updateProperty(const KimpanelProperty &prop)

@@ -19,8 +19,6 @@ private slots:
     void menuItemOnClick(QAction* action);
 
 private:
-    QString mCurtSkinLabel;
-
     MyAction *mSkinTypeMenu;
 };
 

@@ -90,6 +90,12 @@ bool SkinFcitx::loadSkin(const QString skinPath)
             } else if (key == "MarginBottom") {
                 setMarginBottom(value.toInt());
 
+            } else if (key == "InputPos") {
+                setInputPos(value.toInt());
+
+            } else if (key == "OutputPos") {
+                setOutputPos(value.toInt());
+
             } else if (key == "BackArrow") {
                 setBackArrowImg("file:/" + skinPath + value);
 

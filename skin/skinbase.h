@@ -24,6 +24,10 @@ class SkinBase : public QObject
         NOTIFY marginTopChanged)
     Q_PROPERTY(int marginBottom READ marginBottom WRITE setMarginBottom
         NOTIFY marginBottomChanged)
+    Q_PROPERTY(int inputPos READ inputPos WRITE setInputPos
+        NOTIFY inputPosChanged)
+    Q_PROPERTY(int outputPos READ outputPos WRITE setOutputPos
+        NOTIFY outputPosChanged)
     Q_PROPERTY(QString backArrowImg READ backArrowImg WRITE setBackArrowImg
         NOTIFY backArrowImgChanged)
     Q_PROPERTY(QString forwardArrowImg READ forwardArrowImg WRITE setForwardArrowImg
@@ -51,6 +55,10 @@ public:
     int marginTop() const;
     void setMarginBottom(const int marginBottom);
     int marginBottom() const;
+    void setInputPos(const int inputPos);
+    int inputPos() const;
+    void setOutputPos(const int outputPos);
+    int outputPos() const;
     void setBackArrowImg(const QString backArrowImg);
     QString backArrowImg() const;
     void setForwardArrowImg(const QString forwardArrowImg);
@@ -71,6 +79,8 @@ signals:
     void marginRightChanged();
     void marginTopChanged();
     void marginBottomChanged();
+    void inputPosChanged();
+    void outputPosChanged();
     void backArrowImgChanged();
     void forwardArrowImgChanged();
     void fontSizeChanged();
@@ -86,6 +96,8 @@ private:
     int mMarginRight;
     int mMarginTop;
     int mMarginBottom;
+    int mInputPos;
+    int mOutputPos;
     QString mBackArrowImg;
     QString mForwardArrowImg;
     //Fcitx SkinFont

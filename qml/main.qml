@@ -2,22 +2,23 @@
 import QtQuick 1.1
 
 Rectangle {
-    width: layout.width + 10 + mainSkin.marginLeft + mainSkin.marginRight
-    height: layout.height + 5 + mainSkin.marginTop + mainSkin.marginBottom
+    width: layout.width + mainSkin.marginLeft + mainSkin.marginRight
+    height: layout.height + mainSkin.marginTop + mainSkin.marginBottom - (mainSkin.outputPos - mainSkin.inputPos)
     id: mainWindow
     objectName: "mainWindowQml"
     visible : mainModel.showTips || mainModel.showPreedit || mainModel.showLookupTable
 
     border.color: "#0080FF"
     border.width: mainSkin.inputBackImg ? 0 : 1
+    color: "transparent"
 
     BorderImage {
         anchors.fill: parent
-        border { 
-            left: mainSkin.marginLeft; 
-            top: mainSkin.marginTop; 
-            right: mainSkin.marginRight; 
-            bottom: mainSkin.marginBottom; 
+        border {
+            left: mainSkin.marginLeft;
+            top: mainSkin.marginTop;
+            right: mainSkin.marginRight;
+            bottom: mainSkin.marginBottom;
         }
         horizontalTileMode: BorderImage.Stretch
         verticalTileMode: BorderImage.Stretch
@@ -26,11 +27,11 @@ Rectangle {
 
     Row {
         id: layout
-        x: 5 + mainSkin.marginLeft
-        y: 2 + mainSkin.marginTop
-        spacing: 36
+        x: mainSkin.marginLeft
+        y: mainSkin.marginTop
+        spacing: 0
         Column {
-            spacing: 2
+            spacing: 0
             
             Text {
                 id: "tipsString"
@@ -43,51 +44,66 @@ Rectangle {
                 id: "inputString"
                 visible : mainModel.showPreedit
                 text: mainModel.inputString
-                font.pointSize : mainSkin.fontSize 
+                font.pixelSize : mainSkin.fontSize
                 color: mainSkin.inputColor
             }
             
-            Row {
-                spacing: 0
+            Column {
                 id: "horizontal"
+                spacing: 0
                 visible : mainModel.showLookupTable && mainModel.isHorizontal
-                
-                Repeater {
-                    model: mainModel.candidateWords
-    
-                    Text {
-                        id: "candidateWord"
-                        text: "<font style='color:" + mainSkin.indexColor + "'>" + cddLabel + "</font>" + 
-                                 "<font style='color:" + ((index == mainModel.highLight) ? mainSkin.firstCandColor : 
-                                    mainSkin.otherColor) + "'>" + cddText + "</font>" + "  "
-                        font.pointSize : mainSkin.fontSize
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: {
-                                    mainCtrl.selectCandidate(index)
+                Text {
+                    id: "horizontalSeparator"
+                    text: " "
+                    height: mainSkin.outputPos - mainSkin.inputPos > 0 ? mainSkin.outputPos - mainSkin.inputPos : 0
+                }
+                Row {
+                    spacing: 5
+                    Repeater {
+                        model: mainModel.candidateWords
+        
+                        Text {
+                            id: "candidateWord"
+                            text: "<font style='color:" + mainSkin.indexColor + "'>" + cddLabel + "</font>" + 
+                                     "<font style='color:" + ((index == mainModel.highLight) ? mainSkin.firstCandColor : 
+                                        mainSkin.otherColor) + "'>" + cddText + "</font>" + "  "
+                            font.pixelSize : mainSkin.fontSize
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: {
+                                        mainCtrl.selectCandidate(index)
+                                }
                             }
                         }
                     }
                 }
             }
             Column {
-                spacing: 2
                 id: "vertical"
+                spacing: 0
                 visible : mainModel.showLookupTable && !mainModel.isHorizontal
-                
-                Repeater {
-                    model: mainModel.candidateWords
-    
-                    Text {
-                        id: "candidateWord"
-                        text: "<font style='color:" + mainSkin.indexColor + "'>" + cddLabel + "</font>" + 
-                                 "<font style='color:" + ((index == mainModel.highLight) ? mainSkin.firstCandColor : 
-                                    mainSkin.otherColor) + "'>" + cddText + "</font>" + "  "
-                        font.pointSize : mainSkin.fontSize
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: {
-                                    mainCtrl.selectCandidate(index)
+                Text {
+                    id: "verticalSeparator"
+                    text: " "
+                    height: mainSkin.outputPos - mainSkin.inputPos > 0 ? mainSkin.outputPos - mainSkin.inputPos : 0
+                }
+                Column {
+                    spacing: 5
+                    
+                    Repeater {
+                        model: mainModel.candidateWords
+        
+                        Text {
+                            id: "candidateWord"
+                            text: "<font style='color:" + mainSkin.indexColor + "'>" + cddLabel + "</font>" + 
+                                     "<font style='color:" + ((index == mainModel.highLight) ? mainSkin.firstCandColor : 
+                                        mainSkin.otherColor) + "'>" + cddText + "</font>" + "  "
+                            font.pixelSize : mainSkin.fontSize
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: {
+                                        mainCtrl.selectCandidate(index)
+                                }
                             }
                         }
                     }
@@ -96,15 +112,11 @@ Rectangle {
         }
         Row {
             visible : mainModel.hasPrev | mainModel.hasNext
-            spacing: mainSkin.backArrowImg ? 5 : 0
-            Text {
+            spacing: 5
+            Image {
                 id: "prev_page"
-                Image {
-                    source: mainSkin.backArrowImg
-                    opacity: mainModel.hasPrev ? 1 : 0.5
-                }
-                text: mainSkin.backArrowImg ? " " : "<"
-                color: mainModel.hasPrev ? "#005AB5" : "#ACD6FF"
+                source: mainSkin.backArrowImg
+                opacity: mainModel.hasPrev ? 1 : 0.5
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
@@ -113,14 +125,10 @@ Rectangle {
                     }
                 }
             }
-            Text {
+            Image {
                 id: "next_page"
-                Image {
-                    source: mainSkin.forwardArrowImg
-                    opacity: mainModel.hasNext ? 1 : 0.5
-                }
-                text: mainSkin.forwardArrowImg ? " " : ">"
-                color: mainModel.hasNext ? "#005AB5" : "#ACD6FF"
+                source: mainSkin.forwardArrowImg
+                opacity: mainModel.hasNext ? 1 : 0.5
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {

@@ -216,8 +216,7 @@ void SystemTrayMenu::menuItemOnClick(QAction *action)
         this->restart();
 
     } else if (tr("Exit") == action->text()) {
-        //仅退出qim-panel
-        //mAgent->exit();
+        mAgent->exit();
         exit(0);
     } else {
         MyAction *myAction = (MyAction *)action;

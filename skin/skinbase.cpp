@@ -9,8 +9,15 @@ SkinBase::SkinBase()
     mMarginRight = 0;
     mMarginTop = 0;
     mMarginBottom = 0;
+    mInputPos = 0;
+    mOutputPos = 0;
     mBackArrowImg = "";
     mForwardArrowImg = "";
+    mFontSize = 0;
+    mInputColor = QColor(0, 0, 0, 0);
+    mIndexColor = QColor(0, 0, 0, 0);
+    mFirstCandColor = QColor(0, 0, 0, 0);
+    mOtherColor = QColor(0, 0, 0, 0);
 }
 
 SkinBase::~SkinBase()
@@ -85,6 +92,28 @@ void SkinBase::setMarginBottom(const int marginBottom)
 int SkinBase::marginBottom() const
 {
     return mMarginBottom;
+}
+
+void SkinBase::setInputPos(const int inputPos)
+{
+    mInputPos = inputPos;
+    emit inputPosChanged();
+}
+
+int SkinBase::inputPos() const
+{
+    return mInputPos;
+}
+
+void SkinBase::setOutputPos(const int outputPos)
+{
+    mOutputPos = outputPos;
+    emit outputPosChanged();
+}
+
+int SkinBase::outputPos() const
+{
+    return mOutputPos;
 }
 
 void SkinBase::setBackArrowImg(const QString backArrowImg)

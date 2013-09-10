@@ -61,6 +61,9 @@ bool SkinFcitx::loadSkin(const QString skinPath)
             if (key == "FontSize") {
                 setFontSize(value.toInt());
 
+            } else if (key == "CandFontSize") {
+                setCandFontSize(value.toInt());
+
             } else if (key == "InputColor") {
                 setInputColor(value2color(value));
 
@@ -77,6 +80,9 @@ bool SkinFcitx::loadSkin(const QString skinPath)
         } else if (skininputbar) {
             if (key == "BackImg") {
                 setInputBackImg("file:/" + skinPath + value);
+
+            } else if (key == "TipsImg") {
+                setTipsImg("file:/" + skinPath + value);
 
             } else if (key == "MarginLeft") {
                 setMarginLeft(value.toInt());

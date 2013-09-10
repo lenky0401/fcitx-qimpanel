@@ -14,6 +14,7 @@ SkinBase::SkinBase()
     mBackArrowImg = "";
     mForwardArrowImg = "";
     mFontSize = 0;
+    mCandFontSize = 0;
     mInputColor = QColor(0, 0, 0, 0);
     mIndexColor = QColor(0, 0, 0, 0);
     mFirstCandColor = QColor(0, 0, 0, 0);
@@ -48,6 +49,17 @@ void SkinBase::setInputBackImg(const QString inputBackImg)
 QString SkinBase::inputBackImg() const
 {
     return mInputBackImg;
+}
+
+void SkinBase::setTipsImg(const QString tipsImg)
+{
+    mTipsImg = tipsImg;
+    emit tipsImgChanged();
+}
+
+QString SkinBase::tipsImg() const
+{
+    return mTipsImg;
 }
 
 void SkinBase::setMarginLeft(const int marginLeft)
@@ -147,6 +159,17 @@ void SkinBase::setFontSize(const int fontSize)
 int SkinBase::fontSize() const
 {
     return mFontSize;
+}
+
+void SkinBase::setCandFontSize(const int candFontSize)
+{
+    mCandFontSize = candFontSize;
+    emit candFontSizeChanged();
+}
+
+int SkinBase::candFontSize() const
+{
+    return mCandFontSize;
 }
 
 void SkinBase::setInputColor(const QColor inputColor)

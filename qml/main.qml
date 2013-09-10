@@ -13,6 +13,7 @@ Rectangle {
     color: "transparent"
 
     BorderImage {
+        visible : mainModel.showPreedit
         anchors.fill: parent
         border {
             left: mainSkin.marginLeft;
@@ -23,6 +24,20 @@ Rectangle {
         horizontalTileMode: BorderImage.Stretch
         verticalTileMode: BorderImage.Stretch
         source: mainSkin.inputBackImg
+    }
+    
+    BorderImage {
+        visible : mainModel.showTips
+        anchors.fill: parent
+        border {
+            left: 10;
+            top: 10;
+            right: 10;
+            bottom: 10;
+        }
+        horizontalTileMode: BorderImage.Stretch
+        verticalTileMode: BorderImage.Stretch
+        source: mainSkin.tipsImg
     }
 
     Row {
@@ -67,7 +82,7 @@ Rectangle {
                             text: "<font style='color:" + mainSkin.indexColor + "'>" + cddLabel + "</font>" + 
                                      "<font style='color:" + ((index == mainModel.highLight) ? mainSkin.firstCandColor : 
                                         mainSkin.otherColor) + "'>" + cddText + "</font>" + "  "
-                            font.pixelSize : mainSkin.fontSize
+                            font.pixelSize : mainSkin.candFontSize != 0 ? mainSkin.candFontSize : mainSkin.fontSize
                             MouseArea {
                                 anchors.fill: parent
                                 onClicked: {
@@ -98,7 +113,7 @@ Rectangle {
                             text: "<font style='color:" + mainSkin.indexColor + "'>" + cddLabel + "</font>" + 
                                      "<font style='color:" + ((index == mainModel.highLight) ? mainSkin.firstCandColor : 
                                         mainSkin.otherColor) + "'>" + cddText + "</font>" + "  "
-                            font.pixelSize : mainSkin.fontSize
+                            font.pixelSize : mainSkin.candFontSize != 0 ? mainSkin.candFontSize : mainSkin.fontSize
                             MouseArea {
                                 anchors.fill: parent
                                 onClicked: {

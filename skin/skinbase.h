@@ -16,6 +16,8 @@ class SkinBase : public QObject
 
     Q_PROPERTY(QString inputBackImg READ inputBackImg WRITE setInputBackImg
         NOTIFY inputBackImgChanged)
+    Q_PROPERTY(QString tipsImg READ tipsImg WRITE setTipsImg
+        NOTIFY tipsImgChanged)
     Q_PROPERTY(int marginLeft READ marginLeft WRITE setMarginLeft
         NOTIFY marginLeftChanged)
     Q_PROPERTY(int marginRight READ marginRight WRITE setMarginRight
@@ -35,6 +37,8 @@ class SkinBase : public QObject
 
     Q_PROPERTY(int fontSize READ fontSize WRITE setFontSize
         NOTIFY fontSizeChanged)
+    Q_PROPERTY(int candFontSize READ candFontSize WRITE setCandFontSize
+        NOTIFY candFontSizeChanged)
     Q_PROPERTY(QColor inputColor READ inputColor WRITE setInputColor
         NOTIFY inputColorChanged)
     Q_PROPERTY(QColor indexColor READ indexColor WRITE setIndexColor
@@ -47,6 +51,8 @@ class SkinBase : public QObject
 public:
     void setInputBackImg(const QString inputBackImg);
     QString inputBackImg() const;
+    void setTipsImg(const QString tipsImg);
+    QString tipsImg() const;
     void setMarginLeft(const int marginLeft);
     int marginLeft() const;
     void setMarginRight(const int marginRight);
@@ -65,6 +71,8 @@ public:
     QString forwardArrowImg() const;
     void setFontSize(const int fontSize);
     int fontSize() const;
+    void setCandFontSize(const int candFontSize);
+    int candFontSize() const;
     void setInputColor(const QColor inputColor);
     QColor inputColor() const;
     void setIndexColor(const QColor indexColor);
@@ -75,6 +83,7 @@ public:
     QColor otherColor() const;
 signals:
     void inputBackImgChanged();
+    void tipsImgChanged();
     void marginLeftChanged();
     void marginRightChanged();
     void marginTopChanged();
@@ -84,6 +93,7 @@ signals:
     void backArrowImgChanged();
     void forwardArrowImgChanged();
     void fontSizeChanged();
+    void candFontSizeChanged();
     void inputColorChanged();
     void indexColorChanged();
     void firstCandColorChanged();
@@ -92,6 +102,7 @@ signals:
 private:
     //Fcitx SkinInputBar
     QString mInputBackImg;
+    QString mTipsImg;
     int mMarginLeft;
     int mMarginRight;
     int mMarginTop;
@@ -102,6 +113,7 @@ private:
     QString mForwardArrowImg;
     //Fcitx SkinFont
     int mFontSize;
+    int mCandFontSize;
     QColor mInputColor;
     QColor mIndexColor;
     QColor mFirstCandColor;

@@ -7,6 +7,7 @@
 #include "../main_controller.h"
 #include "../my_action.h"
 #include "skinfcitx.h"
+#include "../main.h"
 
 SkinMenu::SkinMenu(const QString &title, QWidget *parent)
     : QMenu(title, parent)
@@ -38,10 +39,37 @@ void SkinMenu::triggerUpdateSkinListMenu()
     MyAction *firstMenu = NULL, *menu;
     QFileInfoList list;
     QFileInfoList::Iterator iter;
-    char **skinPath = FcitxXDGGetPathWithPrefix(&len, "skin");
     QString skinType = MainController::self()->getSkinType();
 
     this->clear();
+
+    char* ukSkinPath = getExecPath("uk-default-skin");
+    for (i = 0; i < 1; i ++) {
+        skinDir = QDir(ukSkinPath);
+        if (!skinDir.exists())
+            continue;
+
+        skinDir.setFilter(QDir::Dirs);
+        list = skinDir.entryInfoList();
+        for (iter = list.begin(); iter != list.end(); ++ iter) {
+            if (iter->isDir() && "." != iter->fileName() && ".." != iter->fileName()) {
+                menu = new MyAction(iter->fileName(), this);
+                //qDebug() << iter->absoluteFilePath();
+                menu->setSkinPath(iter->absoluteFilePath() + "/");
+                this->addAction(menu);
+                if (firstMenu == NULL)
+                    firstMenu = menu;
+                menu->setCheckable(true);
+                if (iter->fileName() == skinType) {
+                    checked = true;
+                    menu->setChecked(true);
+                    mSkinTypeMenu = menu;
+                }
+            }
+        }
+    }
+
+    char **skinPath = FcitxXDGGetPathWithPrefix(&len, "skin");
     for (i = 0; i < len; i ++) {
         skinDir = QDir(skinPath[i]);
         if (!skinDir.exists())

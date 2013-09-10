@@ -7,28 +7,33 @@
 
 #include <fcitx-utils/utils.h>
 
+#include "main.h"
 #include "main_controller.h"
 
 #define BUFF_SIZE (512)
+char execPath[BUFF_SIZE] = {0};
 
-int main(int argc, char** argv)
+char* getExecPath(const char * const fileName)
 {
     char *p;
-    char exec_name[BUFF_SIZE];
-
-    memset(exec_name, 0, BUFF_SIZE);
-    if (readlink("/proc/self/exe", exec_name, BUFF_SIZE) < 0) {
+    if (readlink("/proc/self/exe", execPath, BUFF_SIZE) < 0) {
         perror("readlink");
         exit(EXIT_FAILURE);
     }
 
-    if ((p = strrchr(exec_name, '/')) == NULL) {
+    if ((p = strrchr(execPath, '/')) == NULL) {
         perror("strrchr");
         exit(EXIT_FAILURE);
     }
-    strcpy(p + 1, "zh_CN.qm");
+    strcpy(p + 1, fileName);
 
-    //fcitx_utils_init_as_daemon();
+    return execPath;
+}
+
+int main(int argc, char** argv)
+{
+
+    fcitx_utils_init_as_daemon();
 
     QTextCodec::setCodecForTr(QTextCodec::codecForLocale());
     QTextCodec::setCodecForCStrings(QTextCodec::codecForLocale());
@@ -36,7 +41,7 @@ int main(int argc, char** argv)
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
 
     QTranslator translator;
-    if (translator.load(QString(exec_name)) == false)
+    if (translator.load(QString(getExecPath("zh_CN.qm"))) == false)
         qDebug() << "load qm error.";
 
     QApplication *app = new QApplication(argc, argv);

@@ -28,3 +28,5 @@ target_link_libraries(fcitx-qimpanel fcitx-config fcitx-utils
 
 install(FILES ${fcitx-qimpanel_TRAN_SRCS} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
 install(TARGETS fcitx-qimpanel RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+
+add_subdirectory(uk-default-skin)

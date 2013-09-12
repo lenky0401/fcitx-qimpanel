@@ -36,7 +36,7 @@ void MainController::init()
     get_fcitx_cfg_value("configdesc", "fcitx-classic-ui.desc", "conf",
         "fcitx-classic-ui.config", "ClassicUI", "SkinType", &tmpBuff);
 
-    mLayout = (isHorizontal == 0) ? true : false;
+    mIsHorizontal = (isHorizontal == 0) ? true : false;
     mSkinType = tmpBuff;
     free(tmpBuff);
 
@@ -44,7 +44,9 @@ void MainController::init()
 
     mTopLevel = new TopLevel;
     mView = new QDeclarativeView;
-    mModel = new MainModel;
+    mModel = MainModel::self();
+    mModel->setIsHorizontal(mIsHorizontal);
+
     mSkinBase = new SkinBase;
 
     mTopLevel->setCenterWidget(mView);
@@ -143,7 +145,7 @@ MainController::~MainController()
 
 void MainController::setSkinBase(SkinBase *skinBase)
 {
-   if (mSkinBase)
+   if (mSkinBase != skinBase)
        delete mSkinBase;
    mSkinBase = skinBase;
    mView->rootContext()->setContextProperty("mainSkin", mSkinBase);
@@ -195,16 +197,23 @@ void MainController::updateLookupTable(const KimpanelLookupTable &lookup_table)
 void MainController::updateLookupTableFull(const KimpanelLookupTable &lookup_table,
     int cursor, int layout)
 {
+    bool isHorizontal;
+
     switch (layout) {
     case CLH_Vertical:
-        mModel->setIsHorizontal(false);
+        isHorizontal = false;
         break;
     case CLH_Horizontal:
-        mModel->setIsHorizontal(true);
+        isHorizontal = true;
         break;
     default:
-        mModel->setIsHorizontal(mLayout);
+        isHorizontal = mIsHorizontal;
         break;
+    }
+
+    if (isHorizontal != mModel->isHorizontal()) {
+        mModel->setIsHorizontal(isHorizontal);
+        mSkinBase->loadSkin();
     }
 
     mModel->setHighLight(cursor);

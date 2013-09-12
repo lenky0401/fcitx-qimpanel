@@ -2,6 +2,16 @@
 #include "main_model.h"
 #include "candidate_word.h"
 
+MainModel* MainModel::mSelf = 0;
+
+MainModel* MainModel::self()
+{
+    if (!mSelf) {
+        mSelf = new MainModel;
+    }
+    return mSelf;
+}
+
 MainModel::MainModel()
 {
 
@@ -20,7 +30,8 @@ void MainModel::resetData() {
     setHasNext(false);
     setInputStringCursorPos(-1);
     setHighLight(-1);
-    setIsHorizontal(true);
+    //这个不属于焦点切换时需要重置的值
+    //setIsHorizontal(true);
     setShowTips(false);
     setShowPreedit(false);
     setShowLookupTable(false);

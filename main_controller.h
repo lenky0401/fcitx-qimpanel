@@ -44,7 +44,7 @@ private:
     QTimer *mTimer;
     QSystemTrayIcon *mSystemTray;
     SystemTrayMenu *mTrayMenu;
-    bool mLayout;
+    bool mIsHorizontal;
     QString mSkinType;
 
 public:

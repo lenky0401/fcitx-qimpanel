@@ -189,10 +189,73 @@ signals:
 private:
     int mForwardArrowPosY;
 
+//===================================================================================================
+private:
+    //Fcitx SkinInputBar
+    QString mInputBackImgVertical;
+    QString mTipsImgVertical;
+    int mMarginLeftVertical;
+    int mMarginRightVertical;
+    int mMarginTopVertical;
+    int mMarginBottomVertical;
+    QString mBackArrowImgVertical;
+    QString mForwardArrowImgVertical;
+
+    //Fcitx SkinFont
+    int mFontSizeVertical;
+    int mCandFontSizeVertical;
+    QColor mInputColorVertical;
+    QColor mIndexColorVertical;
+    QColor mFirstCandColorVertical;
+    QColor mOtherColorVertical;
+
+    int mInputStringPosXVertical;
+    int mInputStringPosYVertical;
+    int mOutputCandPosXVertical;
+    int mOutputCandPosYVertical;
+    int mBackArrowPosXVertical;
+    int mBackArrowPosYVertical;
+    int mForwardArrowPosXVertical;
+    int mForwardArrowPosYVertical;
+
+public:
+#define DEFINE_SET_PROPERTY(read, type, property) \
+    void set##property(const type read);
+
+    DEFINE_SET_PROPERTY(inputBackImgVertical, QString, InputBackImgVertical)
+    DEFINE_SET_PROPERTY(tipsImgVertical, QString, TipsImgVertical)
+    DEFINE_SET_PROPERTY(marginLeftVertical, int, MarginLeftVertical)
+
+    DEFINE_SET_PROPERTY(marginRightVertical, int, MarginRightVertical)
+    DEFINE_SET_PROPERTY(marginTopVertical, int, MarginTopVertical)
+    DEFINE_SET_PROPERTY(marginBottomVertical, int, MarginBottomVertical)
+    DEFINE_SET_PROPERTY(backArrowImgVertical, QString, BackArrowImgVertical)
+    DEFINE_SET_PROPERTY(forwardArrowImgVertical, QString, ForwardArrowImgVertical)
+    DEFINE_SET_PROPERTY(fontSizeVertical, int, FontSizeVertical)
+    DEFINE_SET_PROPERTY(candFontSizeVertical, int, CandFontSizeVertical)
+    DEFINE_SET_PROPERTY(inputColorVertical, QColor, InputColorVertical)
+    DEFINE_SET_PROPERTY(indexColorVertical, QColor, IndexColorVertical)
+    DEFINE_SET_PROPERTY(firstCandColorVertical, QColor, FirstCandColorVertical)
+    DEFINE_SET_PROPERTY(otherColorVertical, QColor, OtherColorVertical)
+
+
+    DEFINE_SET_PROPERTY(inputStringPosXVertical, int, InputStringPosXVertical)
+    DEFINE_SET_PROPERTY(inputStringPosYVertical, int, InputStringPosYVertical)
+    DEFINE_SET_PROPERTY(outputCandPosXVertical, int, OutputCandPosXVertical)
+    DEFINE_SET_PROPERTY(outputCandPosYVertical, int, OutputCandPosYVertical)
+    DEFINE_SET_PROPERTY(backArrowPosXVertical, int, BackArrowPosXVertical)
+    DEFINE_SET_PROPERTY(backArrowPosYVertical, int, BackArrowPosYVertical)
+    DEFINE_SET_PROPERTY(forwardArrowPosXVertical, int, ForwardArrowPosXVertical)
+    DEFINE_SET_PROPERTY(forwardArrowPosYVertical, int, ForwardArrowPosYVertical)
+
+#undef DEFINE_SET_PROPERTY
+//===================================================================================================
+
 public:
     SkinBase();
     virtual ~SkinBase();
     virtual bool loadSkin(const QString skinPath);
+    void loadSkin();
 
 protected:
     QColor value2color(const QString& value);

@@ -21,6 +21,8 @@
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QEvent>
+#include <QMouseEvent>
+#include <QDebug>
 
 #include "toplevel.h"
 

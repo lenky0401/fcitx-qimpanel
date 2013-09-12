@@ -1,6 +1,7 @@
 
 #include <QDebug>
 #include "skinbase.h"
+#include "../main_model.h"
 
 SkinBase::SkinBase()
 {
@@ -13,10 +14,10 @@ SkinBase::SkinBase()
     mForwardArrowImg = "";
     mFontSize = 0;
     mCandFontSize = 0;
-    mInputColor = QColor(0, 0, 0, 0);
-    mIndexColor = QColor(0, 0, 0, 0);
-    mFirstCandColor = QColor(0, 0, 0, 0);
-    mOtherColor = QColor(0, 0, 0, 0);
+    mInputColor = Qt::color0;
+    mIndexColor = Qt::color0;
+    mFirstCandColor = Qt::color0;
+    mOtherColor = Qt::color0;
 
     mInputStringPosX = 0;
     mInputStringPosY = 0;
@@ -26,6 +27,29 @@ SkinBase::SkinBase()
     mBackArrowPosY = 0;
     mForwardArrowPosX = 0;
     mForwardArrowPosY = 0;
+
+    mInputBackImgVertical = "";
+    mMarginLeftVertical = 0;
+    mMarginRightVertical = 0;
+    mMarginTopVertical = 0;
+    mMarginBottomVertical = 0;
+    mBackArrowImgVertical = "";
+    mForwardArrowImgVertical = "";
+    mFontSizeVertical = 0;
+    mCandFontSizeVertical = 0;
+    mInputColorVertical = Qt::color0;
+    mIndexColorVertical = Qt::color0;
+    mFirstCandColorVertical = Qt::color0;
+    mOtherColorVertical = Qt::color0;
+
+    mInputStringPosXVertical = 0;
+    mInputStringPosYVertical = 0;
+    mOutputCandPosXVertical = 0;
+    mOutputCandPosYVertical = 0;
+    mBackArrowPosXVertical = 0;
+    mBackArrowPosYVertical = 0;
+    mForwardArrowPosXVertical = 0;
+    mForwardArrowPosYVertical = 0;
 }
 
 SkinBase::~SkinBase()
@@ -41,182 +65,275 @@ bool SkinBase::loadSkin(const QString skinPath)
 QColor SkinBase::value2color(const QString& value)
 {
     QStringList list = value.split(' ');
+    if(list.size() < 3) {
+        return Qt::color0;
+    }
+
     int r = list.at(0).toInt();
     int g = list.at(1).toInt();
     int b = list.at(2).toInt();
     return QColor(r, g, b);
 }
 
+void SkinBase::loadSkin()
+{
+    emit inputBackImgChanged();
+    emit tipsImgChanged();
+    emit marginLeftChanged();
+    emit marginRightChanged();
+    emit marginTopChanged();
+    emit marginBottomChanged();
+    emit backArrowImgChanged();
+    emit forwardArrowImgChanged();
+    emit fontSizeChanged();
+    emit candFontSizeChanged();
+    emit inputColorChanged();
+    emit indexColorChanged();
+    emit fontSizeChanged();
+    emit otherColorChanged();
+    emit inputStringPosXChanged();
+    emit inputStringPosYChanged();
+    emit outputCandPosXChanged();
+    emit outputCandPosYChanged();
+    emit backArrowPosXChanged();
+    emit backArrowPosYChanged();
+    emit forwardArrowPosXChanged();
+    emit forwardArrowPosYChanged();
+}
+
 void SkinBase::setInputBackImg(const QString inputBackImg)
 {
     mInputBackImg = inputBackImg;
-    emit inputBackImgChanged();
 }
 
 QString SkinBase::inputBackImg() const
 {
-    return mInputBackImg;
+    if (MainModel::self()->isHorizontal() || mInputBackImgVertical == "")
+        return mInputBackImg;
+    else
+        return mInputBackImgVertical;
 }
 
 void SkinBase::setTipsImg(const QString tipsImg)
 {
     mTipsImg = tipsImg;
-    emit tipsImgChanged();
 }
 
 QString SkinBase::tipsImg() const
 {
-    return mTipsImg;
+    if (MainModel::self()->isHorizontal() || mTipsImgVertical == "")
+        return mTipsImg;
+    else
+        return mTipsImgVertical;
 }
 
 void SkinBase::setMarginLeft(const int marginLeft)
 {
     mMarginLeft = marginLeft;
-    emit marginLeftChanged();
 }
 
 int SkinBase::marginLeft() const
 {
-    return mMarginLeft;
+    if (MainModel::self()->isHorizontal() || mMarginLeftVertical == 0)
+        return mMarginLeft;
+    else
+        return mMarginLeftVertical;
 }
 
 void SkinBase::setMarginRight(const int marginRight)
 {
     mMarginRight = marginRight;
-    emit marginRightChanged();
 }
 
 int SkinBase::marginRight() const
 {
-    return mMarginRight;
+    if (MainModel::self()->isHorizontal() || mMarginRightVertical == 0)
+        return mMarginRight;
+    else
+        return mMarginRightVertical;
 }
 
 void SkinBase::setMarginTop(const int marginTop)
 {
     mMarginTop = marginTop;
-    emit marginTopChanged();
 }
 
 int SkinBase::marginTop() const
 {
-    return mMarginTop;
+    if (MainModel::self()->isHorizontal() || mMarginTopVertical == 0)
+        return mMarginTop;
+    else
+        return mMarginTopVertical;
 }
 
 void SkinBase::setMarginBottom(const int marginBottom)
 {
     mMarginBottom = marginBottom;
-    emit marginBottomChanged();
 }
 
 int SkinBase::marginBottom() const
 {
-    return mMarginBottom;
+    if (MainModel::self()->isHorizontal() || mMarginBottomVertical == 0)
+        return mMarginBottom;
+    else
+        return mMarginBottomVertical;
 }
 
 void SkinBase::setBackArrowImg(const QString backArrowImg)
 {
     mBackArrowImg = backArrowImg;
-    emit backArrowImgChanged();
 }
 
 QString SkinBase::backArrowImg() const
 {
-    return mBackArrowImg;
+    if (MainModel::self()->isHorizontal() || mBackArrowImgVertical == "")
+        return mBackArrowImg;
+    else
+        return mBackArrowImgVertical;
 }
 
 void SkinBase::setForwardArrowImg(const QString forwardArrowImg)
 {
     mForwardArrowImg = forwardArrowImg;
-    emit forwardArrowImgChanged();
 }
 
 QString SkinBase::forwardArrowImg() const
 {
-    return mForwardArrowImg;
+    if (MainModel::self()->isHorizontal() || mForwardArrowImgVertical == "")
+        return mForwardArrowImg;
+    else
+        return mForwardArrowImgVertical;
 }
 
 void SkinBase::setFontSize(const int fontSize)
 {
     mFontSize = fontSize;
-    emit fontSizeChanged();
 }
 
 int SkinBase::fontSize() const
 {
-    return mFontSize;
+    if (MainModel::self()->isHorizontal() || mFontSizeVertical == 0)
+        return mFontSize;
+    else
+        return mFontSizeVertical;
 }
 
 void SkinBase::setCandFontSize(const int candFontSize)
 {
     mCandFontSize = candFontSize;
-    emit candFontSizeChanged();
 }
 
 int SkinBase::candFontSize() const
 {
-    return mCandFontSize;
+    if (MainModel::self()->isHorizontal() || mCandFontSizeVertical == 0)
+        return mCandFontSize;
+    else
+        return mCandFontSizeVertical;
 }
 
 void SkinBase::setInputColor(const QColor inputColor)
 {
     mInputColor = inputColor;
-    emit inputColorChanged();
 }
 
 QColor SkinBase::inputColor() const
 {
-    return mInputColor;
+    if (MainModel::self()->isHorizontal() || mInputColorVertical == Qt::color0)
+        return mInputColor;
+    else
+        return mInputColorVertical;
 }
 
 void SkinBase::setIndexColor(const QColor indexColor)
 {
     mIndexColor = indexColor;
-    emit indexColorChanged();
 }
 
 QColor SkinBase::indexColor() const
 {
-    return mIndexColor;
+    if (MainModel::self()->isHorizontal() || mIndexColorVertical == Qt::color0)
+        return mIndexColor;
+    else
+        return mIndexColorVertical;
 }
 
 void SkinBase::setFirstCandColor(const QColor firstCandColor)
 {
     mFirstCandColor = firstCandColor;
-    emit fontSizeChanged();
 }
 
 QColor SkinBase::firstCandColor() const
 {
-    return mFirstCandColor;
+    if (MainModel::self()->isHorizontal() || mFirstCandColorVertical == Qt::color0)
+        return mFirstCandColor;
+    else
+        return mFirstCandColorVertical;
 }
 
 void SkinBase::setOtherColor(const QColor otherColor)
 {
     mOtherColor = otherColor;
-    emit otherColorChanged();
 }
 
 QColor SkinBase::otherColor() const
 {
-    return mOtherColor;
+    if (MainModel::self()->isHorizontal() || mOtherColorVertical == Qt::color0)
+        return mOtherColor;
+    else
+        return mOtherColorVertical;
 }
 
-#define DEFINE_PROPERTY(read, type, property) \
+#define DEFINE_PROPERTY(read, type, property, zero) \
     void SkinBase::set##property(const type read) { \
         m##property = read; \
-        emit read##Changed(); \
     } \
     type SkinBase::read() const { \
-        return m##property; \
-    } \
+        if (MainModel::self()->isHorizontal() || m##property##Vertical == zero) \
+            return m##property; \
+        else \
+            return m##property##Vertical; \
+    }
 
-    DEFINE_PROPERTY(inputStringPosX, int, InputStringPosX)
-    DEFINE_PROPERTY(inputStringPosY, int, InputStringPosY)
-    DEFINE_PROPERTY(outputCandPosX, int, OutputCandPosX)
-    DEFINE_PROPERTY(outputCandPosY, int, OutputCandPosY)
-    DEFINE_PROPERTY(backArrowPosX, int, BackArrowPosX)
-    DEFINE_PROPERTY(backArrowPosY, int, BackArrowPosY)
-    DEFINE_PROPERTY(forwardArrowPosX, int, ForwardArrowPosX)
-    DEFINE_PROPERTY(forwardArrowPosY, int, ForwardArrowPosY)
+    DEFINE_PROPERTY(inputStringPosX, int, InputStringPosX, 0)
+    DEFINE_PROPERTY(inputStringPosY, int, InputStringPosY, 0)
+    DEFINE_PROPERTY(outputCandPosX, int, OutputCandPosX, 0)
+    DEFINE_PROPERTY(outputCandPosY, int, OutputCandPosY, 0)
+    DEFINE_PROPERTY(backArrowPosX, int, BackArrowPosX, 0)
+    DEFINE_PROPERTY(backArrowPosY, int, BackArrowPosY, 0)
+    DEFINE_PROPERTY(forwardArrowPosX, int, ForwardArrowPosX, 0)
+    DEFINE_PROPERTY(forwardArrowPosY, int, ForwardArrowPosY, 0)
 
 #undef DEFINE_PROPERTY
+
+#define DEFINE_SET_PROPERTY(read, type, property) \
+    void SkinBase::set##property(const type read) { \
+        m##property = read; \
+    }
+
+    DEFINE_SET_PROPERTY(inputBackImgVertical, QString, InputBackImgVertical)
+    DEFINE_SET_PROPERTY(tipsImgVertical, QString, TipsImgVertical)
+    DEFINE_SET_PROPERTY(marginLeftVertical, int, MarginLeftVertical)
+
+    DEFINE_SET_PROPERTY(marginRightVertical, int, MarginRightVertical)
+    DEFINE_SET_PROPERTY(marginTopVertical, int, MarginTopVertical)
+    DEFINE_SET_PROPERTY(marginBottomVertical, int, MarginBottomVertical)
+    DEFINE_SET_PROPERTY(backArrowImgVertical, QString, BackArrowImgVertical)
+    DEFINE_SET_PROPERTY(forwardArrowImgVertical, QString, ForwardArrowImgVertical)
+    DEFINE_SET_PROPERTY(fontSizeVertical, int, FontSizeVertical)
+    DEFINE_SET_PROPERTY(candFontSizeVertical, int, CandFontSizeVertical)
+    DEFINE_SET_PROPERTY(inputColorVertical, QColor, InputColorVertical)
+    DEFINE_SET_PROPERTY(indexColorVertical, QColor, IndexColorVertical)
+    DEFINE_SET_PROPERTY(firstCandColorVertical, QColor, FirstCandColorVertical)
+    DEFINE_SET_PROPERTY(otherColorVertical, QColor, OtherColorVertical)
+
+
+    DEFINE_SET_PROPERTY(inputStringPosXVertical, int, InputStringPosXVertical)
+    DEFINE_SET_PROPERTY(inputStringPosYVertical, int, InputStringPosYVertical)
+    DEFINE_SET_PROPERTY(outputCandPosXVertical, int, OutputCandPosXVertical)
+    DEFINE_SET_PROPERTY(outputCandPosYVertical, int, OutputCandPosYVertical)
+    DEFINE_SET_PROPERTY(backArrowPosXVertical, int, BackArrowPosXVertical)
+    DEFINE_SET_PROPERTY(backArrowPosYVertical, int, BackArrowPosYVertical)
+    DEFINE_SET_PROPERTY(forwardArrowPosXVertical, int, ForwardArrowPosXVertical)
+    DEFINE_SET_PROPERTY(forwardArrowPosYVertical, int, ForwardArrowPosYVertical)
+
+#undef DEFINE_SET_PROPERTY

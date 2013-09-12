@@ -32,8 +32,12 @@ bool SkinFcitx::loadSkin(const QString skinPath)
 
     QString line;
     QString key, value;
-    bool skinfont = false;
-    bool skininputbar = false;
+
+    bool skinFont = false;
+    bool skinInputBar = false;
+    bool skinFontVertical = false;
+    bool skinInputBarVertical = false;
+
     QTextStream textStream(fcitxSkinConfFile.readAll());
 
     do {
@@ -43,8 +47,10 @@ bool SkinFcitx::loadSkin(const QString skinPath)
             continue;
 
         if (line.at(0) == '[') {
-            skinfont = (line == "[SkinFont]");
-            skininputbar = (line == "[SkinInputBar]");
+            skinFont = (line == "[SkinFont]");
+            skinInputBar = (line == "[SkinInputBar]");
+            skinFontVertical = (line == "[SkinFontVertical]");
+            skinInputBarVertical = (line == "[SkinInputBarVertical]");
             continue;
         }
 
@@ -57,7 +63,7 @@ bool SkinFcitx::loadSkin(const QString skinPath)
         if (value.isEmpty())
             continue;
 
-        if (skinfont) {
+        if (skinFont) {
             if (key == "FontSize") {
                 setFontSize(value.toInt());
 
@@ -77,7 +83,7 @@ bool SkinFcitx::loadSkin(const QString skinPath)
                 setOtherColor(value2color(value));
 
             }
-        } else if (skininputbar) {
+        } else if (skinInputBar) {
             if (key == "BackImg") {
                 setInputBackImg("file:/" + skinPath + value);
 
@@ -125,6 +131,76 @@ bool SkinFcitx::loadSkin(const QString skinPath)
 
             } else if (key == "ForwardArrow") {
                 setForwardArrowImg("file:/" + skinPath + value);
+
+            }
+        } else if (skinFontVertical) {
+            if (key == "FontSize") {
+                setFontSizeVertical(value.toInt());
+
+            } else if (key == "CandFontSize") {
+                setCandFontSizeVertical(value.toInt());
+
+            } else if (key == "InputColor") {
+                setInputColorVertical(value2color(value));
+
+            } else if (key == "IndexColor") {
+                setIndexColorVertical(value2color(value));
+
+            } else if (key == "FirstCandColor") {
+                setFirstCandColorVertical(value2color(value));
+
+            } else if (key == "OtherColor") {
+                setOtherColorVertical(value2color(value));
+
+            }
+        } else if (skinInputBarVertical) {
+            if (key == "BackImg") {
+                setInputBackImgVertical("file:/" + skinPath + value);
+
+            } else if (key == "TipsImg") {
+                setTipsImgVertical("file:/" + skinPath + value);
+
+            } else if (key == "MarginLeft") {
+                setMarginLeftVertical(value.toInt());
+
+            } else if (key == "MarginTop") {
+                setMarginTopVertical(value.toInt());
+
+            } else if (key == "MarginRight") {
+                setMarginRightVertical(value.toInt());
+
+            } else if (key == "MarginBottom") {
+                setMarginBottomVertical(value.toInt());
+
+            } else if (key == "InputStringPosX") {
+                setInputStringPosXVertical(value.toInt());
+
+            } else if (key == "InputStringPosY") {
+                setInputStringPosYVertical(value.toInt());
+
+            } else if (key == "OutputCandPosX") {
+                setOutputCandPosXVertical(value.toInt());
+
+            } else if (key == "OutputCandPosY") {
+                setOutputCandPosYVertical(value.toInt());
+
+            } else if (key == "BackArrowPosX") {
+                setBackArrowPosXVertical(value.toInt());
+
+            } else if (key == "BackArrowPosY") {
+                setBackArrowPosYVertical(value.toInt());
+
+            } else if (key == "ForwardArrowPosX") {
+                setForwardArrowPosXVertical(value.toInt());
+
+            } else if (key == "ForwardArrowPosY") {
+                setForwardArrowPosYVertical(value.toInt());
+
+            } else if (key == "BackArrow") {
+                setBackArrowImgVertical("file:/" + skinPath + value);
+
+            } else if (key == "ForwardArrow") {
+                setForwardArrowImgVertical("file:/" + skinPath + value);
 
             }
         }

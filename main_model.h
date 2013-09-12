@@ -36,8 +36,15 @@ class MainModel : public QObject
         NOTIFY showLookupTableChanged)
 
 public:
-    MainModel();
+    static MainModel* self();
     virtual ~MainModel();
+    void init();
+
+private:
+    explicit MainModel();
+    static MainModel *mSelf;
+
+public:
     void resetData();
     void setInputStringCursorPos(int pos);
 

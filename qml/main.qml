@@ -2,8 +2,6 @@
 import QtQuick 1.1
 
 Rectangle {
-    width: layout.width + mainSkin.marginLeft + mainSkin.marginRight
-    height: layout.height + mainSkin.marginTop + mainSkin.marginBottom - (mainSkin.outputPos - mainSkin.inputPos)
     id: mainWindow
     objectName: "mainWindowQml"
     visible : mainModel.showTips || mainModel.showPreedit || mainModel.showLookupTable
@@ -39,119 +37,262 @@ Rectangle {
         verticalTileMode: BorderImage.Stretch
         source: mainSkin.tipsImg
     }
+    
+    Text {
+        x: 5
+        y: 3
+        id: "tipsString"
+        visible : mainModel.showTips
+        text: mainModel.tipsString
+        font.pixelSize : mainSkin.fontSize
+        color: mainSkin.inputColor
+    }
+            
+    Text {
+        id: "inputString"
+        visible : mainModel.showPreedit
+        text: mainModel.inputString
+        font.pixelSize : mainSkin.fontSize
+        color: mainSkin.inputColor
+    }
 
-    Row {
-        id: layout
-        x: mainSkin.marginLeft
-        y: mainSkin.marginTop
-        spacing: 0
-        Column {
-            spacing: 0
-            
+    Row {    
+        id: "horizontal"
+        visible : mainModel.showLookupTable && mainModel.isHorizontal
+        Repeater {
+            model: mainModel.candidateWords
             Text {
-                id: "tipsString"
-                visible : mainModel.showTips
-                text: mainModel.tipsString
-                color: "#FF0080"
-            }
-            
-            Text {
-                id: "inputString"
-                visible : mainModel.showPreedit
-                text: mainModel.inputString
-                font.pixelSize : mainSkin.fontSize
-                color: mainSkin.inputColor
-            }
-            
-            Column {
-                id: "horizontal"
-                spacing: 0
-                visible : mainModel.showLookupTable && mainModel.isHorizontal
-                Text {
-                    id: "horizontalSeparator"
-                    text: " "
-                    height: mainSkin.outputPos - mainSkin.inputPos > 0 ? mainSkin.outputPos - mainSkin.inputPos : 0
-                }
-                Row {
-                    spacing: 5
-                    Repeater {
-                        model: mainModel.candidateWords
-        
-                        Text {
-                            id: "candidateWord"
-                            text: "<font style='color:" + mainSkin.indexColor + "'>" + cddLabel + "</font>" + 
-                                     "<font style='color:" + ((index == mainModel.highLight) ? mainSkin.firstCandColor : 
-                                        mainSkin.otherColor) + "'>" + cddText + "</font>" + "  "
-                            font.pixelSize : mainSkin.candFontSize != 0 ? mainSkin.candFontSize : mainSkin.fontSize
-                            MouseArea {
-                                anchors.fill: parent
-                                onClicked: {
-                                        mainCtrl.selectCandidate(index)
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            Column {
-                id: "vertical"
-                spacing: 0
-                visible : mainModel.showLookupTable && !mainModel.isHorizontal
-                Text {
-                    id: "verticalSeparator"
-                    text: " "
-                    height: mainSkin.outputPos - mainSkin.inputPos > 0 ? mainSkin.outputPos - mainSkin.inputPos : 0
-                }
-                Column {
-                    spacing: 5
-                    
-                    Repeater {
-                        model: mainModel.candidateWords
-        
-                        Text {
-                            id: "candidateWord"
-                            text: "<font style='color:" + mainSkin.indexColor + "'>" + cddLabel + "</font>" + 
-                                     "<font style='color:" + ((index == mainModel.highLight) ? mainSkin.firstCandColor : 
-                                        mainSkin.otherColor) + "'>" + cddText + "</font>" + "  "
-                            font.pixelSize : mainSkin.candFontSize != 0 ? mainSkin.candFontSize : mainSkin.fontSize
-                            MouseArea {
-                                anchors.fill: parent
-                                onClicked: {
-                                        mainCtrl.selectCandidate(index)
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        Row {
-            visible : mainModel.hasPrev | mainModel.hasNext
-            spacing: 5
-            Image {
-                id: "prev_page"
-                source: mainSkin.backArrowImg
-                opacity: mainModel.hasPrev ? 1 : 0.5
+                id: "candidateWord"
+                text: "<font style='color:" + mainSkin.indexColor + "'>" + cddLabel + "</font>" + 
+                         "<font style='color:" + ((index == mainModel.highLight) ? mainSkin.firstCandColor : 
+                            mainSkin.otherColor) + "'>" + cddText + "</font>" + "  "
+                font.pixelSize : mainSkin.candFontSize != 0 ? mainSkin.candFontSize : mainSkin.fontSize
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        if (mainModel.hasPrev)
-                            mainCtrl.getPrevPage()
-                    }
-                }
-            }
-            Image {
-                id: "next_page"
-                source: mainSkin.forwardArrowImg
-                opacity: mainModel.hasNext ? 1 : 0.5
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        if (mainModel.hasNext)
-                            mainCtrl.getNextPage()
+                            mainCtrl.selectCandidate(index)
                     }
                 }
             }
         }
     }
+    Column {
+        id: "vertical"
+        visible : mainModel.showLookupTable && !mainModel.isHorizontal
+        
+        Repeater {
+            model: mainModel.candidateWords
+            Text {
+                id: "candidateWord"
+                text: "<font style='color:" + mainSkin.indexColor + "'>" + cddLabel + "</font>" + 
+                         "<font style='color:" + ((index == mainModel.highLight) ? mainSkin.firstCandColor : 
+                            mainSkin.otherColor) + "'>" + cddText + "</font>" + "  "
+                font.pixelSize : mainSkin.candFontSize != 0 ? mainSkin.candFontSize : mainSkin.fontSize
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                            mainCtrl.selectCandidate(index)
+                    }
+                }
+            }
+        }
+    }
+
+    Image {
+        id: "prev_page"
+        visible : mainModel.hasPrev | mainModel.hasNext
+        source: mainSkin.backArrowImg
+        opacity: mainModel.hasPrev ? 1 : 0.5
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                if (mainModel.hasPrev)
+                    mainCtrl.getPrevPage()
+            }
+        }
+    }
+    Image {
+        id: "next_page"
+        visible : mainModel.hasPrev | mainModel.hasNext
+        source: mainSkin.forwardArrowImg
+        opacity: mainModel.hasNext ? 1 : 0.5
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                if (mainModel.hasNext)
+                    mainCtrl.getNextPage()
+            }
+        }
+    }
+    
+    function clearAllAnchors(obj) {
+        obj.anchors.left = undefined;
+        obj.anchors.leftMargin = 0;
+        obj.anchors.top = undefined;
+        obj.anchors.topMargin = 0;
+        obj.anchors.right = undefined;
+        obj.anchors.rightMargin = 0;
+        obj.anchors.bottom = undefined;
+        obj.anchors.bottomMargin = 0;
+    }
+    
+    
+    function setObjAbsolutePosition(bindObj, x, y) {
+        if (x > 0) {
+            bindObj.anchors.left = mainWindow.left;
+            bindObj.anchors.leftMargin = x;
+        } else if (x < 0) {
+            bindObj.anchors.right = mainWindow.right;
+            bindObj.anchors.rightMargin = -x;
+        }
+        
+        if (y > 0) {
+            bindObj.anchors.top = mainWindow.top;
+            bindObj.anchors.topMargin = y;
+        } else if (y < 0) {
+            bindObj.anchors.bottom = mainWindow.bottom;
+            bindObj.anchors.bottomMargin = -y;
+        }
+    }
+    
+    Component.onCompleted: {
+    
+        if (mainSkin.inputStringPosX == 0)
+            mainSkin.inputStringPosX = mainSkin.marginLeft;
+            
+        if (mainSkin.inputStringPosY == 0)
+            mainSkin.inputStringPosY = mainSkin.marginTop;
+        clearAllAnchors(inputString);
+        setObjAbsolutePosition(inputString, mainSkin.inputStringPosX, mainSkin.inputStringPosY);
+
+        if (mainSkin.outputCandPosX == 0)
+            mainSkin.outputCandPosX = mainSkin.marginLeft;
+            
+        if (mainSkin.outputCandPosY == 0)
+            mainSkin.outputCandPosY = inputString.height + mainSkin.marginTop;
+        clearAllAnchors(horizontal);
+        setObjAbsolutePosition(horizontal, mainSkin.outputCandPosX, mainSkin.outputCandPosY);
+        clearAllAnchors(vertical);
+        setObjAbsolutePosition(vertical, mainSkin.outputCandPosX, mainSkin.outputCandPosY);
+
+        if (mainSkin.backArrowPosX == 0)
+            mainSkin.backArrowPosX = - prev_page.width - next_page.width - 5 - 10;
+
+        if (mainSkin.backArrowPosY == 0)
+            mainSkin.backArrowPosY = mainSkin.inputStringPosY;
+            
+        clearAllAnchors(prev_page);
+        setObjAbsolutePosition(prev_page, mainSkin.backArrowPosX, mainSkin.backArrowPosY);    
+
+        if (mainSkin.forwardArrowPosX == 0)
+            mainSkin.forwardArrowPosX = - next_page.width - 10;
+            
+        if (mainSkin.forwardArrowPosY == 0)
+            mainSkin.forwardArrowPosY = mainSkin.inputStringPosY;
+            
+        clearAllAnchors(next_page);
+        setObjAbsolutePosition(next_page, mainSkin.forwardArrowPosX, mainSkin.forwardArrowPosY);
+
+    }
+    
+    function max(x, y) { return x > y ? x : y; }
+    
+    Connections {
+        target: mainModel
+        
+        onMainWindowSizeChanged: {
+            var tmp;
+            var width, width1;
+            var height, height1;
+            
+            if (mainModel.showTips) {
+                mainWindow.width = tipsString.width + 10;
+                mainWindow.height = tipsString.height + 10;
+            
+            } else if (mainModel.showPreedit || mainModel.showLookupTable) {
+                width = mainSkin.marginLeft;
+                width1 = 0;
+                
+                if (mainSkin.inputStringPosX > 0) {
+                    tmp = inputString.x + inputString.width;
+                    width = max(width, tmp);
+                } else {
+                    width1 = max(width1, -mainSkin.inputStringPosX);
+                }
+                
+                if (mainSkin.outputCandPosX > 0) {
+                    if (mainModel.isHorizontal)
+                        tmp = horizontal.x + horizontal.width;
+                    else
+                        tmp = vertical.x + vertical.width;
+                    width = max(width, tmp);
+                } else {
+                    width1 = max(width1, -mainSkin.outputCandPosX);
+                }
+                
+                if (mainSkin.backArrowPosX > 0) {
+                    tmp = prev_page.x + prev_page.width;
+                    width = max(width, tmp);
+                } else {
+                    width1 = max(width1, -mainSkin.backArrowPosX);
+                }
+    
+                if (mainSkin.forwardArrowPosX > 0) {
+                    tmp = next_page.x + next_page.width;
+                    width = max(width, tmp);
+                } else {
+                    width1 = max(width1, -mainSkin.forwardArrowPosX);
+                }
+                
+                mainWindow.width = width + width1 + mainSkin.marginRight;
+                
+                height = mainSkin.marginTop;
+                height1 = 0;
+                
+                if (mainSkin.inputStringPosY > 0) {
+                    tmp = inputString.y + inputString.height;
+                    height = max(height, tmp);
+                } else {
+                    height1 = max(height1, -mainSkin.inputStringPosY);
+                }
+                
+                if (mainSkin.outputCandPosY > 0) {
+                    if (mainModel.isHorizontal)
+                        tmp = horizontal.y + horizontal.height;
+                    else
+                        tmp = vertical.y + vertical.height;
+                    height = max(height, tmp);
+                } else {
+                    height1 = max(height1, -mainSkin.outputCandPosY);
+                }
+                
+                if (mainSkin.backArrowPosY > 0) {
+                    tmp = prev_page.y + prev_page.height;
+                    height = max(height, tmp);
+                } else {
+                    height1 = max(height1, -mainSkin.backArrowPosY);
+                }
+    
+                if (mainSkin.forwardArrowPosY > 0) {
+                    tmp = next_page.y + next_page.height;
+                    height = max(height, tmp);
+                } else {
+                    height1 = max(height1, -mainSkin.forwardArrowPosY);
+                }
+                
+                mainWindow.height = height + height1 + mainSkin.marginBottom;
+            }
+        }
+    }    
 }
+
+
+
+
+
+
+
+
+
+
+

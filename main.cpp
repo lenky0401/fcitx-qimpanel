@@ -33,7 +33,7 @@ char* getExecPath(const char * const fileName)
 int main(int argc, char** argv)
 {
 
-    fcitx_utils_init_as_daemon();
+    //fcitx_utils_init_as_daemon();
 
     QTextCodec::setCodecForTr(QTextCodec::codecForLocale());
     QTextCodec::setCodecForCStrings(QTextCodec::codecForLocale());

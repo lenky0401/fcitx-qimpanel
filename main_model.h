@@ -75,6 +75,8 @@ signals:
     void showPreeditChanged();
     void showLookupTableChanged();
 
+    void mainWindowSizeChanged();
+
 private:
     QString mInputString;
     QString mTipsString;

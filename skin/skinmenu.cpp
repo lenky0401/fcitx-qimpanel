@@ -53,6 +53,9 @@ void SkinMenu::triggerUpdateSkinListMenu()
         list = skinDir.entryInfoList();
         for (iter = list.begin(); iter != list.end(); ++ iter) {
             if (iter->isDir() && "." != iter->fileName() && ".." != iter->fileName()) {
+                QFile fcitxSkinConfFile(iter->absoluteFilePath() + "/fcitx_skin.conf");
+                if (!fcitxSkinConfFile.exists())
+                    continue;
                 menu = new MyAction(iter->fileName(), this);
                 //qDebug() << iter->absoluteFilePath();
                 menu->setSkinPath(iter->absoluteFilePath() + "/");
@@ -79,6 +82,9 @@ void SkinMenu::triggerUpdateSkinListMenu()
         list = skinDir.entryInfoList();
         for (iter = list.begin(); iter != list.end(); ++ iter) {
             if (iter->isDir() && "." != iter->fileName() && ".." != iter->fileName()) {
+                QFile fcitxSkinConfFile(iter->absoluteFilePath() + "/fcitx_skin.conf");
+                if (!fcitxSkinConfFile.exists())
+                    continue;
                 menu = new MyAction(iter->fileName(), this);
                 //qDebug() << iter->absoluteFilePath();
                 menu->setSkinPath(iter->absoluteFilePath() + "/");
@@ -110,6 +116,6 @@ void SkinMenu::menuItemOnClick(QAction *action)
     MainController::self()->setSkinType(myAction->text());
 
     skin = new SkinFcitx;
-    MainController::self()->setSkinBase(skin);
     skin->loadSkin(myAction->getSkinPath());
+    MainController::self()->setSkinBase(skin);
 }

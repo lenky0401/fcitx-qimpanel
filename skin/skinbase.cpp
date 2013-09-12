@@ -9,8 +9,6 @@ SkinBase::SkinBase()
     mMarginRight = 0;
     mMarginTop = 0;
     mMarginBottom = 0;
-    mInputPos = 0;
-    mOutputPos = 0;
     mBackArrowImg = "";
     mForwardArrowImg = "";
     mFontSize = 0;
@@ -19,6 +17,15 @@ SkinBase::SkinBase()
     mIndexColor = QColor(0, 0, 0, 0);
     mFirstCandColor = QColor(0, 0, 0, 0);
     mOtherColor = QColor(0, 0, 0, 0);
+
+    mInputStringPosX = 0;
+    mInputStringPosY = 0;
+    mOutputCandPosX = 0;
+    mOutputCandPosY = 0;
+    mBackArrowPosX = 0;
+    mBackArrowPosY = 0;
+    mForwardArrowPosX = 0;
+    mForwardArrowPosY = 0;
 }
 
 SkinBase::~SkinBase()
@@ -104,28 +111,6 @@ void SkinBase::setMarginBottom(const int marginBottom)
 int SkinBase::marginBottom() const
 {
     return mMarginBottom;
-}
-
-void SkinBase::setInputPos(const int inputPos)
-{
-    mInputPos = inputPos;
-    emit inputPosChanged();
-}
-
-int SkinBase::inputPos() const
-{
-    return mInputPos;
-}
-
-void SkinBase::setOutputPos(const int outputPos)
-{
-    mOutputPos = outputPos;
-    emit outputPosChanged();
-}
-
-int SkinBase::outputPos() const
-{
-    return mOutputPos;
 }
 
 void SkinBase::setBackArrowImg(const QString backArrowImg)
@@ -216,4 +201,22 @@ QColor SkinBase::otherColor() const
     return mOtherColor;
 }
 
+#define DEFINE_PROPERTY(read, type, property) \
+    void SkinBase::set##property(const type read) { \
+        m##property = read; \
+        emit read##Changed(); \
+    } \
+    type SkinBase::read() const { \
+        return m##property; \
+    } \
 
+    DEFINE_PROPERTY(inputStringPosX, int, InputStringPosX)
+    DEFINE_PROPERTY(inputStringPosY, int, InputStringPosY)
+    DEFINE_PROPERTY(outputCandPosX, int, OutputCandPosX)
+    DEFINE_PROPERTY(outputCandPosY, int, OutputCandPosY)
+    DEFINE_PROPERTY(backArrowPosX, int, BackArrowPosX)
+    DEFINE_PROPERTY(backArrowPosY, int, BackArrowPosY)
+    DEFINE_PROPERTY(forwardArrowPosX, int, ForwardArrowPosX)
+    DEFINE_PROPERTY(forwardArrowPosY, int, ForwardArrowPosY)
+
+#undef DEFINE_PROPERTY

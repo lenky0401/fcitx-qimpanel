@@ -96,11 +96,29 @@ bool SkinFcitx::loadSkin(const QString skinPath)
             } else if (key == "MarginBottom") {
                 setMarginBottom(value.toInt());
 
-            } else if (key == "InputPos") {
-                setInputPos(value.toInt());
+            } else if (key == "InputStringPosX") {
+                setInputStringPosX(value.toInt());
 
-            } else if (key == "OutputPos") {
-                setOutputPos(value.toInt());
+            } else if (key == "InputStringPosY") {
+                setInputStringPosY(value.toInt());
+
+            } else if (key == "OutputCandPosX") {
+                setOutputCandPosX(value.toInt());
+
+            } else if (key == "OutputCandPosY") {
+                setOutputCandPosY(value.toInt());
+
+            } else if (key == "BackArrowPosX") {
+                setBackArrowPosX(value.toInt());
+
+            } else if (key == "BackArrowPosY") {
+                setBackArrowPosY(value.toInt());
+
+            } else if (key == "ForwardArrowPosX") {
+                setForwardArrowPosX(value.toInt());
+
+            } else if (key == "ForwardArrowPosY") {
+                setForwardArrowPosY(value.toInt());
 
             } else if (key == "BackArrow") {
                 setBackArrowImg("file:/" + skinPath + value);

@@ -26,10 +26,6 @@ class SkinBase : public QObject
         NOTIFY marginTopChanged)
     Q_PROPERTY(int marginBottom READ marginBottom WRITE setMarginBottom
         NOTIFY marginBottomChanged)
-    Q_PROPERTY(int inputPos READ inputPos WRITE setInputPos
-        NOTIFY inputPosChanged)
-    Q_PROPERTY(int outputPos READ outputPos WRITE setOutputPos
-        NOTIFY outputPosChanged)
     Q_PROPERTY(QString backArrowImg READ backArrowImg WRITE setBackArrowImg
         NOTIFY backArrowImgChanged)
     Q_PROPERTY(QString forwardArrowImg READ forwardArrowImg WRITE setForwardArrowImg
@@ -61,10 +57,6 @@ public:
     int marginTop() const;
     void setMarginBottom(const int marginBottom);
     int marginBottom() const;
-    void setInputPos(const int inputPos);
-    int inputPos() const;
-    void setOutputPos(const int outputPos);
-    int outputPos() const;
     void setBackArrowImg(const QString backArrowImg);
     QString backArrowImg() const;
     void setForwardArrowImg(const QString forwardArrowImg);
@@ -81,6 +73,7 @@ public:
     QColor firstCandColor() const;
     void setOtherColor(const QColor otherColor);
     QColor otherColor() const;
+
 signals:
     void inputBackImgChanged();
     void tipsImgChanged();
@@ -88,8 +81,6 @@ signals:
     void marginRightChanged();
     void marginTopChanged();
     void marginBottomChanged();
-    void inputPosChanged();
-    void outputPosChanged();
     void backArrowImgChanged();
     void forwardArrowImgChanged();
     void fontSizeChanged();
@@ -107,10 +98,9 @@ private:
     int mMarginRight;
     int mMarginTop;
     int mMarginBottom;
-    int mInputPos;
-    int mOutputPos;
     QString mBackArrowImg;
     QString mForwardArrowImg;
+
     //Fcitx SkinFont
     int mFontSize;
     int mCandFontSize;
@@ -118,6 +108,86 @@ private:
     QColor mIndexColor;
     QColor mFirstCandColor;
     QColor mOtherColor;
+
+public:
+    Q_PROPERTY(int inputStringPosX READ inputStringPosX WRITE setInputStringPosX
+            NOTIFY inputStringPosXChanged)
+    void setInputStringPosX(const int inputStringPosX);
+    int inputStringPosX() const;
+signals:
+    void inputStringPosXChanged();
+private:
+    int mInputStringPosX;
+
+public:
+    Q_PROPERTY(int inputStringPosY READ inputStringPosY WRITE setInputStringPosY
+            NOTIFY inputStringPosYChanged)
+    void setInputStringPosY(const int inputStringPosY);
+    int inputStringPosY() const;
+signals:
+    void inputStringPosYChanged();
+private:
+    int mInputStringPosY;
+
+public:
+    Q_PROPERTY(int outputCandPosX READ outputCandPosX WRITE setOutputCandPosX
+            NOTIFY outputCandPosXChanged)
+    void setOutputCandPosX(const int outputCandPosX);
+    int outputCandPosX() const;
+signals:
+    void outputCandPosXChanged();
+private:
+    int mOutputCandPosX;
+
+public:
+    Q_PROPERTY(int outputCandPosY READ outputCandPosY WRITE setOutputCandPosY
+            NOTIFY outputCandPosYChanged)
+    void setOutputCandPosY(const int outputCandPosY);
+    int outputCandPosY() const;
+signals:
+    void outputCandPosYChanged();
+private:
+    int mOutputCandPosY;
+
+public:
+    Q_PROPERTY(int backArrowPosX READ backArrowPosX WRITE setBackArrowPosX
+            NOTIFY backArrowPosXChanged)
+    void setBackArrowPosX(const int backArrowPosX);
+    int backArrowPosX() const;
+signals:
+    void backArrowPosXChanged();
+private:
+    int mBackArrowPosX;
+
+public:
+    Q_PROPERTY(int backArrowPosY READ backArrowPosY WRITE setBackArrowPosY
+            NOTIFY backArrowPosYChanged)
+    void setBackArrowPosY(const int backArrowPosY);
+    int backArrowPosY() const;
+signals:
+    void backArrowPosYChanged();
+private:
+    int mBackArrowPosY;
+
+public:
+    Q_PROPERTY(int forwardArrowPosX READ forwardArrowPosX WRITE setForwardArrowPosX
+            NOTIFY forwardArrowPosXChanged)
+    void setForwardArrowPosX(const int forwardArrowPosX);
+    int forwardArrowPosX() const;
+signals:
+    void forwardArrowPosXChanged();
+private:
+    int mForwardArrowPosX;
+
+public:
+    Q_PROPERTY(int forwardArrowPosY READ forwardArrowPosY WRITE setForwardArrowPosY
+            NOTIFY forwardArrowPosYChanged)
+    void setForwardArrowPosY(const int forwardArrowPosY);
+    int forwardArrowPosY() const;
+signals:
+    void forwardArrowPosYChanged();
+private:
+    int mForwardArrowPosY;
 
 public:
     SkinBase();

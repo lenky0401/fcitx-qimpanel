@@ -38,6 +38,7 @@ QString MainModel::inputString() const {
 void MainModel::setTipsString(const QString tipsString) {
     mTipsString = tipsString;
     emit tipsStringChanged();
+    emit mainWindowSizeChanged();
 }
 
 QString MainModel::tipsString() const {
@@ -85,6 +86,7 @@ void MainModel::setCandidateWords(const KimpanelLookupTable &lookup_table) {
     setHasNext(lookup_table.has_next);
 
     emit candidateWordsChanged();
+    emit mainWindowSizeChanged();
 }
 
 QDeclarativeListProperty<CandidateWord> MainModel::candidateWords() {
@@ -131,6 +133,7 @@ bool MainModel::isHorizontal() const {
 void MainModel::setShowTips(const bool showTips) {
     mShowTips = showTips;
     emit showTipsChanged();
+    emit mainWindowSizeChanged();
 }
 
 bool MainModel::showTips() const {
@@ -140,6 +143,7 @@ bool MainModel::showTips() const {
 void MainModel::setShowPreedit(const bool showPreedit) {
     mShowPreedit = showPreedit;
     emit showPreeditChanged();
+    emit mainWindowSizeChanged();
 }
 
 bool MainModel::showPreedit() const {
@@ -149,6 +153,7 @@ bool MainModel::showPreedit() const {
 void MainModel::setShowLookupTable(const bool showLookupTable) {
     mShowLookupTable = showLookupTable;
     emit showLookupTableChanged();
+    emit mainWindowSizeChanged();
 }
 
 bool MainModel::showLookupTable() const {

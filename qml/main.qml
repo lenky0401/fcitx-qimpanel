@@ -5,7 +5,6 @@ Rectangle {
     id: mainWindow
     objectName: "mainWindowQml"
     visible : mainModel.showTips || mainModel.showPreedit || mainModel.showLookupTable
-
     border.color: "#0080FF"
     border.width: mainSkin.inputBackImg ? 0 : 1
     color: "transparent"
@@ -76,6 +75,7 @@ Rectangle {
             }
         }
     }
+    
     Column {
         id: "vertical"
         visible : mainModel.showLookupTable && !mainModel.isHorizontal
@@ -111,6 +111,7 @@ Rectangle {
             }
         }
     }
+    
     Image {
         id: "next_page"
         visible : mainModel.hasPrev || mainModel.hasNext
@@ -135,7 +136,6 @@ Rectangle {
         obj.anchors.bottom = undefined;
         obj.anchors.bottomMargin = 0;
     }
-    
     
     function setObjAbsolutePosition(bindObj, x, y) {
         if (x > 0) {

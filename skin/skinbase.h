@@ -255,7 +255,7 @@ public:
     SkinBase();
     virtual ~SkinBase();
     virtual bool loadSkin(const QString skinPath);
-    void loadSkin();
+    void reloadSkin();
 
 protected:
     QColor value2color(const QString& value);

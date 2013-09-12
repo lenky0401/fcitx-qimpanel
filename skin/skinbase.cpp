@@ -75,7 +75,7 @@ QColor SkinBase::value2color(const QString& value)
     return QColor(r, g, b);
 }
 
-void SkinBase::loadSkin()
+void SkinBase::reloadSkin()
 {
     emit inputBackImgChanged();
     emit tipsImgChanged();

@@ -213,7 +213,7 @@ void MainController::updateLookupTableFull(const KimpanelLookupTable &lookup_tab
 
     if (isHorizontal != mModel->isHorizontal()) {
         mModel->setIsHorizontal(isHorizontal);
-        mSkinBase->loadSkin();
+        mSkinBase->reloadSkin();
     }
 
     mModel->setHighLight(cursor);

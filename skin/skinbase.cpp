@@ -5,6 +5,16 @@
 
 SkinBase::SkinBase()
 {
+    init();
+}
+
+SkinBase::~SkinBase()
+{
+
+}
+
+void SkinBase::init()
+{
     mInputBackImg = "";
     mMarginLeft = 0;
     mMarginRight = 0;
@@ -28,6 +38,9 @@ SkinBase::SkinBase()
     mForwardArrowPosX = 0;
     mForwardArrowPosY = 0;
 
+    mAdjustWidth = 0;
+    mAdjustHeight = 0;
+
     mInputBackImgVertical = "";
     mMarginLeftVertical = 0;
     mMarginRightVertical = 0;
@@ -50,11 +63,9 @@ SkinBase::SkinBase()
     mBackArrowPosYVertical = 0;
     mForwardArrowPosXVertical = 0;
     mForwardArrowPosYVertical = 0;
-}
 
-SkinBase::~SkinBase()
-{
-
+    mAdjustWidthVertical = 0;
+    mAdjustHeightVertical = 0;
 }
 
 bool SkinBase::loadSkin(const QString skinPath)
@@ -99,6 +110,8 @@ void SkinBase::reloadSkin()
     emit backArrowPosYChanged();
     emit forwardArrowPosXChanged();
     emit forwardArrowPosYChanged();
+    emit adjustWidthChanged();
+    emit adjustHeightChanged();
 }
 
 void SkinBase::setInputBackImg(const QString inputBackImg)
@@ -303,6 +316,9 @@ QColor SkinBase::otherColor() const
     DEFINE_PROPERTY(forwardArrowPosX, int, ForwardArrowPosX, 0)
     DEFINE_PROPERTY(forwardArrowPosY, int, ForwardArrowPosY, 0)
 
+    DEFINE_PROPERTY(adjustWidth, int, AdjustWidth, 0)
+    DEFINE_PROPERTY(adjustHeight, int, AdjustHeight, 0)
+
 #undef DEFINE_PROPERTY
 
 #define DEFINE_SET_PROPERTY(read, type, property) \
@@ -335,5 +351,8 @@ QColor SkinBase::otherColor() const
     DEFINE_SET_PROPERTY(backArrowPosYVertical, int, BackArrowPosYVertical)
     DEFINE_SET_PROPERTY(forwardArrowPosXVertical, int, ForwardArrowPosXVertical)
     DEFINE_SET_PROPERTY(forwardArrowPosYVertical, int, ForwardArrowPosYVertical)
+
+    DEFINE_SET_PROPERTY(adjustWidthVertical, int, AdjustWidthVertical)
+    DEFINE_SET_PROPERTY(adjustHeightVertical, int, AdjustHeightVertical)
 
 #undef DEFINE_SET_PROPERTY

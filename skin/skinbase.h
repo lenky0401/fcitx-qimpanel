@@ -189,6 +189,26 @@ signals:
 private:
     int mForwardArrowPosY;
 
+public:
+    Q_PROPERTY(int adjustWidth READ adjustWidth WRITE setAdjustWidth
+            NOTIFY adjustWidthChanged)
+    void setAdjustWidth(const int adjustWidth);
+    int adjustWidth() const;
+signals:
+    void adjustWidthChanged();
+private:
+    int mAdjustWidth;
+
+public:
+    Q_PROPERTY(int adjustHeight READ adjustHeight WRITE setAdjustHeight
+            NOTIFY adjustHeightChanged)
+    void setAdjustHeight(const int adjustHeight);
+    int adjustHeight() const;
+signals:
+    void adjustHeightChanged();
+private:
+    int mAdjustHeight;
+
 //===================================================================================================
 private:
     //Fcitx SkinInputBar
@@ -217,6 +237,9 @@ private:
     int mBackArrowPosYVertical;
     int mForwardArrowPosXVertical;
     int mForwardArrowPosYVertical;
+
+    int mAdjustWidthVertical;
+    int mAdjustHeightVertical;
 
 public:
 #define DEFINE_SET_PROPERTY(read, type, property) \
@@ -248,6 +271,8 @@ public:
     DEFINE_SET_PROPERTY(forwardArrowPosXVertical, int, ForwardArrowPosXVertical)
     DEFINE_SET_PROPERTY(forwardArrowPosYVertical, int, ForwardArrowPosYVertical)
 
+    DEFINE_SET_PROPERTY(adjustWidthVertical, int, AdjustWidthVertical)
+    DEFINE_SET_PROPERTY(adjustHeightVertical, int, AdjustHeightVertical)
 #undef DEFINE_SET_PROPERTY
 //===================================================================================================
 
@@ -256,6 +281,7 @@ public:
     virtual ~SkinBase();
     virtual bool loadSkin(const QString skinPath);
     void reloadSkin();
+    void init();
 
 protected:
     QColor value2color(const QString& value);

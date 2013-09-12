@@ -23,6 +23,8 @@ SkinFcitx::~SkinFcitx()
 
 bool SkinFcitx::loadSkin(const QString skinPath)
 {
+    init();
+
     QFile fcitxSkinConfFile(skinPath + "fcitx_skin.conf");
     if (!fcitxSkinConfFile.exists())
         return false;
@@ -89,6 +91,12 @@ bool SkinFcitx::loadSkin(const QString skinPath)
 
             } else if (key == "TipsImg") {
                 setTipsImg("file:/" + skinPath + value);
+
+            } else if (key == "AdjustWidth") {
+                setAdjustWidth(value.toInt());
+
+            } else if (key == "AdjustHeight") {
+                setAdjustHeight(value.toInt());
 
             } else if (key == "MarginLeft") {
                 setMarginLeft(value.toInt());
@@ -159,6 +167,12 @@ bool SkinFcitx::loadSkin(const QString skinPath)
 
             } else if (key == "TipsImg") {
                 setTipsImgVertical("file:/" + skinPath + value);
+
+            } else if (key == "AdjustWidth") {
+                setAdjustWidthVertical(value.toInt());
+
+            } else if (key == "AdjustHeight") {
+                setAdjustHeightVertical(value.toInt());
 
             } else if (key == "MarginLeft") {
                 setMarginLeftVertical(value.toInt());

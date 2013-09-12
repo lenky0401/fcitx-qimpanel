@@ -293,8 +293,8 @@ Rectangle {
                 }
             }
             
-            mainWindow.width = width + width1 + mainSkin.marginRight;
-            mainWindow.height = height + height1 + mainSkin.marginBottom;
+            mainWindow.width = width + width1 + mainSkin.marginRight + mainSkin.adjustWidth;
+            mainWindow.height = height + height1 + mainSkin.marginBottom + mainSkin.adjustHeight;
         }
     }    
 }

@@ -107,3 +107,8 @@ void TopLevel::updateLocation()
     if (p != pos())
         move(p);
 }
+
+void TopLevel::setTopLevelVisible(bool aux, bool preedit, bool lookupTable)
+{
+    this->setVisible(aux || preedit || lookupTable);
+}

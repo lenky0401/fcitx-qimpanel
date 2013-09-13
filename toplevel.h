@@ -34,6 +34,8 @@ public:
     virtual void resizeEvent(QResizeEvent* resize);
     virtual bool eventFilter(QObject* object, QEvent* event);
     void setSpotRect(const QRect& rect);
+    void setTopLevelVisible(bool aux, bool preedit, bool lookupTable);
+
 private:
     void updateLocation();
 

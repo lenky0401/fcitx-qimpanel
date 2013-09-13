@@ -71,8 +71,6 @@ void MainController::init()
     mSystemTray->setToolTip("fcitx-qimpanel");
     mSystemTray->show();
 
-    mTopLevel->setVisible(true);
-
     QObject::connect(mAgent,
         SIGNAL(updateProperty(KimpanelProperty)), this,
         SLOT(updateProperty(KimpanelProperty)));
@@ -233,11 +231,13 @@ void MainController::updateSpotRect(int x, int y, int w, int h)
 void MainController::showPreedit(bool to_show)
 {
     mModel->setShowPreedit(to_show);
+    mTopLevel->setTopLevelVisible(mModel->showTips(), mModel->showPreedit(), mModel->showLookupTable());
 }
 
 void MainController::showAux(bool to_show)
 {
     mModel->setShowTips(to_show);
+    mTopLevel->setTopLevelVisible(mModel->showTips(), mModel->showPreedit(), mModel->showLookupTable());
 }
 
 void MainController::updateAux(const QString &text, const QList<TextAttribute> &attr)
@@ -248,6 +248,7 @@ void MainController::updateAux(const QString &text, const QList<TextAttribute> &
 void MainController::showLookupTable(bool to_show)
 {
     mModel->setShowLookupTable(to_show);
+    mTopLevel->setTopLevelVisible(mModel->showTips(), mModel->showPreedit(), mModel->showLookupTable());
 }
 
 void MainController::updateLookupTableCursor(int pos)

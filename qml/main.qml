@@ -10,7 +10,7 @@ Rectangle {
     color: "transparent"
     
     BorderImage {
-        visible : mainModel.showTips || mainModel.showPreedit || mainModel.showLookupTable
+        visible : mainModel.showPreedit || mainModel.showLookupTable
         anchors.fill: parent
         border {
             left: mainSkin.marginLeft;

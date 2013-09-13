@@ -209,6 +209,26 @@ signals:
 private:
     int mAdjustHeight;
 
+public:
+    Q_PROPERTY(QString horizontalTileMode READ horizontalTileMode WRITE setHorizontalTileMode
+            NOTIFY horizontalTileModeChanged)
+    void setHorizontalTileMode(const QString horizontalTileMode);
+    QString horizontalTileMode() const;
+signals:
+    void horizontalTileModeChanged();
+private:
+    QString mHorizontalTileMode;
+
+public:
+    Q_PROPERTY(QString verticalTileMode READ verticalTileMode WRITE setVerticalTileMode
+            NOTIFY verticalTileModeChanged)
+    void setVerticalTileMode(const QString verticalTileMode);
+    QString verticalTileMode() const;
+signals:
+    void verticalTileModeChanged();
+private:
+    QString mVerticalTileMode;
+
 //===================================================================================================
 private:
     //Fcitx SkinInputBar
@@ -240,6 +260,8 @@ private:
 
     int mAdjustWidthVertical;
     int mAdjustHeightVertical;
+    QString mHorizontalTileModeVertical;
+    QString mVerticalTileModeVertical;
 
 public:
 #define DEFINE_SET_PROPERTY(read, type, property) \
@@ -273,6 +295,8 @@ public:
 
     DEFINE_SET_PROPERTY(adjustWidthVertical, int, AdjustWidthVertical)
     DEFINE_SET_PROPERTY(adjustHeightVertical, int, AdjustHeightVertical)
+    DEFINE_SET_PROPERTY(horizontalTileModeVertical, QString, HorizontalTileModeVertical)
+    DEFINE_SET_PROPERTY(verticalTileModeVertical, QString, VerticalTileModeVertical)
 #undef DEFINE_SET_PROPERTY
 //===================================================================================================
 

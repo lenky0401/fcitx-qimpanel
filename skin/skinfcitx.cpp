@@ -110,6 +110,12 @@ bool SkinFcitx::loadSkin(const QString skinPath)
             } else if (key == "MarginBottom") {
                 setMarginBottom(value.toInt());
 
+            } else if (key == "horizontalTileMode") {
+                setHorizontalTileMode(value);
+
+            } else if (key == "verticalTileMode") {
+                setVerticalTileMode(value);
+
             } else if (key == "InputStringPosX") {
                 setInputStringPosX(value.toInt());
 
@@ -185,6 +191,12 @@ bool SkinFcitx::loadSkin(const QString skinPath)
 
             } else if (key == "MarginBottom") {
                 setMarginBottomVertical(value.toInt());
+
+            } else if (key == "horizontalTileMode") {
+                setHorizontalTileModeVertical(value);
+
+            } else if (key == "verticalTileMode") {
+                setVerticalTileModeVertical(value);
 
             } else if (key == "InputStringPosX") {
                 setInputStringPosXVertical(value.toInt());

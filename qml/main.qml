@@ -18,8 +18,8 @@ Rectangle {
             right: mainSkin.marginRight;
             bottom: mainSkin.marginBottom;
         }
-        horizontalTileMode: BorderImage.Stretch
-        verticalTileMode: BorderImage.Stretch
+        horizontalTileMode: mainSkin.horizontalTileMode
+        verticalTileMode: mainSkin.verticalTileMode
         source: mainSkin.inputBackImg
     }
     

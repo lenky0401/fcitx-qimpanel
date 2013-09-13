@@ -15,6 +15,7 @@ SkinBase::~SkinBase()
 
 void SkinBase::init()
 {
+    //横排配置填默认值
     mInputBackImg = "";
     mMarginLeft = 0;
     mMarginRight = 0;
@@ -40,7 +41,10 @@ void SkinBase::init()
 
     mAdjustWidth = 0;
     mAdjustHeight = 0;
+    mHorizontalTileMode = "Stretch";
+    mVerticalTileMode = "Stretch";
 
+    //竖排配置填写零值，而不是默认值，因为在实际使用时，如果判断其为零值，那么会自动返回对应的横排值
     mInputBackImgVertical = "";
     mMarginLeftVertical = 0;
     mMarginRightVertical = 0;
@@ -66,6 +70,8 @@ void SkinBase::init()
 
     mAdjustWidthVertical = 0;
     mAdjustHeightVertical = 0;
+    mHorizontalTileModeVertical = "";
+    mVerticalTileModeVertical = "";
 }
 
 bool SkinBase::loadSkin(const QString skinPath)
@@ -112,6 +118,8 @@ void SkinBase::reloadSkin()
     emit forwardArrowPosYChanged();
     emit adjustWidthChanged();
     emit adjustHeightChanged();
+    emit horizontalTileModeChanged();
+    emit verticalTileModeChanged();
 }
 
 void SkinBase::setInputBackImg(const QString inputBackImg)
@@ -319,6 +327,9 @@ QColor SkinBase::otherColor() const
     DEFINE_PROPERTY(adjustWidth, int, AdjustWidth, 0)
     DEFINE_PROPERTY(adjustHeight, int, AdjustHeight, 0)
 
+    DEFINE_PROPERTY(horizontalTileMode, QString, HorizontalTileMode, "")
+    DEFINE_PROPERTY(verticalTileMode, QString, VerticalTileMode, "")
+
 #undef DEFINE_PROPERTY
 
 #define DEFINE_SET_PROPERTY(read, type, property) \
@@ -355,4 +366,7 @@ QColor SkinBase::otherColor() const
     DEFINE_SET_PROPERTY(adjustWidthVertical, int, AdjustWidthVertical)
     DEFINE_SET_PROPERTY(adjustHeightVertical, int, AdjustHeightVertical)
 
-#undef DEFINE_SET_PROPERTY
+    DEFINE_SET_PROPERTY(horizontalTileModeVertical, QString, HorizontalTileModeVertical)
+    DEFINE_SET_PROPERTY(verticalTileModeVertical, QString, VerticalTileModeVertical)
+
+    #undef DEFINE_SET_PROPERTY

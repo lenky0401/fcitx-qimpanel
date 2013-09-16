@@ -11,23 +11,30 @@
 #include "main_controller.h"
 
 #define BUFF_SIZE (512)
-char execPath[BUFF_SIZE] = {0};
+char sharePath[BUFF_SIZE] = {0};
 
-char* getExecPath(const char * const fileName)
+char* getQimpanelSharePath(const char * const fileName)
 {
     char *p;
-    if (readlink("/proc/self/exe", execPath, BUFF_SIZE) < 0) {
+    if (readlink("/proc/self/exe", sharePath, BUFF_SIZE) < 0) {
         perror("readlink");
         exit(EXIT_FAILURE);
     }
 
-    if ((p = strrchr(execPath, '/')) == NULL) {
+    if ((p = strrchr(sharePath, '/')) == NULL) {
         perror("strrchr");
         exit(EXIT_FAILURE);
     }
-    strcpy(p + 1, fileName);
+    *p = '0';
 
-    return execPath;
+    if ((p = strrchr(sharePath, '/')) == NULL) {
+        perror("strrchr");
+        exit(EXIT_FAILURE);
+    }
+    strcpy(p + 1, "share/fcitx-qimpanel/");
+    strcpy(p + 1 + strlen("share/fcitx-qimpanel/"), fileName);
+
+    return sharePath;
 }
 
 int main(int argc, char** argv)
@@ -40,7 +47,7 @@ int main(int argc, char** argv)
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
 
     QTranslator translator;
-    if (translator.load(QString(getExecPath("zh_CN.qm"))) == false)
+    if (translator.load(QString(getQimpanelSharePath("zh_CN.qm"))) == false)
         qDebug() << "load qm error.";
 
     QApplication *app = new QApplication(argc, argv);

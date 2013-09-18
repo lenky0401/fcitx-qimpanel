@@ -2,7 +2,7 @@
  * Copyright (C) 2013 National University of Defense Technology(NUDT) & Kylin Ltd.
  *
  * Authors:
- *  lenky gao    lenky0401@gmail.com
+ *  lenky gao    lenky0401@gmail.com/gaoqunkai@ubuntukylin.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

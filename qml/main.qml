@@ -42,7 +42,7 @@ Rectangle {
         id: "tipsString"
         visible : mainModel.showTips
         text: mainModel.tipsString
-        font.pixelSize : mainSkin.fontSize
+        font.pointSize : mainSkin.fontSize
         color: mainSkin.inputColor
     }
         
@@ -50,7 +50,7 @@ Rectangle {
         id: "inputString"
         visible : mainModel.showPreedit
         text: mainModel.inputString
-        font.pixelSize : mainSkin.fontSize
+        font.pointSize : mainSkin.fontSize
         color: mainSkin.inputColor
     }
 
@@ -64,7 +64,7 @@ Rectangle {
                 text: "<font style='color:" + mainSkin.indexColor + "'>" + cddLabel + "</font>" + 
                          "<font style='color:" + ((index == mainModel.highLight) ? mainSkin.firstCandColor : 
                             mainSkin.otherColor) + "'>" + cddText + "</font>" + "  "
-                font.pixelSize : mainSkin.candFontSize != 0 ? mainSkin.candFontSize : mainSkin.fontSize
+                font.pointSize : mainSkin.candFontSize != 0 ? mainSkin.candFontSize : mainSkin.fontSize
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
@@ -86,7 +86,7 @@ Rectangle {
                 text: "<font style='color:" + mainSkin.indexColor + "'>" + cddLabel + "</font>" + 
                          "<font style='color:" + ((index == mainModel.highLight) ? mainSkin.firstCandColor : 
                             mainSkin.otherColor) + "'>" + cddText + "</font>" + "  "
-                font.pixelSize : mainSkin.candFontSize != 0 ? mainSkin.candFontSize : mainSkin.fontSize
+                font.pointSize : mainSkin.candFontSize != 0 ? mainSkin.candFontSize : mainSkin.fontSize
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {

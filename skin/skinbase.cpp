@@ -41,7 +41,9 @@ void SkinBase::init()
     mMarginBottom = 0;
     mBackArrowImg = "";
     mForwardArrowImg = "";
-    mFontSize = 0;
+    //如果为0,那么会提示：QFont::setPointSizeF: Point size <= 0 (0.000000), must be greater than 0
+    //所以设置为13好了
+    mFontSize = 13;
     mCandFontSize = 0;
     mInputColor = Qt::color0;
     mIndexColor = Qt::color0;

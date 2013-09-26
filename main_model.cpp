@@ -1,6 +1,35 @@
+/*
+ * Copyright (C) 2013 National University of Defense Technology(NUDT) & Kylin Ltd.
+ *
+ * Authors:
+ *  lenky gao    lenky0401@gmail.com/gaoqunkai@ubuntukylin.com
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; version 3.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include <QDebug>
 #include "main_model.h"
 #include "candidate_word.h"
+
+MainModel* MainModel::mSelf = 0;
+
+MainModel* MainModel::self()
+{
+    if (!mSelf) {
+        mSelf = new MainModel;
+    }
+    return mSelf;
+}
 
 MainModel::MainModel()
 {
@@ -20,7 +49,8 @@ void MainModel::resetData() {
     setHasNext(false);
     setInputStringCursorPos(-1);
     setHighLight(-1);
-    setIsHorizontal(true);
+    //这个不属于焦点切换时需要重置的值
+    //setIsHorizontal(true);
     setShowTips(false);
     setShowPreedit(false);
     setShowLookupTable(false);
@@ -38,6 +68,7 @@ QString MainModel::inputString() const {
 void MainModel::setTipsString(const QString tipsString) {
     mTipsString = tipsString;
     emit tipsStringChanged();
+    emit mainWindowSizeChanged();
 }
 
 QString MainModel::tipsString() const {
@@ -85,6 +116,7 @@ void MainModel::setCandidateWords(const KimpanelLookupTable &lookup_table) {
     setHasNext(lookup_table.has_next);
 
     emit candidateWordsChanged();
+    emit mainWindowSizeChanged();
 }
 
 QDeclarativeListProperty<CandidateWord> MainModel::candidateWords() {
@@ -131,6 +163,7 @@ bool MainModel::isHorizontal() const {
 void MainModel::setShowTips(const bool showTips) {
     mShowTips = showTips;
     emit showTipsChanged();
+    emit mainWindowSizeChanged();
 }
 
 bool MainModel::showTips() const {
@@ -140,6 +173,7 @@ bool MainModel::showTips() const {
 void MainModel::setShowPreedit(const bool showPreedit) {
     mShowPreedit = showPreedit;
     emit showPreeditChanged();
+    emit mainWindowSizeChanged();
 }
 
 bool MainModel::showPreedit() const {
@@ -149,6 +183,7 @@ bool MainModel::showPreedit() const {
 void MainModel::setShowLookupTable(const bool showLookupTable) {
     mShowLookupTable = showLookupTable;
     emit showLookupTableChanged();
+    emit mainWindowSizeChanged();
 }
 
 bool MainModel::showLookupTable() const {

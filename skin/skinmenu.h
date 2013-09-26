@@ -17,22 +17,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "candidate_word.h"
+#ifndef __SKIN_MENU_H__
+#define __SKIN_MENU_H__
 
-void CandidateWord::setCddLabel(const QString label) {
-    mCddLabel = label;
-    emit cddLabelChanged();
-}
+#include <QMenu>
+#include <QIcon>
+#include "../my_action.h"
 
-void CandidateWord::setCddText(const QString text) {
-    mCddText = text;
-    emit cddTextChanged();
-}
+class SkinMenu : public QMenu
+{
+    Q_OBJECT
 
-QString CandidateWord::cddLabel() const {
-    return mCddLabel;
-}
+public:
+    SkinMenu(const QString &title, QWidget *parent);
+    virtual ~SkinMenu();
 
-QString CandidateWord::cddText() const {
-    return mCddText;
-}
+private slots:
+    void triggerUpdateSkinListMenu();
+    void menuItemOnClick(QAction* action);
+
+private:
+    MyAction *mSkinTypeMenu;
+};
+
+#endif // __SKIN_MENU_H__

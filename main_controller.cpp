@@ -1,5 +1,23 @@
+/*
+ * Copyright (C) 2013 National University of Defense Technology(NUDT) & Kylin Ltd.
+ *
+ * Authors:
+ *  lenky gao    lenky0401@gmail.com/gaoqunkai@ubuntukylin.com
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; version 3.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include <QDebug>
-#include <QApplication>
 #include <QDeclarativeView>
 #include <QtDeclarative/QDeclarativeContext>
 #include "main_model.h"
@@ -7,67 +25,48 @@
 #include "main_controller.h"
 #include "kimpanelagent.h"
 #include "toplevel.h"
+#include "cfg/readwritecfg.h"
 
-MainController::MainController(int &argc, char **argv)
-    : QApplication(argc, argv), mTopLevel(0), mModel(0), mAgent(0), mView(0)
+MainController* MainController::mSelf = 0;
+
+MainController* MainController::self()
 {
-    mLayout = true;
+    if (!mSelf) {
+        mSelf = new MainController;
+        mSelf->init();
+    }
+    return mSelf;
 }
 
-MainController::~MainController()
+MainController::MainController()
 {
-    if (mModel)
-        delete mModel;
 
-    if (mAgent)
-        delete mAgent;
-
-    if (mView)
-        delete mView;
-
-    if (mTopLevel)
-        delete mTopLevel;
-
-    if (mSystemTray)
-        delete mSystemTray;
-
-    if (mTrayMenu)
-        delete mTrayMenu;
 }
 
-bool MainController::init()
+void MainController::init()
 {
-    MainController::setApplicationName("fcitx-qimpanel");
+    int isHorizontal = 0;
+    char *tmpBuff;
+
+    get_fcitx_cfg_value("configdesc", "fcitx-classic-ui.desc", "conf",
+        "fcitx-classic-ui.config", "ClassicUI", "VerticalList", &isHorizontal);
+
+    tmpBuff = (char *)malloc(32);
+    get_fcitx_cfg_value("configdesc", "fcitx-classic-ui.desc", "conf",
+        "fcitx-classic-ui.config", "ClassicUI", "SkinType", &tmpBuff);
+
+    mIsHorizontal = (isHorizontal == 0) ? true : false;
+    mSkinType = tmpBuff;
+    free(tmpBuff);
 
     qmlRegisterType<CandidateWord>();
 
-    if ((mTopLevel = new (std::nothrow)TopLevel) == NULL)
-        return false;
+    mTopLevel = new TopLevel;
+    mView = new QDeclarativeView;
+    mModel = MainModel::self();
+    mModel->setIsHorizontal(mIsHorizontal);
 
-    if ((mView = new (std::nothrow)QDeclarativeView) == NULL)
-        return false;
-
-    if ((mModel = new (std::nothrow)MainModel) == NULL)
-        return false;
-
-    if ((mAgent = new (std::nothrow)PanelAgent(this)) == NULL)
-        return false;
-
-    mAgent->created();
-
-    if ((mSystemTray = new (std::nothrow)QSystemTrayIcon(
-        QIcon::fromTheme("fcitx"), this)) == NULL)
-    {
-        return false;
-    }
-    if ((mTrayMenu = new (std::nothrow)SystemTrayMenu(mAgent)) == NULL)
-        return false;
-
-    mTrayMenu->init();
-
-    mSystemTray->setContextMenu(mTrayMenu);
-    mSystemTray->setToolTip("fcitx-qimpanel");
-    mSystemTray->show();
+    mSkinBase = new SkinBase;
 
     mTopLevel->setCenterWidget(mView);
 
@@ -77,18 +76,19 @@ bool MainController::init()
     mView->viewport()->setAutoFillBackground(false);
     mView->rootContext()->setContextProperty("mainCtrl", this);
     mView->rootContext()->setContextProperty("mainModel", mModel);
+    mView->rootContext()->setContextProperty("mainSkin", mSkinBase);
     mView->setSource(QUrl("qrc:/qml/main.qml"));
-    //mView->setAttribute(Qt::WA_X11NetWmWindowTypeToolTip, true);
 
-    //直接使用hide()会出现元素错位的情况，应该是qt/qml的内部bug
-    //这里采用将窗体大小设置为(0, 0)的方式实现hide()的等同效果
-    //mView->setWindowTitle("fcitx-qimpanel");
-    //mView->setAutoFillBackground(true);
-    //mView->setWindowOpacity(10);
+    mAgent = new PanelAgent(this);
+    mSystemTray = new QSystemTrayIcon(QIcon::fromTheme("fcitx"), this);
+    mTrayMenu = new SystemTrayMenu(mAgent);
 
-    //QObject::connect(mView->engine(), SIGNAL(quit()), qApp, SLOT(quit()));
+    mAgent->created();
+    mTrayMenu->init();
 
-    mTopLevel->setVisible(true);
+    mSystemTray->setContextMenu(mTrayMenu);
+    mSystemTray->setToolTip("fcitx-qimpanel");
+    mSystemTray->show();
 
     QObject::connect(mAgent,
         SIGNAL(updateProperty(KimpanelProperty)), this,
@@ -137,8 +137,55 @@ bool MainController::init()
     QObject::connect(mAgent,
         SIGNAL(updatePreeditCaret(int)),
         this, SLOT(updatePreeditCaret(int)));
+}
 
-    return true;
+MainController::~MainController()
+{
+    if (mModel)
+        delete mModel;
+
+    if (mAgent)
+        delete mAgent;
+
+    if (mView)
+        delete mView;
+
+    if (mTopLevel)
+        delete mTopLevel;
+
+    if (mSystemTray)
+        delete mSystemTray;
+
+    if (mTrayMenu)
+        delete mTrayMenu;
+}
+
+void MainController::setSkinBase(SkinBase *skinBase)
+{
+   if (mSkinBase != skinBase)
+       delete mSkinBase;
+   mSkinBase = skinBase;
+   mView->rootContext()->setContextProperty("mainSkin", mSkinBase);
+   mView->setSource(QUrl("qrc:/qml/main.qml"));
+}
+
+QString MainController::getSkinType()
+{
+    return mSkinType;
+}
+
+void MainController::setSkinType(QString skinType)
+{
+    char *tmpBuff;
+
+    mSkinType = skinType;
+    tmpBuff = (char *)malloc(32);
+
+    save_q_string_2_m_string(mSkinType, &tmpBuff);
+    set_fcitx_cfg_value("configdesc", "fcitx-classic-ui.desc", "conf",
+        "fcitx-classic-ui.config", "ClassicUI", "SkinType", &tmpBuff);
+
+    free(tmpBuff);
 }
 
 void MainController::updateProperty(const KimpanelProperty &prop)
@@ -167,16 +214,23 @@ void MainController::updateLookupTable(const KimpanelLookupTable &lookup_table)
 void MainController::updateLookupTableFull(const KimpanelLookupTable &lookup_table,
     int cursor, int layout)
 {
+    bool isHorizontal;
+
     switch (layout) {
     case CLH_Vertical:
-        mModel->setIsHorizontal(false);
+        isHorizontal = false;
         break;
     case CLH_Horizontal:
-        mModel->setIsHorizontal(true);
+        isHorizontal = true;
         break;
     default:
-        mModel->setIsHorizontal(mLayout);
+        isHorizontal = mIsHorizontal;
         break;
+    }
+
+    if (isHorizontal != mModel->isHorizontal()) {
+        mModel->setIsHorizontal(isHorizontal);
+        mSkinBase->reloadSkin();
     }
 
     mModel->setHighLight(cursor);
@@ -196,11 +250,13 @@ void MainController::updateSpotRect(int x, int y, int w, int h)
 void MainController::showPreedit(bool to_show)
 {
     mModel->setShowPreedit(to_show);
+    mTopLevel->setTopLevelVisible(mModel->showTips(), mModel->showPreedit(), mModel->showLookupTable());
 }
 
 void MainController::showAux(bool to_show)
 {
     mModel->setShowTips(to_show);
+    mTopLevel->setTopLevelVisible(mModel->showTips(), mModel->showPreedit(), mModel->showLookupTable());
 }
 
 void MainController::updateAux(const QString &text, const QList<TextAttribute> &attr)
@@ -211,6 +267,7 @@ void MainController::updateAux(const QString &text, const QList<TextAttribute> &
 void MainController::showLookupTable(bool to_show)
 {
     mModel->setShowLookupTable(to_show);
+    mTopLevel->setTopLevelVisible(mModel->showTips(), mModel->showPreedit(), mModel->showLookupTable());
 }
 
 void MainController::updateLookupTableCursor(int pos)

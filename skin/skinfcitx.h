@@ -17,22 +17,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "candidate_word.h"
+#ifndef __SKIN_FCITX_H__
+#define __SKIN_FCITX_H__
 
-void CandidateWord::setCddLabel(const QString label) {
-    mCddLabel = label;
-    emit cddLabelChanged();
-}
+#include "skinbase.h"
 
-void CandidateWord::setCddText(const QString text) {
-    mCddText = text;
-    emit cddTextChanged();
-}
+class SkinFcitx : public SkinBase
+{
+public:
+    SkinFcitx();
+    virtual ~SkinFcitx();
+    virtual bool loadSkin(const QString skinPath);
 
-QString CandidateWord::cddLabel() const {
-    return mCddLabel;
-}
+};
 
-QString CandidateWord::cddText() const {
-    return mCddText;
-}
+#endif // __SKIN_FCITX_H__

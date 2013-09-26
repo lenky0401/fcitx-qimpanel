@@ -17,22 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "candidate_word.h"
+#ifndef __MAIN_H__
+#define __MAIN_H__
 
-void CandidateWord::setCddLabel(const QString label) {
-    mCddLabel = label;
-    emit cddLabelChanged();
-}
+char* getQimpanelSharePath(const char * const fileName);
 
-void CandidateWord::setCddText(const QString text) {
-    mCddText = text;
-    emit cddTextChanged();
-}
-
-QString CandidateWord::cddLabel() const {
-    return mCddLabel;
-}
-
-QString CandidateWord::cddText() const {
-    return mCddText;
-}
+#endif // __MAIN_H__

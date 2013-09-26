@@ -21,6 +21,8 @@
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QEvent>
+#include <QMouseEvent>
+#include <QDebug>
 
 #include "toplevel.h"
 
@@ -104,4 +106,9 @@ void TopLevel::updateLocation()
     QPoint p(x, y);
     if (p != pos())
         move(p);
+}
+
+void TopLevel::setTopLevelVisible(bool aux, bool preedit, bool lookupTable)
+{
+    this->setVisible(aux || preedit || lookupTable);
 }

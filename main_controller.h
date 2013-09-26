@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2013 National University of Defense Technology(NUDT) & Kylin Ltd.
+ *
+ * Authors:
+ *  lenky gao    lenky0401@gmail.com/gaoqunkai@ubuntukylin.com
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; version 3.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifndef __MAIN_CONTROLLER_H__
 #define __MAIN_CONTROLLER_H__
@@ -12,6 +30,7 @@
 #include "system_tray_menu.h"
 #include "kimpanelagent.h"
 #include "toplevel.h"
+#include "skin/skinbase.h"
 
 //必须与FcitxCandidateLayoutHint的定义一致
 enum CandidateLayout {
@@ -20,25 +39,36 @@ enum CandidateLayout {
     CLH_Horizontal
 };
 
-class MainController : public QApplication
+class MainController : public QObject
 {
     Q_OBJECT
 
 public:
-    MainController(int &argc, char **argv);
+    static MainController* self();
     virtual ~MainController();
-    bool init();
+    void init();
+
+private:
+    explicit MainController();
+    static MainController *mSelf;
 
 private:
     TopLevel *mTopLevel;
     MainModel *mModel;
     PanelAgent *mAgent;
+    SkinBase *mSkinBase;
     QDeclarativeView *mView;
     QUrl mUrl;
     QTimer *mTimer;
     QSystemTrayIcon *mSystemTray;
     SystemTrayMenu *mTrayMenu;
-    bool mLayout;
+    bool mIsHorizontal;
+    QString mSkinType;
+
+public:
+    void setSkinBase(SkinBase *skinBase);
+    QString getSkinType();
+    void setSkinType(QString skinType);
 
 public slots:
     void updateProperty(const KimpanelProperty &prop);

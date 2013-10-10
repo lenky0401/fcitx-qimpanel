@@ -24,6 +24,9 @@
 #include <QIcon>
 #include "../my_action.h"
 
+#define FCITX 1
+#define SOGOU 2
+
 class SkinMenu : public QMenu
 {
     Q_OBJECT
@@ -38,6 +41,7 @@ private slots:
 
 private:
     MyAction *mSkinTypeMenu;
+    QMap<QString,int> mSkinTypeMap;
 };
 
 #endif // __SKIN_MENU_H__

@@ -1,8 +1,8 @@
 /*
- * Copyright (C) 2013 National University of Defense Technology(NUDT) & Kylin Ltd.
+ * Copyright (C) 2013 Canonical Ltd  All rights reserved.
  *
  * Authors:
- *  lenky gao    lenky0401@gmail.com/gaoqunkai@ubuntukylin.com
+ *         FJKong    kroodywar3@gmail.com/fanjun.kong@canonical.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

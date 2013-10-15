@@ -34,6 +34,7 @@ SkinBase::~SkinBase()
 void SkinBase::init()
 {
     //横排配置填默认值
+    mTipsImg = "";
     mInputBackImg = "";
     mMarginLeft = 0;
     mMarginRight = 0;
@@ -65,6 +66,7 @@ void SkinBase::init()
     mVerticalTileMode = "Stretch";
 
     //竖排配置填写零值，而不是默认值，因为在实际使用时，如果判断其为零值，那么会自动返回对应的横排值
+    mTipsImgVertical = "";
     mInputBackImgVertical = "";
     mMarginLeftVertical = 0;
     mMarginRightVertical = 0;

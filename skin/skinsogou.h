@@ -17,31 +17,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __SKIN_MENU_H__
-#define __SKIN_MENU_H__
+#ifndef __SKIN_SOGOU_H__
+#define __SKIN_SOGOU_H__
 
-#include <QMenu>
-#include <QIcon>
-#include "../my_action.h"
+#include <QColor>
+#include "skinbase.h"
 
-#define FCITX 1
-#define SOGOU 2
-
-class SkinMenu : public QMenu
+class SkinSogou : public SkinBase
 {
-    Q_OBJECT
-
 public:
-    SkinMenu(const QString &title, QWidget *parent);
-    virtual ~SkinMenu();
-
-private slots:
-    void triggerUpdateSkinListMenu();
-    void menuItemOnClick(QAction* action);
-
-private:
-    MyAction *mSkinTypeMenu;
-    QMap<QString,int> mSkinTypeMap;
+    SkinSogou();
+    virtual ~SkinSogou();
+    virtual bool loadSkin(const QString skinPath);
 };
 
-#endif // __SKIN_MENU_H__
+#endif // __SKIN_SOGOU_H__

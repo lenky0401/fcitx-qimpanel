@@ -56,7 +56,7 @@ void MainController::init()
         "fcitx-classic-ui.config", "ClassicUI", "SkinType", &tmpBuff);
 
     mIsHorizontal = (isHorizontal == 0) ? true : false;
-    mSkinType = tmpBuff;
+    mSkinName = tmpBuff;
     free(tmpBuff);
 
     qmlRegisterType<CandidateWord>();
@@ -161,31 +161,37 @@ MainController::~MainController()
         delete mTrayMenu;
 }
 
-void MainController::setSkinBase(SkinBase *skinBase)
+void MainController::setSkinBase(SkinBase *skinBase, const int SkinType)
 {
    if (mSkinBase != skinBase)
        delete mSkinBase;
    mSkinBase = skinBase;
    mView->rootContext()->setContextProperty("mainSkin", mSkinBase);
-   mView->setSource(QUrl("qrc:/qml/main.qml"));
+
+   switch (SkinType) {
+       case SOGOU:
+           mView->setSource(QUrl("qrc:/qml/sogou.qml"));
+       case FCITX:
+       default:
+           mView->setSource(QUrl("qrc:/qml/main.qml"));
+   }
 }
 
-QString MainController::getSkinType()
+QString MainController::getSkinName()
 {
-    return mSkinType;
+    return mSkinName;
 }
 
-void MainController::setSkinType(QString skinType)
+void MainController::setSkinName(QString skinName)
 {
     char *tmpBuff;
 
-    mSkinType = skinType;
+    mSkinName = skinName;
     tmpBuff = (char *)malloc(32);
 
-    save_q_string_2_m_string(mSkinType, &tmpBuff);
+    save_q_string_2_m_string(mSkinName, &tmpBuff);
     set_fcitx_cfg_value("configdesc", "fcitx-classic-ui.desc", "conf",
         "fcitx-classic-ui.config", "ClassicUI", "SkinType", &tmpBuff);
-
     free(tmpBuff);
 }
 

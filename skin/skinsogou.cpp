@@ -48,7 +48,6 @@ bool SkinSogou::loadSkin(const QString skinPath)
     unsigned int pinyin_color, zhongwen_color, zhongwen_first_color, comphint_color;
 
     int fontPixelSize = 12;
-    //        setCandFontSize(13);
 
     setTipsImg("file://usr/share/fcitx/skin/ubuntukylin-light1/tips.png");
     setBackArrowImg("file://usr/share/fcitx/skin/ubuntukylin-light2/prev.png");
@@ -105,6 +104,7 @@ bool SkinSogou::loadSkin(const QString skinPath)
             }
             else if (key == "zhongwen_first_color"){
                 zhongwen_first_color = value.toUInt(0, 0);
+                //FIXME:
                 //setFirstCandColor(QColor(qRed(zhongwen_first_color), qGreen(zhongwen_first_color), qBlue(zhongwen_first_color)));
             }
             else if (key == "comphint_color"){
@@ -149,6 +149,7 @@ bool SkinSogou::loadSkin(const QString skinPath)
             }
         } else if (statusbar) {
             if (key == "pic") {
+                //FIXME
                 //setTipsImg("file:/" + skinPath + value);
             }
         }

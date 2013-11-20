@@ -40,7 +40,7 @@ private slots:
     void menuItemOnClick(QAction* action);
 
 private:
-    MyAction *mSkinTypeMenu;
+    MyAction *mSkinNameMenu;
     QMap<QString,int> mSkinTypeMap;
 };
 

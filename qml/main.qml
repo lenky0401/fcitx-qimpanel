@@ -295,5 +295,21 @@ Rectangle {
             mainWindow.width = width + width1 + mainSkin.marginRight + mainSkin.adjustWidth;
             mainWindow.height = height + height1 + mainSkin.marginBottom + mainSkin.adjustHeight;
         }
-    }    
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        property variant previousPosition
+        onPressed: {
+            previousPosition = Qt.point(mouseX, mouseY)
+        }
+        onPositionChanged: {
+            if (pressedButtons == Qt.LeftButton) {
+                var dx = mouseX - previousPosition.x
+                var dy = mouseY - previousPosition.y
+                mainWidget.pos = Qt.point(mainWidget.pos.x + dx,
+                                        mainWidget.pos.y + dy)
+            }
+        }
+    }
 }

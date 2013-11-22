@@ -77,6 +77,7 @@ void MainController::init()
     mView->rootContext()->setContextProperty("mainCtrl", this);
     mView->rootContext()->setContextProperty("mainModel", mModel);
     mView->rootContext()->setContextProperty("mainSkin", mSkinBase);
+    mView->rootContext()->setContextProperty("mainWidget", mTopLevel);
     mView->setSource(QUrl("qrc:/qml/main.qml"));
 
     mAgent = new PanelAgent(this);

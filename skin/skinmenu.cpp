@@ -32,11 +32,11 @@
 SkinMenu::SkinMenu(const QString &title, QWidget *parent)
     : QMenu(title, parent)
 {
-    mSkinTypeMenu = NULL;
+    mSkinNameMenu = NULL;
     triggerUpdateSkinListMenu();
 
-    if (mSkinTypeMenu)
-        menuItemOnClick(mSkinTypeMenu);
+    if (mSkinNameMenu)
+        menuItemOnClick(mSkinNameMenu);
 
     QObject::connect(this, SIGNAL(aboutToShow()), this,
         SLOT(triggerUpdateSkinListMenu()));
@@ -59,7 +59,7 @@ void SkinMenu::triggerUpdateSkinListMenu()
     MyAction *firstMenu = NULL, *menu;
     QFileInfoList list;
     QFileInfoList::Iterator iter;
-    QString skinType = MainController::self()->getSkinType();
+    QString skinName = MainController::self()->getSkinName();
 
     mSkinTypeMap.clear();
     this->clear();
@@ -84,10 +84,10 @@ void SkinMenu::triggerUpdateSkinListMenu()
                 if (firstMenu == NULL)
                     firstMenu = menu;
                 menu->setCheckable(true);
-                if (iter->fileName() == skinType) {
+                if (iter->fileName() == skinName) {
                     checked = true;
                     menu->setChecked(true);
-                    mSkinTypeMenu = menu;
+                    mSkinNameMenu = menu;
                 }
             }
         }
@@ -118,10 +118,10 @@ void SkinMenu::triggerUpdateSkinListMenu()
                 if (firstMenu == NULL)
                     firstMenu = menu;
                 menu->setCheckable(true);
-                if (iter->fileName() == skinType) {
+                if (iter->fileName() == skinName) {
                     checked = true;
                     menu->setChecked(true);
-                    mSkinTypeMenu = menu;
+                    mSkinNameMenu = menu;
                 }
             }
         }
@@ -129,8 +129,8 @@ void SkinMenu::triggerUpdateSkinListMenu()
     if (!checked)
         firstMenu->setChecked(true);
 
-    if (mSkinTypeMenu == NULL)
-        mSkinTypeMenu = firstMenu;
+    if (mSkinNameMenu == NULL)
+        mSkinNameMenu = firstMenu;
 
     FcitxXDGFreePath(skinPath);
 }
@@ -139,7 +139,7 @@ void SkinMenu::menuItemOnClick(QAction *action)
 {
     SkinBase *skin;
     MyAction *myAction = (MyAction *)action;
-    MainController::self()->setSkinType(myAction->text());
+    MainController::self()->setSkinName(myAction->text());
 
     QMap<QString,int>::iterator it;
     it = mSkinTypeMap.find(myAction->text());
@@ -150,5 +150,5 @@ void SkinMenu::menuItemOnClick(QAction *action)
     else qDebug() << "Load skin failed!";
 
     skin->loadSkin(myAction->getSkinPath());
-    MainController::self()->setSkinBase(skin);
+    MainController::self()->setSkinBase(skin, it.value());
 }

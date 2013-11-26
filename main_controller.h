@@ -31,6 +31,7 @@
 #include "kimpanelagent.h"
 #include "toplevel.h"
 #include "skin/skinbase.h"
+#include "skin/skinmenu.h"
 
 //必须与FcitxCandidateLayoutHint的定义一致
 enum CandidateLayout {
@@ -63,12 +64,12 @@ private:
     QSystemTrayIcon *mSystemTray;
     SystemTrayMenu *mTrayMenu;
     bool mIsHorizontal;
-    QString mSkinType;
+    QString mSkinName;
 
 public:
-    void setSkinBase(SkinBase *skinBase);
-    QString getSkinType();
-    void setSkinType(QString skinType);
+    void setSkinBase(SkinBase *skinBase, const int SkinType);
+    QString getSkinName();
+    void setSkinName(QString skinName);
 
 public slots:
     void updateProperty(const KimpanelProperty &prop);

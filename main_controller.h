@@ -47,6 +47,7 @@ public:
     static MainController* self();
     virtual ~MainController();
     void init();
+    void loadCfg();
 
 private:
     explicit MainController();

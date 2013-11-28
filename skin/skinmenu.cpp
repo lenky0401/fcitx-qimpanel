@@ -60,8 +60,8 @@ void SkinMenu::triggerUpdateSkinListMenu()
     QFileInfoList list;
     QFileInfoList::Iterator iter;
     QString skinType = MainController::self()->getSkinType();
+    SkinClass skinClass;
 
-    mSkinTypeMap.clear();
     this->clear();
 
     char* ukSkinPath = getQimpanelSharePath("skin");
@@ -80,6 +80,7 @@ void SkinMenu::triggerUpdateSkinListMenu()
                 menu = new MyAction(iter->fileName(), this);
                 //qDebug() << iter->absoluteFilePath();
                 menu->setSkinPath(iter->absoluteFilePath() + "/");
+                menu->setSkinClass(FCITX);
                 this->addAction(menu);
                 if (firstMenu == NULL)
                     firstMenu = menu;
@@ -107,13 +108,14 @@ void SkinMenu::triggerUpdateSkinListMenu()
                 QFile sogouSkinConfFile(iter->absoluteFilePath() + "/skin.ini");
 
                 if (fcitxSkinConfFile.exists()){
-                    mSkinTypeMap.insert(iter->fileName(), FCITX);
+                    skinClass = FCITX;
                 }else if (sogouSkinConfFile.exists()){
-                    mSkinTypeMap.insert(iter->fileName(), SOGOU);
+                    skinClass = SOGOU;
                 }else continue;
 
                 menu = new MyAction(iter->fileName(), this);
                 menu->setSkinPath(iter->absoluteFilePath() + "/");
+                menu->setSkinClass(skinClass);
                 this->addAction(menu);
                 if (firstMenu == NULL)
                     firstMenu = menu;
@@ -141,11 +143,9 @@ void SkinMenu::menuItemOnClick(QAction *action)
     MyAction *myAction = (MyAction *)action;
     MainController::self()->setSkinType(myAction->text());
 
-    QMap<QString,int>::iterator it;
-    it = mSkinTypeMap.find(myAction->text());
-    if (FCITX == it.value())
+    if (FCITX == myAction->getSkinClass())
         skin = new SkinFcitx;
-    else if (SOGOU == it.value())
+    else if (SOGOU == myAction->getSkinClass())
         skin = new SkinSogou;
     else qDebug() << "Load skin failed!";
 

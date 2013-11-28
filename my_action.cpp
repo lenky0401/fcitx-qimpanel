@@ -56,3 +56,13 @@ const QString MyAction::getSkinPath()
     return this->mSkinPath;
 }
 
+void MyAction::setSkinClass(const SkinClass skinClass)
+{
+    this->mSkinClass = skinClass;
+}
+
+const SkinClass MyAction::getSkinClass()
+{
+    return this->mSkinClass;
+}
+

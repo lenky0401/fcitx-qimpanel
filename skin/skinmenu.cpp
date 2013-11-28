@@ -64,7 +64,7 @@ void SkinMenu::triggerUpdateSkinListMenu()
     mSkinTypeMap.clear();
     this->clear();
 
-    char* ukSkinPath = getQimpanelSharePath("uk-default-skin");
+    char* ukSkinPath = getQimpanelSharePath("skin");
     for (i = 0; i < 1; i ++) {
         skinDir = QDir(ukSkinPath);
         if (!skinDir.exists())

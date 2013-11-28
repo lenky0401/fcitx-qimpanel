@@ -34,24 +34,9 @@ char sharePath[BUFF_SIZE] = {0};
 
 char* getQimpanelSharePath(const char * const fileName)
 {
-    char *p;
-    if (readlink("/proc/self/exe", sharePath, BUFF_SIZE) < 0) {
-        perror("readlink");
-        exit(EXIT_FAILURE);
-    }
-
-    if ((p = strrchr(sharePath, '/')) == NULL) {
-        perror("strrchr");
-        exit(EXIT_FAILURE);
-    }
-    *p = '0';
-
-    if ((p = strrchr(sharePath, '/')) == NULL) {
-        perror("strrchr");
-        exit(EXIT_FAILURE);
-    }
-    strcpy(p + 1, "share/fcitx-qimpanel/");
-    strcpy(p + 1 + strlen("share/fcitx-qimpanel/"), fileName);
+    strcpy(sharePath, "/usr/share/fcitx-qimpanel/");
+    strcpy(sharePath + strlen("/usr/share/fcitx-qimpanel/"), fileName);
+    printf("%s\n", sharePath);
 
     return sharePath;
 }

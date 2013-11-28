@@ -27,7 +27,9 @@ target_link_libraries(fcitx-qimpanel fcitx-config fcitx-utils
     ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} 
     ${QT_QTDBUS_LIBRARY} ${QT_QTDECLARATIVE_LIBRARY})
 
-install(TARGETS fcitx-qimpanel RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
-install(FILES ${fcitx-qimpanel_TRAN_SRCS} DESTINATION ${CMAKE_INSTALL_PREFIX}/share/fcitx-qimpanel)
+set(pkgbindir 	/usr/bin/)
+set(pkgdatadir 	/usr/share/fcitx-qimpanel)
+install(TARGETS fcitx-qimpanel RUNTIME DESTINATION ${pkgbindir})
+install(FILES ${fcitx-qimpanel_TRAN_SRCS} DESTINATION ${pkgdatadir})
 
 add_subdirectory(uk-default-skin)

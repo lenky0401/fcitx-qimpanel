@@ -62,8 +62,9 @@ public slots:
 private:
     void doUpdateVKListMenu(const QList<KimpanelProperty> &prop_list);
     void doUpdateIMListMenu(const QList<KimpanelProperty> &prop_list);
-    void restart();
     void startChildApp(const char *app_exe);
+public:
+    void restart();
 
 private:
     QString mCurtIMLabel;

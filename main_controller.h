@@ -70,6 +70,7 @@ public:
     void setSkinBase(SkinBase *skinBase);
     QString getSkinType();
     void setSkinType(QString skinType);
+    SystemTrayMenu* getTrayMenu();
 
 public slots:
     void updateProperty(const KimpanelProperty &prop);

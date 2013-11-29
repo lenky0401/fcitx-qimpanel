@@ -49,7 +49,9 @@ void MainController::loadCfg()
     QSettings *settings = new QSettings("fcitx-qimpanel", "main");
     settings->beginGroup("base");
     mIsHorizontal = !settings->value("VerticalList", false).toBool();
+    qDebug() << "mIsHorizontal:" << mIsHorizontal;
     mSkinType = settings->value("CurtSkinType", "ubuntukylin-dark1").toString();
+    qDebug() << "mSkinType:" << mSkinType;
     settings->endGroup();
     delete settings;
 }
@@ -158,6 +160,11 @@ MainController::~MainController()
 
     if (mTrayMenu)
         delete mTrayMenu;
+}
+
+SystemTrayMenu* MainController::getTrayMenu()
+{
+	return mTrayMenu;
 }
 
 void MainController::setSkinBase(SkinBase *skinBase)

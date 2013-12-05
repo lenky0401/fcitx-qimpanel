@@ -36,6 +36,8 @@ void SkinBase::init()
     //横排配置填默认值
     mTipsImg = "";
     mInputBackImg = "";
+    mCustomImg0 = "";
+    mCustomImg1 = "";
     mMarginLeft = 0;
     mMarginRight = 0;
     mMarginTop = 0;
@@ -68,6 +70,8 @@ void SkinBase::init()
     //竖排配置填写零值，而不是默认值，因为在实际使用时，如果判断其为零值，那么会自动返回对应的横排值
     mTipsImgVertical = "";
     mInputBackImgVertical = "";
+    mCustomImgVertical0 = "";
+    mCustomImgVertical1 = "";
     mMarginLeftVertical = 0;
     mMarginRightVertical = 0;
     mMarginTopVertical = 0;
@@ -117,6 +121,8 @@ QColor SkinBase::value2color(const QString& value)
 void SkinBase::reloadSkin()
 {
     emit inputBackImgChanged();
+    emit customImg0Changed();
+    emit customImg1Changed();
     emit tipsImgChanged();
     emit marginLeftChanged();
     emit marginRightChanged();
@@ -155,6 +161,32 @@ QString SkinBase::inputBackImg() const
         return mInputBackImg;
     else
         return mInputBackImgVertical;
+}
+
+void SkinBase::setCustomImg0(const QString customImg)
+{
+    mCustomImg0 = customImg;
+}
+
+QString SkinBase::customImg0() const
+{
+    if (MainModel::self()->isHorizontal() || mCustomImgVertical0 == "")
+        return mCustomImg0;
+    else
+        return mCustomImgVertical0;
+}
+
+void SkinBase::setCustomImg1(const QString customImg)
+{
+    mCustomImg1 = customImg;
+}
+
+QString SkinBase::customImg1() const
+{
+    if (MainModel::self()->isHorizontal() || mCustomImgVertical1 == "")
+        return mCustomImg1;
+    else
+        return mCustomImgVertical1;
 }
 
 void SkinBase::setTipsImg(const QString tipsImg)

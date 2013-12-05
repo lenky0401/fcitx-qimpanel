@@ -7,10 +7,12 @@ Rectangle {
     border.color: "#0080FF"
     border.width: mainSkin.inputBackImg ? 0 : 1
     color: "transparent"
-    
+
     BorderImage {
+        id: inputBackImg
         visible : mainModel.showPreedit || mainModel.showLookupTable
         anchors.fill: parent
+        anchors.left:parent.left
         border {
             left: mainSkin.marginLeft;
             top: mainSkin.marginTop;
@@ -21,7 +23,27 @@ Rectangle {
         verticalTileMode: mainSkin.verticalTileMode
         source: mainSkin.inputBackImg
     }
-    
+
+//custom0
+ Image {
+    id:custom0
+    source: mainSkin.customImg0
+    visible : mainModel.showPreedit || mainModel.showLookupTable
+    width: sourceSize.width; height: sourceSize.height
+    fillMode: Image.PreserveAspectFit
+    anchors.left: inputBackImg.left
+    }
+
+//custom1
+  Image {
+    id:custom1
+    source: mainSkin.customImg1
+    visible : mainModel.showPreedit || mainModel.showLookupTable
+    width: sourceSize.width; height: sourceSize.height
+    fillMode: Image.PreserveAspectFit
+    anchors.right: parent.right
+    }
+   
     BorderImage {
         visible : mainModel.showTips && !mainModel.showPreedit && !mainModel.showLookupTable
         anchors.fill: parent
@@ -97,34 +119,6 @@ Rectangle {
         }
     }
 
-    Image {
-        id: "prev_page"
-        visible : mainModel.hasPrev || mainModel.hasNext
-        source: mainSkin.backArrowImg
-        opacity: mainModel.hasPrev ? 1 : 0.5
-        MouseArea {
-            anchors.fill: parent
-            onClicked: {
-                if (mainModel.hasPrev)
-                    mainCtrl.getPrevPage()
-            }
-        }
-    }
-    
-    Image {
-        id: "next_page"
-        visible : mainModel.hasPrev || mainModel.hasNext
-        source: mainSkin.forwardArrowImg
-        opacity: mainModel.hasNext ? 1 : 0.5
-        MouseArea {
-            anchors.fill: parent
-            onClicked: {
-                if (mainModel.hasNext)
-                    mainCtrl.getNextPage()
-            }
-        }
-    }
-    
     function clearAllAnchors(obj) {
         obj.anchors.left = undefined;
         obj.anchors.leftMargin = 0;
@@ -173,25 +167,6 @@ Rectangle {
         setObjAbsolutePosition(horizontal, mainSkin.outputCandPosX, mainSkin.outputCandPosY);
         clearAllAnchors(vertical);
         setObjAbsolutePosition(vertical, mainSkin.outputCandPosX, mainSkin.outputCandPosY);
-
-        if (mainSkin.backArrowPosX == 0)
-            mainSkin.backArrowPosX = - prev_page.width - next_page.width - 5 - 10;
-
-        if (mainSkin.backArrowPosY == 0)
-            mainSkin.backArrowPosY = mainSkin.inputStringPosY;
-            
-        clearAllAnchors(prev_page);
-        setObjAbsolutePosition(prev_page, mainSkin.backArrowPosX, mainSkin.backArrowPosY);    
-
-        if (mainSkin.forwardArrowPosX == 0)
-            mainSkin.forwardArrowPosX = - next_page.width - 10;
-            
-        if (mainSkin.forwardArrowPosY == 0)
-            mainSkin.forwardArrowPosY = mainSkin.inputStringPosY;
-            
-        clearAllAnchors(next_page);
-        setObjAbsolutePosition(next_page, mainSkin.forwardArrowPosX, mainSkin.forwardArrowPosY);
-
     }
     
     function max(x, y) { return x > y ? x : y; }
@@ -261,37 +236,7 @@ Rectangle {
                     height1 = max(height1, -mainSkin.outputCandPosY);
                 }
             }
-            
-            if (mainModel.hasPrev || mainModel.hasNext) {
-                if (mainSkin.backArrowPosX > 0) {
-                    tmp = prev_page.x + prev_page.width;
-                    width = max(width, tmp);
-                } else {
-                    width1 = max(width1, -mainSkin.backArrowPosX);
-                }
-    
-                if (mainSkin.forwardArrowPosX > 0) {
-                    tmp = next_page.x + next_page.width;
-                    width = max(width, tmp);
-                } else {
-                    width1 = max(width1, -mainSkin.forwardArrowPosX);
-                }
-
-                if (mainSkin.backArrowPosY > 0) {
-                    tmp = prev_page.y + prev_page.height;
-                    height = max(height, tmp);
-                } else {
-                    height1 = max(height1, -mainSkin.backArrowPosY);
-                }
-    
-                if (mainSkin.forwardArrowPosY > 0) {
-                    tmp = next_page.y + next_page.height;
-                    height = max(height, tmp);
-                } else {
-                    height1 = max(height1, -mainSkin.forwardArrowPosY);
-                }
-            }
-            
+           
             mainWindow.width = width + width1 + mainSkin.marginRight + mainSkin.adjustWidth;
             mainWindow.height = height + height1 + mainSkin.marginBottom + mainSkin.adjustHeight;
         }

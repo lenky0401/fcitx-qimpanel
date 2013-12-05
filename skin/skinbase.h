@@ -34,6 +34,10 @@ class SkinBase : public QObject
 
     Q_PROPERTY(QString inputBackImg READ inputBackImg WRITE setInputBackImg
         NOTIFY inputBackImgChanged)
+    Q_PROPERTY(QString customImg0 READ customImg0 WRITE setCustomImg0
+        NOTIFY customImg0Changed)
+    Q_PROPERTY(QString customImg1 READ customImg1 WRITE setCustomImg1
+        NOTIFY customImg1Changed)
     Q_PROPERTY(QString tipsImg READ tipsImg WRITE setTipsImg
         NOTIFY tipsImgChanged)
     Q_PROPERTY(int marginLeft READ marginLeft WRITE setMarginLeft
@@ -65,6 +69,10 @@ class SkinBase : public QObject
 public:
     void setInputBackImg(const QString inputBackImg);
     QString inputBackImg() const;
+    void setCustomImg0(const QString customImg);
+    QString customImg0() const;
+    void setCustomImg1(const QString customImg);
+    QString customImg1() const;
     void setTipsImg(const QString tipsImg);
     QString tipsImg() const;
     void setMarginLeft(const int marginLeft);
@@ -94,6 +102,8 @@ public:
 
 signals:
     void inputBackImgChanged();
+    void customImg0Changed();
+    void customImg1Changed();
     void tipsImgChanged();
     void marginLeftChanged();
     void marginRightChanged();
@@ -111,6 +121,8 @@ signals:
 private:
     //Fcitx SkinInputBar
     QString mInputBackImg;
+    QString mCustomImg0;
+    QString mCustomImg1;
     QString mTipsImg;
     int mMarginLeft;
     int mMarginRight;
@@ -251,6 +263,8 @@ private:
 private:
     //Fcitx SkinInputBar
     QString mInputBackImgVertical;
+    QString mCustomImgVertical0;
+    QString mCustomImgVertical1;
     QString mTipsImgVertical;
     int mMarginLeftVertical;
     int mMarginRightVertical;

@@ -49,10 +49,6 @@ bool SkinSogou::loadSkin(const QString skinPath)
 
     int fontPixelSize = 12;
 
-    setTipsImg("file://usr/share/fcitx/skin/ubuntukylin-light1/tips.png");
-    setBackArrowImg("file://usr/share/fcitx/skin/ubuntukylin-light2/prev.png");
-    setForwardArrowImg("file://usr/share/fcitx/skin/ubuntukylin-light1/next.png");
-
     setAdjustWidth(10);
     setAdjustHeight(30);
     setHorizontalTileMode("Stretch");
@@ -127,6 +123,20 @@ bool SkinSogou::loadSkin(const QString skinPath)
                     setMarginLeft(h_pl);
                     setMarginRight(h_pr);
                 }
+            } 
+            else if (key == "custom0_align") {
+                //todo
+            }
+            else if (key == "custom0") {
+                mCustomImgH1[0] = value;
+                setCustomImg0 ("file:/" + skinPath + value);
+            }
+            else if (key == "custom1") {
+                mCustomImgH1[1] = value;
+                setCustomImg1 ("file:/" + skinPath + value);
+            }
+            else if (key == "custom_cnt") {
+                mCustomCntH1 = value.toInt();
             }
         }else if (scheme_v1) {
             if (key == "pic" && !MainModel::self()->isHorizontal()) {
@@ -145,6 +155,17 @@ bool SkinSogou::loadSkin(const QString skinPath)
                     setMarginLeft(v_pl);
                     setMarginRight(v_pr);
                 }
+            }
+            else if (key == "custom0") {
+                mCustomImgV1[0] = value;
+                //setCustomImg0(value);
+            }
+            else if (key == "custom1") {
+                mCustomImgV1[1] = value;
+                //setCustomImg1(value);
+            }
+            else if (key == "custom_cnt") {
+                mCustomCntV1 = value.toInt();
             }
         } else if (statusbar) {
             if (key == "pic") {

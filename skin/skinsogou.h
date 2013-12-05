@@ -29,6 +29,11 @@ public:
     SkinSogou();
     virtual ~SkinSogou();
     virtual bool loadSkin(const QString skinPath);
+private:
+    QString mCustomImgH1[8];
+    int mCustomCntH1;
+    QString mCustomImgV1[8];
+    int mCustomCntV1;
 };
 
 #endif // __SKIN_SOGOU_H__

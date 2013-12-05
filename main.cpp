@@ -24,6 +24,9 @@
 #include <QTextCodec>
 #include <QTranslator>
 
+#include <signal.h>
+#include <unistd.h>
+
 #include <fcitx-utils/utils.h>
 
 #include "main.h"
@@ -31,29 +34,25 @@
 
 #define BUFF_SIZE (512)
 char sharePath[BUFF_SIZE] = {0};
+bool reloadcfg;
 
 char* getQimpanelSharePath(const char * const fileName)
 {
-    char *p;
-    if (readlink("/proc/self/exe", sharePath, BUFF_SIZE) < 0) {
-        perror("readlink");
-        exit(EXIT_FAILURE);
-    }
-
-    if ((p = strrchr(sharePath, '/')) == NULL) {
-        perror("strrchr");
-        exit(EXIT_FAILURE);
-    }
-    *p = '0';
-
-    if ((p = strrchr(sharePath, '/')) == NULL) {
-        perror("strrchr");
-        exit(EXIT_FAILURE);
-    }
-    strcpy(p + 1, "share/fcitx-qimpanel/");
-    strcpy(p + 1 + strlen("share/fcitx-qimpanel/"), fileName);
+    strcpy(sharePath, "/usr/share/fcitx-qimpanel/");
+    strcpy(sharePath + strlen("/usr/share/fcitx-qimpanel/"), fileName);
+    printf("%s\n", sharePath);
 
     return sharePath;
+}
+
+void sigRoutine(int sigNum) {
+    switch (sigNum) {
+    case 1:
+        printf("Get a signal -- SIGHUP\n");
+        reloadcfg = true;
+        break;
+    }
+    return;
 }
 
 int main(int argc, char** argv)
@@ -69,17 +68,26 @@ int main(int argc, char** argv)
     if (translator.load(QString(getQimpanelSharePath("zh_CN.qm"))) == false)
         qDebug() << "load qm error.";
 
+    signal(SIGHUP, sigRoutine);
+
     QApplication *app = new QApplication(argc, argv);
     app->installTranslator(&translator);
     app->setApplicationName("fcitx-qimpanel");
 
     MainController *ctrl = MainController::self();
 
-    int ret = app->exec();
+    reloadcfg = false;
+    for (;;) {
+        app->processEvents();
+
+        if (reloadcfg) {
+            reloadcfg = false;
+            MainController::self()->getTrayMenu()->restart();
+        }
+    }
 
     delete ctrl;
     delete app;
-    qDebug() << ret;
-    return ret;
+    return 0;
 }
 

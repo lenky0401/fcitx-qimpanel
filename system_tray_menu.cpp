@@ -108,8 +108,9 @@ void SystemTrayMenu::triggerUpdateMainMenu()
     this->addMenu(mSkinMenu);
     this->addSeparator();
 
-    this->addAction(QIcon::fromTheme("preferences-desktop"), tr("ConfigureIM"));
     this->addAction(QIcon::fromTheme("preferences-desktop"), tr("Configure"));
+    this->addAction(QIcon::fromTheme("preferences-desktop"), tr("ConfigureIMPanel"));
+    this->addAction(QIcon::fromTheme("preferences-desktop"), tr("ConfigureIM"));
     this->addSeparator();
 
     this->addAction(QIcon::fromTheme("view-refresh"), tr("Restart"));
@@ -191,6 +192,35 @@ void SystemTrayMenu::execMenu(const QList<KimpanelProperty> &prop_list)
 
 void SystemTrayMenu::restart()
 {
+	/* exec command */
+	pid_t child_pid;
+
+	child_pid = fork();
+	if (child_pid < 0) {
+		perror("fork");
+	} else if (child_pid == 0) {         /* child process  */
+		pid_t grandchild_pid;
+
+		grandchild_pid = fork();
+		if (grandchild_pid < 0) {
+			perror("fork");
+			_exit(1);
+		} else if (grandchild_pid == 0) { /* grandchild process  */
+			execvp("fcitx-qimpanel", NULL);
+			perror("execvp");
+			_exit(1);
+		} else {
+			_exit(0);
+		}
+	} else {                              /* parent process */
+		int status;
+		waitpid(child_pid, &status, 0);
+		_exit(0);
+	}
+}
+
+void SystemTrayMenu::startChildApp(const char *app_exe)
+{
     /* exec command */
     pid_t child_pid;
 
@@ -205,19 +235,14 @@ void SystemTrayMenu::restart()
             perror("fork");
             _exit(1);
         } else if (grandchild_pid == 0) { /* grandchild process  */
-            execvp("fcitx-qimpanel", NULL);
+            execvp(app_exe, NULL);
             perror("execvp");
             _exit(1);
         } else {
             _exit(0);
         }
-    } else {                              /* parent process */
-        int status;
-        waitpid(child_pid, &status, 0);
-        _exit(0);
     }
 }
-
 
 void SystemTrayMenu::menuItemOnClick(QAction *action)
 {
@@ -226,6 +251,9 @@ void SystemTrayMenu::menuItemOnClick(QAction *action)
 
     } else if (tr("ConfigureIM") == action->text()) {
         mAgent->triggerProperty(QString("/Fcitx/logo/configureim"));
+
+    } else if (tr("ConfigureIMPanel") == action->text()) {
+    	startChildApp("fcitx-qimpanel-configtool");
 
     } else if (tr("Configure") == action->text()) {
         mAgent->configure();

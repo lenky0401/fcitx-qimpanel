@@ -48,6 +48,7 @@ public:
     static MainController* self();
     virtual ~MainController();
     void init();
+    void loadCfg();
 
 private:
     explicit MainController();
@@ -67,9 +68,10 @@ private:
     QString mSkinName;
 
 public:
-    void setSkinBase(SkinBase *skinBase, const int SkinType);
+    void setSkinBase(SkinBase *skinBase, int skinType);
     QString getSkinName();
     void setSkinName(QString skinName);
+    SystemTrayMenu* getTrayMenu();
 
 public slots:
     void updateProperty(const KimpanelProperty &prop);

@@ -11,7 +11,7 @@ SET(fcitx-qimpanel_TRANS po/zh_CN.ts)
 SET(fcitx-qimpanel_RCCS qml.qrc)
 set(fcitx-qimpanel_SRCS main.cpp main_controller.cpp toplevel.cpp
     main_model.cpp kimpanelagent.cpp candidate_word.cpp system_tray_menu.cpp 
-    my_action.cpp cfg/readwritecfg.cpp skin/skinmenu.cpp skin/skinbase.cpp skin/skinfcitx.cpp
+    my_action.cpp skin/skinmenu.cpp skin/skinbase.cpp skin/skinfcitx.cpp
     skin/skinsogou.cpp)
 QT4_ADD_DBUS_ADAPTOR(fcitx-qimpanel_SRCS
     org.kde.impanel.xml
@@ -27,7 +27,9 @@ target_link_libraries(fcitx-qimpanel fcitx-config fcitx-utils
     ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} 
     ${QT_QTDBUS_LIBRARY} ${QT_QTDECLARATIVE_LIBRARY})
 
-install(TARGETS fcitx-qimpanel RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
-install(FILES ${fcitx-qimpanel_TRAN_SRCS} DESTINATION ${CMAKE_INSTALL_PREFIX}/share/fcitx-qimpanel)
+set(pkgbindir 	/usr/bin/)
+set(pkgdatadir 	/usr/share/fcitx-qimpanel)
+install(TARGETS fcitx-qimpanel RUNTIME DESTINATION ${pkgbindir})
+install(FILES ${fcitx-qimpanel_TRAN_SRCS} DESTINATION ${pkgdatadir})
 
 add_subdirectory(uk-default-skin)

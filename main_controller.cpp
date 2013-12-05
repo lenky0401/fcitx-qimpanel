@@ -18,6 +18,7 @@
  */
 
 #include <QDebug>
+#include <QSettings>
 #include <QDeclarativeView>
 #include <QtDeclarative/QDeclarativeContext>
 #include "main_model.h"
@@ -25,7 +26,6 @@
 #include "main_controller.h"
 #include "kimpanelagent.h"
 #include "toplevel.h"
-#include "cfg/readwritecfg.h"
 
 MainController* MainController::mSelf = 0;
 
@@ -43,21 +43,21 @@ MainController::MainController()
 
 }
 
+void MainController::loadCfg()
+{
+    QSettings *settings = new QSettings("fcitx-qimpanel", "main");
+    settings->beginGroup("base");
+    mIsHorizontal = !settings->value("VerticalList", false).toBool();
+    qDebug() << "mIsHorizontal:" << mIsHorizontal;
+    mSkinName = settings->value("CurtSkinType", "ubuntukylin-dark1").toString();
+    qDebug() << "mSkinName:" << mSkinName;
+    settings->endGroup();
+    delete settings;
+}
+
 void MainController::init()
 {
-    int isHorizontal = 0;
-    char *tmpBuff;
-
-    get_fcitx_cfg_value("configdesc", "fcitx-classic-ui.desc", "conf",
-        "fcitx-classic-ui.config", "ClassicUI", "VerticalList", &isHorizontal);
-
-    tmpBuff = (char *)malloc(32);
-    get_fcitx_cfg_value("configdesc", "fcitx-classic-ui.desc", "conf",
-        "fcitx-classic-ui.config", "ClassicUI", "SkinType", &tmpBuff);
-
-    mIsHorizontal = (isHorizontal == 0) ? true : false;
-    mSkinName = tmpBuff;
-    free(tmpBuff);
+    loadCfg();
 
     qmlRegisterType<CandidateWord>();
 
@@ -161,14 +161,19 @@ MainController::~MainController()
         delete mTrayMenu;
 }
 
-void MainController::setSkinBase(SkinBase *skinBase, const int SkinType)
+SystemTrayMenu* MainController::getTrayMenu()
+{
+	return mTrayMenu;
+}
+
+void MainController::setSkinBase(SkinBase *skinBase, int skinType)
 {
    if (mSkinBase != skinBase)
        delete mSkinBase;
    mSkinBase = skinBase;
    mView->rootContext()->setContextProperty("mainSkin", mSkinBase);
 
-   switch (SkinType) {
+   switch (skinType) {
        case SOGOU:
            qDebug() << "SkinType is sogou";
            mView->setSource(QUrl("qrc:/qml/sogou.qml"));
@@ -187,15 +192,11 @@ QString MainController::getSkinName()
 
 void MainController::setSkinName(QString skinName)
 {
-    char *tmpBuff;
-
-    mSkinName = skinName;
-    tmpBuff = (char *)malloc(32);
-
-    save_q_string_2_m_string(mSkinName, &tmpBuff);
-    set_fcitx_cfg_value("configdesc", "fcitx-classic-ui.desc", "conf",
-        "fcitx-classic-ui.config", "ClassicUI", "SkinType", &tmpBuff);
-    free(tmpBuff);
+    QSettings *settings = new QSettings("fcitx-qimpanel", "main");
+    settings->beginGroup("base");
+    settings->setValue("CurtSkinType", skinName);
+    settings->endGroup();
+    delete settings;
 }
 
 void MainController::updateProperty(const KimpanelProperty &prop)

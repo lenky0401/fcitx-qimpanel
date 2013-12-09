@@ -43,15 +43,14 @@ MainController::MainController()
 
 }
 
-
 void MainController::loadCfg()
 {
     QSettings *settings = new QSettings("fcitx-qimpanel", "main");
     settings->beginGroup("base");
     mIsHorizontal = !settings->value("VerticalList", false).toBool();
     qDebug() << "mIsHorizontal:" << mIsHorizontal;
-    mSkinType = settings->value("CurtSkinType", "ubuntukylin-dark1").toString();
-    qDebug() << "mSkinType:" << mSkinType;
+    mSkinName = settings->value("CurtSkinType", "ubuntukylin-dark1").toString();
+    qDebug() << "mSkinName:" << mSkinName;
     settings->endGroup();
     delete settings;
 }
@@ -167,25 +166,35 @@ SystemTrayMenu* MainController::getTrayMenu()
 	return mTrayMenu;
 }
 
-void MainController::setSkinBase(SkinBase *skinBase)
+void MainController::setSkinBase(SkinBase *skinBase, int skinType)
 {
    if (mSkinBase != skinBase)
        delete mSkinBase;
    mSkinBase = skinBase;
    mView->rootContext()->setContextProperty("mainSkin", mSkinBase);
-   mView->setSource(QUrl("qrc:/qml/main.qml"));
+
+   switch (skinType) {
+       case SOGOU:
+           qDebug() << "SkinType is sogou";
+           mView->setSource(QUrl("qrc:/qml/sogou.qml"));
+           break;
+       case FCITX:
+       default:
+           qDebug() << "SkinType is default";
+           mView->setSource(QUrl("qrc:/qml/main.qml"));
+   }
 }
 
-QString MainController::getSkinType()
+QString MainController::getSkinName()
 {
-    return mSkinType;
+    return mSkinName;
 }
 
-void MainController::setSkinType(QString skinType)
+void MainController::setSkinName(QString skinName)
 {
     QSettings *settings = new QSettings("fcitx-qimpanel", "main");
     settings->beginGroup("base");
-    settings->setValue("CurtSkinType", skinType);
+    settings->setValue("CurtSkinType", skinName);
     settings->endGroup();
     delete settings;
 }

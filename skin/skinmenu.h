@@ -37,7 +37,7 @@ private slots:
     void menuItemOnClick(QAction* action);
 
 private:
-    MyAction *mSkinTypeMenu;
+    MyAction *mSkinNameMenu;
 };
 
 #endif // __SKIN_MENU_H__

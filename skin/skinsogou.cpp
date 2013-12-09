@@ -48,11 +48,6 @@ bool SkinSogou::loadSkin(const QString skinPath)
     unsigned int pinyin_color, zhongwen_color, zhongwen_first_color, comphint_color;
 
     int fontPixelSize = 12;
-    //        setCandFontSize(13);
-
-    setTipsImg("file://usr/share/fcitx/skin/ubuntukylin-light1/tips.png");
-    setBackArrowImg("file://usr/share/fcitx/skin/ubuntukylin-light2/prev.png");
-    setForwardArrowImg("file://usr/share/fcitx/skin/ubuntukylin-light1/next.png");
 
     setAdjustWidth(10);
     setAdjustHeight(30);
@@ -97,19 +92,19 @@ bool SkinSogou::loadSkin(const QString skinPath)
                 setFontSize(value.toInt());
             else if (key == "pinyin_color"){
                 pinyin_color = value.toUInt(0, 0);
-                setOtherColor(QColor(qRed(pinyin_color), qGreen(pinyin_color), qBlue(pinyin_color)));
+                setInputColor(QColor(qBlue(pinyin_color), qGreen(pinyin_color), qRed(pinyin_color)));
             } 
             else if (key == "zhongwen_color"){
                 zhongwen_color = value.toUInt(0, 0);
-                setInputColor(QColor(qRed(zhongwen_color), qGreen(zhongwen_color), qBlue(zhongwen_color)));
+                setOtherColor(QColor(qBlue(zhongwen_color), qGreen(zhongwen_color), qRed(zhongwen_color)));
             }
             else if (key == "zhongwen_first_color"){
                 zhongwen_first_color = value.toUInt(0, 0);
-                //setFirstCandColor(QColor(qRed(zhongwen_first_color), qGreen(zhongwen_first_color), qBlue(zhongwen_first_color)));
+                setFirstCandColor(QColor(qBlue(zhongwen_first_color), qGreen(zhongwen_first_color), qRed(zhongwen_first_color)));
             }
             else if (key == "comphint_color"){
-                comphint_color = value.toUInt(0, 0);
-                setFirstCandColor(QColor(qRed(comphint_color), qGreen(comphint_color), qBlue(comphint_color)));
+                //FIXME
+                //comphint_color = value.toUInt(0, 0);
             }
         }else if (scheme_h1) {
             if (key == "pic" && MainModel::self()->isHorizontal()) {
@@ -128,6 +123,20 @@ bool SkinSogou::loadSkin(const QString skinPath)
                     setMarginLeft(h_pl);
                     setMarginRight(h_pr);
                 }
+            } 
+            else if (key == "custom0_align") {
+                //todo
+            }
+            else if (key == "custom0") {
+                mCustomImgH1[0] = value;
+                setCustomImg0 ("file:/" + skinPath + value);
+            }
+            else if (key == "custom1") {
+                mCustomImgH1[1] = value;
+                setCustomImg1 ("file:/" + skinPath + value);
+            }
+            else if (key == "custom_cnt") {
+                mCustomCntH1 = value.toInt();
             }
         }else if (scheme_v1) {
             if (key == "pic" && !MainModel::self()->isHorizontal()) {
@@ -147,8 +156,20 @@ bool SkinSogou::loadSkin(const QString skinPath)
                     setMarginRight(v_pr);
                 }
             }
+            else if (key == "custom0") {
+                mCustomImgV1[0] = value;
+                //setCustomImg0(value);
+            }
+            else if (key == "custom1") {
+                mCustomImgV1[1] = value;
+                //setCustomImg1(value);
+            }
+            else if (key == "custom_cnt") {
+                mCustomCntV1 = value.toInt();
+            }
         } else if (statusbar) {
             if (key == "pic") {
+                //FIXME
                 //setTipsImg("file:/" + skinPath + value);
             }
         }

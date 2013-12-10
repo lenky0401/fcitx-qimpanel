@@ -158,14 +158,17 @@ bool SkinSogou::loadSkin(const QString skinPath)
             }
             else if (key == "custom0") {
                 mCustomImgV1[0] = value;
+                //qDebug() << "cuystom0 " << value;
                 //setCustomImg0(value);
             }
             else if (key == "custom1") {
                 mCustomImgV1[1] = value;
+                qDebug() << "cuystom1 " << value;
                 //setCustomImg1(value);
             }
             else if (key == "custom_cnt") {
                 mCustomCntV1 = value.toInt();
+                //qDebug() << "cuystom_cnt " << mCustomCntV1;
             }
         } else if (statusbar) {
             if (key == "pic") {

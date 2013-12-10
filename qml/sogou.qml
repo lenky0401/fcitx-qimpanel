@@ -28,7 +28,7 @@ Rectangle {
  Image {
     id:custom0
     source: mainSkin.customImg0
-    visible : mainModel.showPreedit || mainModel.showLookupTable
+    visible : mainModel.isHorizontal && (mainModel.showPreedit || mainModel.showLookupTable)
     width: sourceSize.width; height: sourceSize.height
     fillMode: Image.PreserveAspectFit
     anchors.left: inputBackImg.left
@@ -38,7 +38,7 @@ Rectangle {
   Image {
     id:custom1
     source: mainSkin.customImg1
-    visible : mainModel.showPreedit || mainModel.showLookupTable
+    visible : mainModel.isHorizontal && (mainModel.showPreedit || mainModel.showLookupTable)
     width: sourceSize.width; height: sourceSize.height
     fillMode: Image.PreserveAspectFit
     anchors.right: parent.right

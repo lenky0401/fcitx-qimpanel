@@ -192,6 +192,7 @@ QString MainController::getSkinName()
 
 void MainController::setSkinName(QString skinName)
 {
+    mSkinName = skinName;
     QSettings *settings = new QSettings("fcitx-qimpanel", "main");
     settings->beginGroup("base");
     settings->setValue("CurtSkinType", skinName);

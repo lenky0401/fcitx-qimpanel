@@ -26,6 +26,8 @@
 
 #include <signal.h>
 #include <unistd.h>
+#include <fcntl.h>
+#include <errno.h>
 
 #include <fcitx-utils/utils.h>
 
@@ -35,6 +37,36 @@
 #define BUFF_SIZE (512)
 char sharePath[BUFF_SIZE] = {0};
 bool reloadcfg;
+
+#define LOCKFILE "/tmp/fcitx-qimpanel.pid"
+#define LOCKMODE (S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)
+int isRunning()
+{
+    char buf[16];
+    struct flock fl;
+
+    int fd = open(LOCKFILE, O_RDWR|O_CREAT, LOCKMODE);
+    if (fd < 0) {
+        printf("Can not open %s: %s.\n", LOCKFILE, strerror(errno));
+        return -1;
+    }
+
+    fl.l_type = F_WRLCK;
+    fl.l_start = 0;
+    fl.l_whence = SEEK_SET;
+    fl.l_len = 0;
+
+    if (fcntl(fd, F_SETLK, &fl) < 0) {
+        printf("Can not lock %s: %s.\n", LOCKFILE, strerror(errno));
+        return -1;
+    }
+
+    ftruncate(fd, 0);
+    sprintf(buf, "%d", getpid());
+    write(fd, buf, strlen(buf));
+
+    return 0;
+}
 
 char* getQimpanelSharePath(const char * const fileName)
 {
@@ -58,6 +90,10 @@ void sigRoutine(int sigNum) {
 int main(int argc, char** argv)
 {
     fcitx_utils_init_as_daemon();
+
+    if (isRunning()) {
+        exit(1);
+    }
 
     QTextCodec::setCodecForTr(QTextCodec::codecForLocale());
     QTextCodec::setCodecForCStrings(QTextCodec::codecForLocale());

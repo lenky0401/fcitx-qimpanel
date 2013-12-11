@@ -108,8 +108,14 @@ void SkinMenu::triggerUpdateSkinListMenu()
         for (iter = list.begin(); iter != list.end(); ++ iter) {
             if (iter->isDir() && "." != iter->fileName() && ".." != iter->fileName()) {
                 QFile fcitxSkinConfFile(iter->absoluteFilePath() + "/fcitx_skin.conf");
-                if (!fcitxSkinConfFile.exists())
-                    continue;
+                QFile sogouSkinConfFile(iter->absoluteFilePath() + "/skin.ini");
+
+                if (fcitxSkinConfFile.exists()){
+                	skinClass = FCITX;
+                }else if (sogouSkinConfFile.exists()){
+                	skinClass = SOGOU;
+                }else continue;
+
                 //check if exist in local
                 localExist = false;
                 QList<QAction *> localExistList = this->actions();
@@ -128,7 +134,7 @@ void SkinMenu::triggerUpdateSkinListMenu()
                 menu = new MyAction(iter->fileName(), this);
                 //qDebug() << iter->absoluteFilePath();
                 menu->setSkinPath(iter->absoluteFilePath() + "/");
-                menu->setSkinClass(FCITX);
+                menu->setSkinClass(skinClass);
                 this->addAction(menu);
                 if (firstMenu == NULL)
                     firstMenu = menu;

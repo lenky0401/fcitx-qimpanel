@@ -20,9 +20,14 @@
 #include <QDebug>
 #include <QDesktopServices>
 #include <QUrl>
+#include <QDir>
+#include <QString>
+#include <QMessageBox>
+#include <QSettings>
 
 #include "my_action.h"
 #include "system_tray_menu.h"
+#define UBUNTU_KYLIN_SYNC "/\[Ubuntu\\ Kylin\\ Sync\]/"
 
 SystemTrayMenu::SystemTrayMenu(PanelAgent *agent)
     : QMenu()
@@ -35,12 +40,14 @@ SystemTrayMenu::~SystemTrayMenu()
     delete mVKListMenu;
     delete mIMListMenu;
     delete mSkinMenu;
+    delete mSyncMenu;
 }
 
 void SystemTrayMenu::init()
 {
     mVKListMenu = new QMenu(tr("Virtual Keyboard"), this);
     mIMListMenu = new QMenu(tr("Input Method"), this);
+    mSyncMenu = new QMenu(tr("ConfigureSync"),this);
     mSkinMenu = new SkinMenu(tr("Skin"), this);
 
     QObject::connect(mVKListMenu, SIGNAL(aboutToShow()), this,
@@ -49,8 +56,12 @@ void SystemTrayMenu::init()
     QObject::connect(mIMListMenu, SIGNAL(aboutToShow()), this,
         SLOT(triggerUpdateIMListMenu()));
 
+    QObject::connect(mSyncMenu, SIGNAL(aboutToShow()), this,
+        SLOT(triggerUpdateSyncMenu()));
+
     QObject::connect(this, SIGNAL(aboutToShow()), this,
         SLOT(triggerUpdateMainMenu()));
+
     QObject::connect(this, SIGNAL(triggered(QAction*)), this,
         SLOT(menuItemOnClick(QAction *)));
 
@@ -111,6 +122,7 @@ void SystemTrayMenu::triggerUpdateMainMenu()
     this->addAction(QIcon::fromTheme("preferences-desktop"), tr("Configure"));
     this->addAction(QIcon::fromTheme("preferences-desktop"), tr("ConfigureIMPanel"));
     this->addAction(QIcon::fromTheme("preferences-desktop"), tr("ConfigureIM"));
+    this->addMenu(mSyncMenu);
     this->addSeparator();
 
     this->addAction(QIcon::fromTheme("view-refresh"), tr("Restart"));
@@ -127,6 +139,13 @@ void SystemTrayMenu::triggerUpdateIMListMenu()
 {
     mExecMenuType = updateIMListMenu;
     mAgent->triggerProperty(QString("/Fcitx/im"));
+}
+
+void SystemTrayMenu::triggerUpdateSyncMenu()
+{
+    mSyncMenu->clear();
+    mSyncMenu->addAction(QIcon::fromTheme(""), tr("ConfigureUp"));
+    mSyncMenu->addAction(QIcon::fromTheme(""), tr("ConfigureDwon"));
 }
 
 void SystemTrayMenu::doUpdateVKListMenu(const QList<KimpanelProperty> &prop_list)
@@ -244,6 +263,113 @@ void SystemTrayMenu::startChildApp(const char *app_exe)
     }
 }
 
+void SystemTrayMenu::syncConfigUp()
+{
+    qDebug()<<"SystemTrayMenu::syncConfigUp";
+    QString kuaipanConfPath = qgetenv("HOME") + "/.config/ubuntukylin/";
+    QString kuaipanSyncPath;
+    QString fcitxQimpanelConfPath = qgetenv("HOME") +"/.config/fcitx-qimpanel/main.conf ";
+    QString fcitxConfPath = qgetenv("HOME") +"/.config/fcitx/config ";
+    QDir *temp = new QDir;
+    QDir *temp1 = new QDir;
+    if(true == temp->exists(kuaipanConfPath))
+    {
+       QSettings* mSettings = new QSettings(kuaipanConfPath + "kuaipan4uk.conf",QSettings::IniFormat);
+       mSettings->setIniCodec("UTF-8");
+       mSettings->beginGroup("client-info");
+       kuaipanSyncPath = mSettings->value("Root").toString();
+       mSettings->endGroup();
+       if(true == temp1->exists(kuaipanSyncPath +"/\[Ubuntu\ Kylin\ Sync\]"))
+       {
+           if(false == temp1->exists(kuaipanSyncPath +"/\[Ubuntu\ Kylin\ Sync\]/fcitx"))
+           {
+               QString cmd = "mkdir " + kuaipanSyncPath +"/\[Ubuntu\\ Kylin\\ Sync\]/" +"fcitx";
+               qDebug()<<cmd;
+               QByteArray ba = cmd.toLatin1();
+               const char *transpd = ba.data();
+               if(0!= system(transpd))
+               {
+                   return;
+               }
+           }
+           //fcitx-qimpanel
+           QString cmd1 = "cp " + fcitxQimpanelConfPath + kuaipanSyncPath +"/\[Ubuntu\\ Kylin\\ Sync\]/fcitx";
+           qDebug()<<cmd1;
+           QByteArray ba1 = cmd1.toLatin1();
+           const char *transpd1 = ba1.data();
+           if(0!= system(transpd1))
+           {
+               return;
+           }
+           //fcitx
+           QString cmd2 = "cp " + fcitxConfPath + kuaipanSyncPath +"/\[Ubuntu\\ Kylin\\ Sync\]/fcitx";
+           qDebug()<<cmd2;
+           QByteArray ba2 = cmd2.toLatin1();
+           const char *transpd2 = ba2.data();
+           if(0!= system(transpd2))
+           {
+               return;
+           }
+        }
+        else{
+           QMessageBox::warning(this,tr("Warning"),tr("[Ubuntu Kylin Sync] Synchronize directories have been deleted?!"));
+       }
+    }
+    else{
+         QMessageBox::warning(this,tr("Warning"),tr("Please log in kuaipan!"));
+    }
+}
+
+void SystemTrayMenu::syncConfigDown()
+{
+    qDebug()<<"SystemTrayMenu::syncConfigDown";
+    QString kuaipanConfPath = qgetenv("HOME") + "/.config/ubuntukylin/";
+    QString kuaipanSyncPath;
+    QString fcitxQimpanelConfPath = qgetenv("HOME") +"/.config/fcitx-qimpanel/";
+    QString fcitxConfPath = qgetenv("HOME") +"/.config/fcitx/";
+    QDir *temp = new QDir;
+    QDir *temp1 = new QDir;
+    if(true == temp->exists(kuaipanConfPath))
+    {
+       QSettings* mSettings = new QSettings(kuaipanConfPath + "kuaipan4uk.conf",QSettings::IniFormat);
+       mSettings->setIniCodec("UTF-8");
+       mSettings->beginGroup("client-info");
+       kuaipanSyncPath = mSettings->value("Root").toString();
+       mSettings->endGroup();
+       if(true == temp1->exists(kuaipanSyncPath +"/\[Ubuntu\ Kylin\ Sync\]"))
+       {
+           if(false == temp1->exists(kuaipanSyncPath +"/\[Ubuntu\ Kylin\ Sync\]/fcitx"))
+           {
+               QMessageBox::warning(this,tr("Warning"),tr("No configure can be synchronized!"));
+               return;
+           }
+           //fcitx-qimpanel
+           QString cmd1 = "cp " + kuaipanSyncPath +"/\[Ubuntu\\ Kylin\\ Sync\]/fcitx/main.conf "  + fcitxQimpanelConfPath;
+           QByteArray ba1 = cmd1.toLatin1();
+           const char *transpd1 = ba1.data();
+           if(0!= system(transpd1))
+           {
+               return;
+           }
+           //fcitx
+           QString cmd2 = "cp " + kuaipanSyncPath +"/\[Ubuntu\\ Kylin\\ Sync\]/fcitx/config " + fcitxConfPath;
+           QByteArray ba2 = cmd2.toLatin1();
+           const char *transpd2 = ba2.data();
+           if(0!= system(transpd2))
+           {
+               return;
+           }
+        }
+       else{
+            QMessageBox::warning(this,tr("Warning"),tr("[Ubuntu Kylin Sync] Synchronize directories have been deleted?!"));
+       }
+
+    }
+    else{
+         QMessageBox::warning(this,tr("Warning"),tr("Please log in kuaipan!"));
+    }
+}
+
 void SystemTrayMenu::menuItemOnClick(QAction *action)
 {
     if (tr("Online &Help!") == action->text()) {
@@ -265,6 +391,12 @@ void SystemTrayMenu::menuItemOnClick(QAction *action)
     } else if (tr("Exit") == action->text()) {
         mAgent->exit();
         exit(0);
+    } else if (tr("ConfigureUp") == action->text()) {
+        qDebug()<<"ConfigureUp";
+        syncConfigUp();
+    } else if (tr("ConfigureDwon") == action->text()){
+        qDebug()<<"ConfigureDown";
+        syncConfigDown();
     } else {
         MyAction *myAction = (MyAction *)action;
         if (myAction->getProp().key != "") {

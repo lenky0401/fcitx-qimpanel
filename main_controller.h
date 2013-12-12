@@ -23,6 +23,7 @@
 #include <QObject>
 #include <QApplication>
 #include <QSystemTrayIcon>
+#include <QSocketNotifier>
 #include <QMenu>
 #include <QIcon>
 #include <QTimer>
@@ -66,6 +67,14 @@ private:
     SystemTrayMenu *mTrayMenu;
     bool mIsHorizontal;
     QString mSkinName;
+
+private:
+    QSocketNotifier *mSocketNotifier;
+private slots:
+    void handleSig();
+
+public:
+    int mSigFd[2];
 
 public:
     void setSkinBase(SkinBase *skinBase, int skinType);

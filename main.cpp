@@ -23,6 +23,9 @@
 #include <QtDeclarative>
 #include <QTextCodec>
 #include <QTranslator>
+#include <QDBusConnection>
+#include <QDBusReply>
+#include <QDBusConnectionInterface>
 
 #include <signal.h>
 #include <unistd.h>
@@ -36,7 +39,6 @@
 
 #define BUFF_SIZE (512)
 char sharePath[BUFF_SIZE] = {0};
-bool reloadcfg;
 
 #define LOCKFILE "/tmp/fcitx-qimpanel.pid"
 #define LOCKMODE (S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)
@@ -80,11 +82,32 @@ char* getQimpanelSharePath(const char * const fileName)
 void sigRoutine(int sigNum) {
     switch (sigNum) {
     case 1:
-        printf("Get a signal -- SIGHUP\n");
-        reloadcfg = true;
+        char a = '1';
+        write(MainController::self()->mSigFd[0], &a, sizeof(a));
         break;
     }
+    qDebug() << "Get a signal" << sigNum;
+
     return;
+}
+
+#define FCITX_DBUS_SERVICE "org.fcitx.Fcitx"
+int fcitxIsNotRunning()
+{
+    char* servicename = NULL;
+    asprintf(&servicename, "%s-%d", FCITX_DBUS_SERVICE,
+        fcitx_utils_get_display_number());
+
+    QDBusConnection conn = QDBusConnection::sessionBus();
+    if (!conn.isConnected())
+        return -1;
+
+    // ?? Always return false...
+    //QDBusReply<boolean> reply = conn.interface()->call("NameHasOwner", servicename);
+    QDBusReply<QString> reply = conn.interface()->call("GetNameOwner", servicename);
+
+    qDebug() << "reply.value():" << reply.value();
+    return reply.value() == "";
 }
 
 int main(int argc, char** argv)
@@ -104,23 +127,25 @@ int main(int argc, char** argv)
     if (translator.load(QString(getQimpanelSharePath("zh_CN.qm"))) == false)
         qDebug() << "load qm error.";
 
-    signal(SIGHUP, sigRoutine);
-
     QApplication *app = new QApplication(argc, argv);
     app->installTranslator(&translator);
     app->setApplicationName("fcitx-qimpanel");
 
+    int waittTick = 0;
+    int waitTime = 10;
+    while (waittTick ++ < waitTime && fcitxIsNotRunning()) {
+        qDebug() << "Fcitx not running.";
+        sleep(1);
+    }
+    qDebug() << "fcitxIsNotRunning():" << fcitxIsNotRunning();
+    if (waittTick >= waitTime)
+        return -1;
+
     MainController *ctrl = MainController::self();
 
-    reloadcfg = false;
-    for (;;) {
-        app->processEvents();
+    signal(SIGHUP, sigRoutine);
 
-        if (reloadcfg) {
-            reloadcfg = false;
-            MainController::self()->getTrayMenu()->restart();
-        }
-    }
+    app->exec();
 
     delete ctrl;
     delete app;

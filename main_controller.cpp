@@ -21,6 +21,10 @@
 #include <QSettings>
 #include <QDeclarativeView>
 #include <QtDeclarative/QDeclarativeContext>
+
+#include <sys/types.h>
+#include <sys/socket.h>
+
 #include "main_model.h"
 #include "candidate_word.h"
 #include "main_controller.h"
@@ -138,6 +142,11 @@ void MainController::init()
     QObject::connect(mAgent,
         SIGNAL(updatePreeditCaret(int)),
         this, SLOT(updatePreeditCaret(int)));
+
+    socketpair(AF_UNIX, SOCK_STREAM, 0, mSigFd);
+    mSocketNotifier = new QSocketNotifier(mSigFd[1], QSocketNotifier::Read, this);
+    connect(mSocketNotifier, SIGNAL(activated(int)), this, SLOT(handleSig()));
+
 }
 
 MainController::~MainController()
@@ -161,9 +170,20 @@ MainController::~MainController()
         delete mTrayMenu;
 }
 
+void MainController::handleSig()
+{
+    mSocketNotifier->setEnabled(false);
+    char tmp;
+    read(mSigFd[1], &tmp, sizeof(tmp));
+    qDebug() << "handleSig";
+    mSocketNotifier->setEnabled(true);
+
+    mTrayMenu->restart();
+}
+
 SystemTrayMenu* MainController::getTrayMenu()
 {
-	return mTrayMenu;
+    return mTrayMenu;
 }
 
 void MainController::setSkinBase(SkinBase *skinBase, int skinType)

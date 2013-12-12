@@ -394,10 +394,10 @@ void SystemTrayMenu::menuItemOnClick(QAction *action)
         mAgent->exit();
         exit(0);
     } else if (tr("ConfigureUp") == action->text()) {
-        qDebug()<<"ConfigureUp";
+        qDebug()<<"SystemTrayMenu::ConfigureUp";
         syncConfigUp();
     } else if (tr("ConfigureDwon") == action->text()){
-        qDebug()<<"ConfigureDown";
+        qDebug()<<"SystemTrayMenu::ConfigureDown";
         syncConfigDown();
     } else {
         MyAction *myAction = (MyAction *)action;

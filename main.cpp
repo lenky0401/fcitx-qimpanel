@@ -145,6 +145,7 @@ int main(int argc, char** argv)
 
     signal(SIGHUP, sigRoutine);
 
+    app->setQuitOnLastWindowClosed(false);
     app->exec();
 
     delete ctrl;

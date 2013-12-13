@@ -29,7 +29,7 @@
 #include "system_tray_menu.h"
 #define UBUNTU_KYLIN_SYNC "/[Ubuntu\\ Kylin\\ Sync]/"
 
-#define UBUNTU_KYLIN_SYNC_M "/[Ubuntu\ Kylin\ Sync]/"
+#define UBUNTU_KYLIN_SYNC_M "/[Ubuntu Kylin Sync]/"
 
 SystemTrayMenu::SystemTrayMenu(PanelAgent *agent)
     : QMenu()

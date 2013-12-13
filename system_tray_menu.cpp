@@ -27,7 +27,9 @@
 
 #include "my_action.h"
 #include "system_tray_menu.h"
-#define UBUNTU_KYLIN_SYNC "/\[Ubuntu\\ Kylin\\ Sync\]/"
+#define UBUNTU_KYLIN_SYNC "/[Ubuntu\\ Kylin\\ Sync]/"
+
+#define UBUNTU_KYLIN_SYNC_M "/[Ubuntu Kylin Sync]/"
 
 SystemTrayMenu::SystemTrayMenu(PanelAgent *agent)
     : QMenu()
@@ -279,11 +281,11 @@ void SystemTrayMenu::syncConfigUp()
        mSettings->beginGroup("client-info");
        kuaipanSyncPath = mSettings->value("Root").toString();
        mSettings->endGroup();
-       if(true == temp1->exists(kuaipanSyncPath +"/\[Ubuntu\ Kylin\ Sync\]"))
+       if(true == temp1->exists(kuaipanSyncPath + UBUNTU_KYLIN_SYNC_M))
        {
-           if(false == temp1->exists(kuaipanSyncPath +"/\[Ubuntu\ Kylin\ Sync\]/fcitx"))
+           if(false == temp1->exists(kuaipanSyncPath + UBUNTU_KYLIN_SYNC_M"fcitx"))
            {
-               QString cmd = "mkdir " + kuaipanSyncPath +"/\[Ubuntu\\ Kylin\\ Sync\]/" +"fcitx";
+               QString cmd = "mkdir " + kuaipanSyncPath +UBUNTU_KYLIN_SYNC +"fcitx";
                qDebug()<<cmd;
                QByteArray ba = cmd.toLatin1();
                const char *transpd = ba.data();
@@ -293,7 +295,7 @@ void SystemTrayMenu::syncConfigUp()
                }
            }
            //fcitx-qimpanel
-           QString cmd1 = "cp " + fcitxQimpanelConfPath + kuaipanSyncPath +"/\[Ubuntu\\ Kylin\\ Sync\]/fcitx";
+           QString cmd1 = "cp " + fcitxQimpanelConfPath + kuaipanSyncPath +UBUNTU_KYLIN_SYNC"fcitx";
            qDebug()<<cmd1;
            QByteArray ba1 = cmd1.toLatin1();
            const char *transpd1 = ba1.data();
@@ -302,7 +304,7 @@ void SystemTrayMenu::syncConfigUp()
                return;
            }
            //fcitx
-           QString cmd2 = "cp " + fcitxConfPath + kuaipanSyncPath +"/\[Ubuntu\\ Kylin\\ Sync\]/fcitx";
+           QString cmd2 = "cp " + fcitxConfPath + kuaipanSyncPath +UBUNTU_KYLIN_SYNC"fcitx";
            qDebug()<<cmd2;
            QByteArray ba2 = cmd2.toLatin1();
            const char *transpd2 = ba2.data();
@@ -336,15 +338,15 @@ void SystemTrayMenu::syncConfigDown()
        mSettings->beginGroup("client-info");
        kuaipanSyncPath = mSettings->value("Root").toString();
        mSettings->endGroup();
-       if(true == temp1->exists(kuaipanSyncPath +"/\[Ubuntu\ Kylin\ Sync\]"))
+       if(true == temp1->exists(kuaipanSyncPath + UBUNTU_KYLIN_SYNC_M))
        {
-           if(false == temp1->exists(kuaipanSyncPath +"/\[Ubuntu\ Kylin\ Sync\]/fcitx"))
+           if(false == temp1->exists(kuaipanSyncPath + UBUNTU_KYLIN_SYNC_M"fcitx"))
            {
                QMessageBox::warning(this,tr("Warning"),tr("No configure can be synchronized!"));
                return;
            }
            //fcitx-qimpanel
-           QString cmd1 = "cp " + kuaipanSyncPath +"/\[Ubuntu\\ Kylin\\ Sync\]/fcitx/main.conf "  + fcitxQimpanelConfPath;
+           QString cmd1 = "cp " + kuaipanSyncPath +UBUNTU_KYLIN_SYNC"fcitx/main.conf "  + fcitxQimpanelConfPath;
            QByteArray ba1 = cmd1.toLatin1();
            const char *transpd1 = ba1.data();
            if(0!= system(transpd1))
@@ -352,7 +354,7 @@ void SystemTrayMenu::syncConfigDown()
                return;
            }
            //fcitx
-           QString cmd2 = "cp " + kuaipanSyncPath +"/\[Ubuntu\\ Kylin\\ Sync\]/fcitx/config " + fcitxConfPath;
+           QString cmd2 = "cp " + kuaipanSyncPath +UBUNTU_KYLIN_SYNC"fcitx/config " + fcitxConfPath;
            QByteArray ba2 = cmd2.toLatin1();
            const char *transpd2 = ba2.data();
            if(0!= system(transpd2))
@@ -392,10 +394,10 @@ void SystemTrayMenu::menuItemOnClick(QAction *action)
         mAgent->exit();
         exit(0);
     } else if (tr("ConfigureUp") == action->text()) {
-        qDebug()<<"ConfigureUp";
+        qDebug()<<"SystemTrayMenu::ConfigureUp";
         syncConfigUp();
     } else if (tr("ConfigureDwon") == action->text()){
-        qDebug()<<"ConfigureDown";
+        qDebug()<<"SystemTrayMenu::ConfigureDown";
         syncConfigDown();
     } else {
         MyAction *myAction = (MyAction *)action;

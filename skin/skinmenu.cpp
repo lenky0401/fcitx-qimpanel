@@ -152,47 +152,11 @@ void SkinMenu::triggerUpdateSkinListMenu()
         }
     }
 
-    char **skinPath = FcitxXDGGetPathWithPrefix(&len, "skin");
-    for (i = 0; i < len; i ++) {
-        skinDir = QDir(skinPath[i]);
-        if (!skinDir.exists())
-            continue;
-
-        skinDir.setFilter(QDir::Dirs);
-        list = skinDir.entryInfoList();
-        for (iter = list.begin(); iter != list.end(); ++ iter) {
-            if (iter->isDir() && "." != iter->fileName() && ".." != iter->fileName()) {
-                QFile fcitxSkinConfFile(iter->absoluteFilePath() + "/fcitx_skin.conf");
-                QFile sogouSkinConfFile(iter->absoluteFilePath() + "/skin.ini");
-
-                if (fcitxSkinConfFile.exists()){
-                    skinClass = FCITX;
-                }else if (sogouSkinConfFile.exists()){
-                    skinClass = SOGOU;
-                }else continue;
-
-                menu = new MyAction(iter->fileName(), this);
-                menu->setSkinPath(iter->absoluteFilePath() + "/");
-                menu->setSkinClass(skinClass);
-                this->addAction(menu);
-                if (firstMenu == NULL)
-                    firstMenu = menu;
-                menu->setCheckable(true);
-                if (iter->fileName() == skinName) {
-                    checked = true;
-                    menu->setChecked(true);
-                    mSkinNameMenu = menu;
-                }
-            }
-        }
-    }
     if (!checked)
         firstMenu->setChecked(true);
 
     if (mSkinNameMenu == NULL)
         mSkinNameMenu = firstMenu;
-
-    FcitxXDGFreePath(skinPath);
 }
 
 void SkinMenu::menuItemOnClick(QAction *action)

@@ -50,6 +50,7 @@ private slots:
     void triggerUpdateMainMenu();
     void triggerUpdateVKListMenu();
     void triggerUpdateIMListMenu();
+    void triggerUpdateSyncMenu();
     void menuItemOnClick(QAction* action);
 
 private:
@@ -63,6 +64,8 @@ private:
     void doUpdateVKListMenu(const QList<KimpanelProperty> &prop_list);
     void doUpdateIMListMenu(const QList<KimpanelProperty> &prop_list);
     void startChildApp(const char *app_exe);
+    void syncConfigUp();
+    void syncConfigDown();
 public:
     void restart();
 
@@ -74,6 +77,7 @@ private:
     SkinMenu *mSkinMenu;
     QMenu *mVKListMenu;
     QMenu *mIMListMenu;
+    QMenu *mSyncMenu;
     ExecMenuType mExecMenuType;
 };
 

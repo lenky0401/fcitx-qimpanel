@@ -60,13 +60,14 @@ void SkinMenu::triggerUpdateSkinListMenu()
     QFileInfoList::Iterator iter;
     QString skinName = MainController::self()->getSkinName();
     SkinClass skinClass;
+    bool localExist;
 
     this->clear();
 
-    char* ukSkinPath = getQimpanelSharePath("skin");
+    QString localSkinPath = qgetenv("HOME") + "/.config/fcitx-qimpanel/skin/";
 
     for (i = 0; i < 1; i ++) {
-        skinDir = QDir(ukSkinPath);
+        skinDir = QDir(localSkinPath);
         if (!skinDir.exists())
             continue;
 
@@ -84,6 +85,58 @@ void SkinMenu::triggerUpdateSkinListMenu()
                 }else continue;
 
                 menu = new MyAction(iter->fileName(), this);
+                menu->setSkinPath(iter->absoluteFilePath() + "/");
+                menu->setSkinClass(skinClass);
+                this->addAction(menu);
+                if (firstMenu == NULL)
+                    firstMenu = menu;
+                menu->setCheckable(true);
+                if (iter->fileName() == skinName) {
+                    checked = true;
+                    menu->setChecked(true);
+                    mSkinNameMenu = menu;
+                }
+            }
+        }
+    }
+
+    char* ukSkinPath = getQimpanelSharePath("skin");
+
+    for (i = 0; i < 1; i ++) {
+        skinDir = QDir(ukSkinPath);
+        if (!skinDir.exists())
+            continue;
+
+        skinDir.setFilter(QDir::Dirs);
+        list = skinDir.entryInfoList();
+        for (iter = list.begin(); iter != list.end(); ++ iter) {
+            if (iter->isDir() && "." != iter->fileName() && ".." != iter->fileName()) {
+                QFile fcitxSkinConfFile(iter->absoluteFilePath() + "/fcitx_skin.conf");
+                QFile sogouSkinConfFile(iter->absoluteFilePath() + "/skin.ini");
+
+                if (fcitxSkinConfFile.exists()){
+                	skinClass = FCITX;
+                }else if (sogouSkinConfFile.exists()){
+                	skinClass = SOGOU;
+                }else continue;
+
+                //check if exist in local
+                localExist = false;
+                QList<QAction *> localExistList = this->actions();
+                QList<QAction *>::iterator localExistIter;
+                for (localExistIter = localExistList.begin();
+                    localExistIter != localExistList.end(); ++ localExistIter)
+                {
+                    if (((MyAction *)(*localExistIter))->text() == iter->fileName()) {
+                        localExist = true;
+                        break;
+                    }
+                }
+                if (localExist)
+                    continue;
+
+                menu = new MyAction(iter->fileName(), this);
+                //qDebug() << iter->absoluteFilePath();
                 menu->setSkinPath(iter->absoluteFilePath() + "/");
                 menu->setSkinClass(skinClass);
                 this->addAction(menu);

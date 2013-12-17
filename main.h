@@ -21,5 +21,6 @@
 #define __MAIN_H__
 
 char* getQimpanelSharePath(const char * const fileName);
+char* getQimpanelBinPath(const char * const fileName);
 
 #endif // __MAIN_H__

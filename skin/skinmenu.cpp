@@ -115,9 +115,9 @@ void SkinMenu::triggerUpdateSkinListMenu()
                 QFile sogouSkinConfFile(iter->absoluteFilePath() + "/skin.ini");
 
                 if (fcitxSkinConfFile.exists()){
-                	skinClass = FCITX;
+                    skinClass = FCITX;
                 }else if (sogouSkinConfFile.exists()){
-                	skinClass = SOGOU;
+                    skinClass = SOGOU;
                 }else continue;
 
                 //check if exist in local

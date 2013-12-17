@@ -79,6 +79,15 @@ char* getQimpanelSharePath(const char * const fileName)
     return sharePath;
 }
 
+char* getQimpanelBinPath(const char * const fileName)
+{
+    strcpy(sharePath, "/usr/bin/");
+    strcpy(sharePath + strlen("/usr/bin/"), fileName);
+    printf("%s\n", sharePath);
+
+    return sharePath;
+}
+
 void sigRoutine(int sigNum) {
     switch (sigNum) {
     case 1:

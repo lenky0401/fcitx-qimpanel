@@ -25,6 +25,7 @@
 #include <QMessageBox>
 #include <QSettings>
 
+#include "main.h"
 #include "my_action.h"
 #include "system_tray_menu.h"
 #define UBUNTU_KYLIN_SYNC "/[Ubuntu\\ Kylin\\ Sync]/"
@@ -213,31 +214,31 @@ void SystemTrayMenu::execMenu(const QList<KimpanelProperty> &prop_list)
 
 void SystemTrayMenu::restart()
 {
-	/* exec command */
-	pid_t child_pid;
+    /* exec command */
+    pid_t child_pid;
 
-	child_pid = fork();
-	if (child_pid < 0) {
-		perror("fork");
-	} else if (child_pid == 0) {         /* child process  */
-		pid_t grandchild_pid;
+    child_pid = fork();
+    if (child_pid < 0) {
+        perror("fork");
+    } else if (child_pid == 0) {         /* child process  */
+        pid_t grandchild_pid;
 
-		grandchild_pid = fork();
-		if (grandchild_pid < 0) {
-			perror("fork");
-			_exit(1);
-		} else if (grandchild_pid == 0) { /* grandchild process  */
-			execvp("fcitx-qimpanel", NULL);
-			perror("execvp");
-			_exit(1);
-		} else {
-			_exit(0);
-		}
-	} else {                              /* parent process */
-		int status;
-		waitpid(child_pid, &status, 0);
-		_exit(0);
-	}
+        grandchild_pid = fork();
+        if (grandchild_pid < 0) {
+            perror("fork");
+            _exit(1);
+        } else if (grandchild_pid == 0) { /* grandchild process  */
+            execvp("fcitx-qimpanel", NULL);
+            perror("execvp");
+            _exit(1);
+        } else {
+            _exit(0);
+        }
+    } else {                              /* parent process */
+        int status;
+        waitpid(child_pid, &status, 0);
+        _exit(0);
+    }
 }
 
 void SystemTrayMenu::startChildApp(const char *app_exe)
@@ -381,7 +382,12 @@ void SystemTrayMenu::menuItemOnClick(QAction *action)
         mAgent->triggerProperty(QString("/Fcitx/logo/configureim"));
 
     } else if (tr("ConfigureIMPanel") == action->text()) {
-    	startChildApp("fcitx-qimpanel-configtool");
+
+        QFile toolFile(getQimpanelBinPath("fcitx-qimpanel-configtool"));
+        if (!toolFile.exists()) {
+            QMessageBox::warning(this,tr("Warning"),tr("Please install fcitx-qimpanel-configtool!"));
+        }
+        startChildApp("fcitx-qimpanel-configtool");
 
     } else if (tr("Configure") == action->text()) {
         mAgent->configure();

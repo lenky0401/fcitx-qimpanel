@@ -112,6 +112,8 @@ int fcitxIsNotRunning()
 
 int main(int argc, char** argv)
 {
+    signal(SIGHUP, SIG_IGN);
+
     fcitx_utils_init_as_daemon();
 
     if (isRunning()) {

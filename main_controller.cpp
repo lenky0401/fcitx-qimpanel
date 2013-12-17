@@ -50,6 +50,7 @@ MainController::MainController()
 void MainController::loadCfg()
 {
     QSettings *settings = new QSettings("fcitx-qimpanel", "main");
+    settings->setIniCodec("UTF-8");
     settings->beginGroup("base");
     mIsHorizontal = !settings->value("VerticalList", false).toBool();
     qDebug() << "mIsHorizontal:" << mIsHorizontal;
@@ -214,6 +215,7 @@ void MainController::setSkinName(QString skinName)
 {
     mSkinName = skinName;
     QSettings *settings = new QSettings("fcitx-qimpanel", "main");
+    settings->setIniCodec("UTF-8");
     settings->beginGroup("base");
     settings->setValue("CurtSkinType", skinName);
     settings->endGroup();

@@ -20,6 +20,8 @@ QT4_ADD_DBUS_ADAPTOR(fcitx-qimpanel_SRCS
 QT4_ADD_TRANSLATION(fcitx-qimpanel_TRAN_SRCS ${fcitx-qimpanel_TRANS})
 QT4_ADD_RESOURCES(fcitx-qimpanel_RCC_SRCS ${fcitx-qimpanel_RCCS})
 
+configure_file(${PROJECT_SOURCE_DIR}/config.h.in ${PROJECT_BINARY_DIR}/config.h)
+
 add_executable(fcitx-qimpanel ${fcitx-qimpanel_SRCS} ${fcitx-qimpanel_TRAN_SRCS}
     ${fcitx-qimpanel_RCC_SRCS})
 set_target_properties(fcitx-qimpanel PROPERTIES AUTOMOC TRUE)

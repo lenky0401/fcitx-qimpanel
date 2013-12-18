@@ -28,9 +28,13 @@
 #include "main.h"
 #include "my_action.h"
 #include "system_tray_menu.h"
+#include "config.h"
+
+#ifndef DISABLE_UK_SYNC
 #define UBUNTU_KYLIN_SYNC "/[Ubuntu\\ Kylin\\ Sync]/"
 
 #define UBUNTU_KYLIN_SYNC_M "/[Ubuntu Kylin Sync]/"
+#endif
 
 SystemTrayMenu::SystemTrayMenu(PanelAgent *agent)
     : QMenu()
@@ -43,14 +47,18 @@ SystemTrayMenu::~SystemTrayMenu()
     delete mVKListMenu;
     delete mIMListMenu;
     delete mSkinMenu;
+#ifndef DISABLE_UK_SYNC
     delete mSyncMenu;
+#endif
 }
 
 void SystemTrayMenu::init()
 {
     mVKListMenu = new QMenu(tr("Virtual Keyboard"), this);
     mIMListMenu = new QMenu(tr("Input Method"), this);
+#ifndef DISABLE_UK_SYNC
     mSyncMenu = new QMenu(tr("ConfigureSync"),this);
+#endif
     mSkinMenu = new SkinMenu(tr("Skin"), this);
 
     QObject::connect(mVKListMenu, SIGNAL(aboutToShow()), this,
@@ -59,8 +67,10 @@ void SystemTrayMenu::init()
     QObject::connect(mIMListMenu, SIGNAL(aboutToShow()), this,
         SLOT(triggerUpdateIMListMenu()));
 
+#ifndef DISABLE_UK_SYNC
     QObject::connect(mSyncMenu, SIGNAL(aboutToShow()), this,
         SLOT(triggerUpdateSyncMenu()));
+#endif
 
     QObject::connect(this, SIGNAL(aboutToShow()), this,
         SLOT(triggerUpdateMainMenu()));
@@ -125,7 +135,9 @@ void SystemTrayMenu::triggerUpdateMainMenu()
     this->addAction(QIcon::fromTheme("preferences-desktop"), tr("Configure"));
     this->addAction(QIcon::fromTheme("preferences-desktop"), tr("ConfigureIMPanel"));
     this->addAction(QIcon::fromTheme("preferences-desktop"), tr("ConfigureIM"));
+#ifndef DISABLE_UK_SYNC
     this->addMenu(mSyncMenu);
+#endif
     this->addSeparator();
 
     this->addAction(QIcon::fromTheme("view-refresh"), tr("Restart"));
@@ -144,12 +156,14 @@ void SystemTrayMenu::triggerUpdateIMListMenu()
     mAgent->triggerProperty(QString("/Fcitx/im"));
 }
 
+#ifndef DISABLE_UK_SYNC
 void SystemTrayMenu::triggerUpdateSyncMenu()
 {
     mSyncMenu->clear();
     mSyncMenu->addAction(QIcon::fromTheme(""), tr("ConfigureUp"));
     mSyncMenu->addAction(QIcon::fromTheme(""), tr("ConfigureDwon"));
 }
+#endif
 
 void SystemTrayMenu::doUpdateVKListMenu(const QList<KimpanelProperty> &prop_list)
 {
@@ -266,6 +280,7 @@ void SystemTrayMenu::startChildApp(const char *app_exe)
     }
 }
 
+#ifndef DISABLE_UK_SYNC
 void SystemTrayMenu::syncConfigUp()
 {
     qDebug()<<"SystemTrayMenu::syncConfigUp";
@@ -372,6 +387,7 @@ void SystemTrayMenu::syncConfigDown()
          QMessageBox::warning(this,tr("Warning"),tr("Please log in kuaipan!"));
     }
 }
+#endif	
 
 void SystemTrayMenu::menuItemOnClick(QAction *action)
 {
@@ -399,12 +415,14 @@ void SystemTrayMenu::menuItemOnClick(QAction *action)
     } else if (tr("Exit") == action->text()) {
         mAgent->exit();
         exit(0);
+#ifndef DISABLE_UK_SYNC		
     } else if (tr("ConfigureUp") == action->text()) {
         qDebug()<<"SystemTrayMenu::ConfigureUp";
         syncConfigUp();
     } else if (tr("ConfigureDwon") == action->text()){
         qDebug()<<"SystemTrayMenu::ConfigureDown";
         syncConfigDown();
+#endif		
     } else {
         MyAction *myAction = (MyAction *)action;
         if (myAction->getProp().key != "") {

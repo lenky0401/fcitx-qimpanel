@@ -27,6 +27,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
+#include "config.h"
 #include "skin/skinmenu.h"
 
 enum ExecMenuType
@@ -50,7 +51,9 @@ private slots:
     void triggerUpdateMainMenu();
     void triggerUpdateVKListMenu();
     void triggerUpdateIMListMenu();
+#ifndef DISABLE_UK_SYNC	
     void triggerUpdateSyncMenu();
+#endif
     void menuItemOnClick(QAction* action);
 
 private:
@@ -64,8 +67,10 @@ private:
     void doUpdateVKListMenu(const QList<KimpanelProperty> &prop_list);
     void doUpdateIMListMenu(const QList<KimpanelProperty> &prop_list);
     void startChildApp(const char *app_exe);
+#ifndef DISABLE_UK_SYNC
     void syncConfigUp();
     void syncConfigDown();
+#endif	
 public:
     void restart();
 
@@ -77,7 +82,9 @@ private:
     SkinMenu *mSkinMenu;
     QMenu *mVKListMenu;
     QMenu *mIMListMenu;
+#ifndef DISABLE_UK_SYNC
     QMenu *mSyncMenu;
+#endif
     ExecMenuType mExecMenuType;
 };
 

@@ -49,7 +49,7 @@ void TopLevel::setCenterWidget(QWidget* widget)
     widget->installEventFilter(this);
     widget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     layout()->addWidget(widget);
-    layout()->activate();
+    layout()->activate();//?
 }
 
 void TopLevel::showEvent(QShowEvent* event)

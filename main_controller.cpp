@@ -21,6 +21,9 @@
 #include <QSettings>
 #include <QDeclarativeView>
 #include <QtDeclarative/QDeclarativeContext>
+#include <QtDBus/QDBusConnection>
+#include <QtDBus/QDBusAbstractAdaptor>
+#include <QtDBus/QDBusInterface>
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -63,7 +66,7 @@ void MainController::loadCfg()
 void MainController::init()
 {
     loadCfg();
-
+    qDebug()<<"MainController::init()";
     qmlRegisterType<CandidateWord>();
 
     mTopLevel = new TopLevel;
@@ -144,10 +147,10 @@ void MainController::init()
         SIGNAL(updatePreeditCaret(int)),
         this, SLOT(updatePreeditCaret(int)));
 
-    socketpair(AF_UNIX, SOCK_STREAM, 0, mSigFd);
-    mSocketNotifier = new QSocketNotifier(mSigFd[1], QSocketNotifier::Read, this);
-    connect(mSocketNotifier, SIGNAL(activated(int)), this, SLOT(handleSig()));
-
+//    socketpair(AF_UNIX, SOCK_STREAM, 0, mSigFd);
+//    mSocketNotifier = new QSocketNotifier(mSigFd[1], QSocketNotifier::Read, this);
+//    connect(mSocketNotifier, SIGNAL(activated(int)), this, SLOT(handleSig()));
+    creatDBusService();//创建DBus服务
 }
 
 MainController::~MainController()
@@ -171,16 +174,15 @@ MainController::~MainController()
         delete mTrayMenu;
 }
 
-void MainController::handleSig()
-{
-    mSocketNotifier->setEnabled(false);
-    char tmp;
-    read(mSigFd[1], &tmp, sizeof(tmp));
-    qDebug() << "handleSig";
-    mSocketNotifier->setEnabled(true);
-
-    mTrayMenu->restart();
-}
+//void MainController::handleSig()
+//{
+//    mSocketNotifier->setEnabled(false);
+//    char tmp;
+//    read(mSigFd[1], &tmp, sizeof(tmp));
+//    qDebug() << "handleSig";
+//    mSocketNotifier->setEnabled(true);
+//    mTrayMenu->restart();
+//}
 
 SystemTrayMenu* MainController::getTrayMenu()
 {
@@ -329,3 +331,21 @@ void MainController::updatePreeditCaret(int pos)
     mModel->setInputStringCursorPos(pos);
 }
 
+void MainController::creatDBusService()
+{
+    // 用于建立到session bus的连接
+    QDBusConnection bus = QDBusConnection::sessionBus();
+    // 在session bus上注册名为"com.fcitx_qimpanel.hotel"的service
+    if (!bus.registerService("com.fcitx_qimpanel.hotel")) {  //注意命名规则-和_
+            qDebug() << bus.lastError().message();
+            exit(1);
+    }
+    // "QDBusConnection::ExportAllSlots"表示把类Hotel的所有Slot都导出为这个Object的method
+    bus.registerObject("/", mSelf ,QDBusConnection::ExportAllSlots);//可以优化只导出需要的
+}
+
+void MainController::qtDbusSot_restartQimpanel()
+{
+     mTrayMenu->restart();
+    qDebug()<< "MainController::qtDbusSot_restartQimpanel()";
+}

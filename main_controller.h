@@ -44,6 +44,8 @@ enum CandidateLayout {
 class MainController : public QObject
 {
     Q_OBJECT
+    // 定义Interface名称为"com.test.hotel"
+    Q_CLASSINFO("D-Bus Interface", "com.fcitx_qimpanel.hotel")
 
 public:
     static MainController* self();
@@ -71,7 +73,7 @@ private:
 private:
     QSocketNotifier *mSocketNotifier;
 private slots:
-    void handleSig();
+//    void handleSig();
 
 public:
     int mSigFd[2];
@@ -81,6 +83,7 @@ public:
     QString getSkinName();
     void setSkinName(QString skinName);
     SystemTrayMenu* getTrayMenu();
+    void creatDBusService();
 
 public slots:
     void updateProperty(const KimpanelProperty &prop);
@@ -99,6 +102,8 @@ public slots:
     void showLookupTable(bool to_show);
     void updateLookupTableCursor(int pos);
     void updatePreeditCaret(int pos);
+    void qtDbusSot_restartQimpanel();
+
 
 public:
     Q_INVOKABLE void getPrevPage();

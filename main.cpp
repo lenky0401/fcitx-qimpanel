@@ -88,17 +88,18 @@ char* getQimpanelBinPath(const char * const fileName)
     return sharePath;
 }
 
-void sigRoutine(int sigNum) {
-    switch (sigNum) {
-    case 1:
-        char a = '1';
-        write(MainController::self()->mSigFd[0], &a, sizeof(a));
-        break;
-    }
-    qDebug() << "Get a signal" << sigNum;
+//void sigRoutine(int sigNum) {
+//    switch (sigNum) {
+//    case 1:
+//        char a = '1';
+//        write(MainController::self()->mSigFd[0], &a, sizeof(a));
+//        qDebug()<<"write(MainController::self()->mSigFd[0], &a, sizeof(a))";
+//        break;
+//    }
+//    qDebug() << "Get a signal" << sigNum;
 
-    return;
-}
+//    return;
+//}
 
 #define FCITX_DBUS_SERVICE "org.fcitx.Fcitx"
 int fcitxIsNotRunning()
@@ -121,9 +122,9 @@ int fcitxIsNotRunning()
 
 int main(int argc, char** argv)
 {
-    signal(SIGHUP, SIG_IGN);
+//    signal(SIGHUP, SIG_IGN);
 
-    fcitx_utils_init_as_daemon();
+    fcitx_utils_init_as_daemon();//?
 
     if (isRunning()) {
         exit(1);
@@ -154,7 +155,7 @@ int main(int argc, char** argv)
 
     MainController *ctrl = MainController::self();
 
-    signal(SIGHUP, sigRoutine);
+//    signal(SIGHUP, sigRoutine);
 
     app->setQuitOnLastWindowClosed(false);
     app->exec();

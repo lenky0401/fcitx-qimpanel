@@ -83,6 +83,13 @@ Rectangle {
                 font.pointSize : mainSkin.candFontSize != 0 ? mainSkin.candFontSize : mainSkin.fontSize
                 MouseArea {
                     anchors.fill: parent
+                    hoverEnabled: true
+                    onEntered: {
+                            parent.opacity = 0.6
+                    }
+                    onExited: {
+                            parent.opacity = 1
+                    }
                     onClicked: {
                             mainCtrl.selectCandidate(index)
                     }
@@ -105,6 +112,13 @@ Rectangle {
                 font.pointSize : mainSkin.candFontSize != 0 ? mainSkin.candFontSize : mainSkin.fontSize
                 MouseArea {
                     anchors.fill: parent
+                    hoverEnabled: true
+                    onEntered: {
+                            parent.opacity = 0.6
+                    }
+                    onExited: {
+                            parent.opacity = 1
+                    }
                     onClicked: {
                             mainCtrl.selectCandidate(index)
                     }

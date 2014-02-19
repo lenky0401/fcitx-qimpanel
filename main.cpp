@@ -38,18 +38,20 @@
 #include "main_controller.h"
 
 #define BUFF_SIZE (512)
-char sharePath[BUFF_SIZE] = {0};
+char filePath[BUFF_SIZE] = {0};
 
-#define LOCKFILE "/tmp/fcitx-qimpanel.pid"
+#define LOCKFILE "/tmp/fcitx-qimpanel:%d.pid"
 #define LOCKMODE (S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)
 int isRunning()
 {
     char buf[16];
     struct flock fl;
 
-    int fd = open(LOCKFILE, O_RDWR|O_CREAT, LOCKMODE);
+    snprintf(filePath, BUFF_SIZE, LOCKFILE, fcitx_utils_get_display_number());
+
+    int fd = open(filePath, O_RDWR|O_CREAT, LOCKMODE);
     if (fd < 0) {
-        printf("Can not open %s: %s.\n", LOCKFILE, strerror(errno));
+        printf("Can not open %s: %s.\n", filePath, strerror(errno));
         return -1;
     }
 
@@ -59,12 +61,12 @@ int isRunning()
     fl.l_len = 0;
 
     if (fcntl(fd, F_SETLK, &fl) < 0) {
-        printf("Can not lock %s: %s.\n", LOCKFILE, strerror(errno));
+        printf("Can not lock %s: %s.\n", filePath, strerror(errno));
         return -1;
     }
 
     ftruncate(fd, 0);
-    sprintf(buf, "%d", getpid());
+    sprintf(buf, "%d\n", getpid());
     write(fd, buf, strlen(buf));
 
     return 0;
@@ -72,20 +74,20 @@ int isRunning()
 
 char* getQimpanelSharePath(const char * const fileName)
 {
-    strcpy(sharePath, "/usr/share/fcitx-qimpanel/");
-    strcpy(sharePath + strlen("/usr/share/fcitx-qimpanel/"), fileName);
-    printf("%s\n", sharePath);
+    strcpy(filePath, "/usr/share/fcitx-qimpanel/");
+    strcpy(filePath + strlen("/usr/share/fcitx-qimpanel/"), fileName);
+    printf("%s\n", filePath);
 
-    return sharePath;
+    return filePath;
 }
 
 char* getQimpanelBinPath(const char * const fileName)
 {
-    strcpy(sharePath, "/usr/bin/");
-    strcpy(sharePath + strlen("/usr/bin/"), fileName);
-    printf("%s\n", sharePath);
+    strcpy(filePath, "/usr/bin/");
+    strcpy(filePath + strlen("/usr/bin/"), fileName);
+    printf("%s\n", filePath);
 
-    return sharePath;
+    return filePath;
 }
 
 //void sigRoutine(int sigNum) {

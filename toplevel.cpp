@@ -84,6 +84,9 @@ void TopLevel::setSpotRect(const QRect& rect)
 
 void TopLevel::updateLocation()
 {
+    if (this->isVisible() == false)
+        return;
+
     QRect screenRect = QApplication::desktop()->screenGeometry(QPoint(m_spotRect.x(), m_spotRect.y()));
     int x;
     x = qMin(m_spotRect.x(), screenRect.x() + screenRect.width() - width());

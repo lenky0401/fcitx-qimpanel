@@ -138,8 +138,11 @@ int main(int argc, char** argv)
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
 
     QTranslator translator;
-    if (translator.load(QString(getQimpanelSharePath("zh_CN.qm"))) == false)
-        qDebug() << "load qm error.";
+    QString locale = QLocale::system().name();
+    if(locale == "zh_CN") {
+        if (translator.load(QString(getQimpanelSharePath("zh_CN.qm"))) == false)
+            qDebug() << "load qm error.";
+    }
 
     QApplication *app = new QApplication(argc, argv);
     app->installTranslator(&translator);

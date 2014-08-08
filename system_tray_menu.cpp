@@ -242,7 +242,8 @@ void SystemTrayMenu::restart()
             perror("fork");
             _exit(1);
         } else if (grandchild_pid == 0) { /* grandchild process  */
-            execvp("fcitx-qimpanel", NULL);
+            char *argv_exec[] = {(char *)"fcitx-qimpanel", NULL};
+            execvp("fcitx-qimpanel", argv_exec);
             perror("execvp");
             _exit(1);
         } else {

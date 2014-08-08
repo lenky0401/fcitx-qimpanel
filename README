@@ -7,12 +7,4 @@ How to Install fcitx-qimpanel in ubuntu:
   cmake ../
   make
   sudo make install
-    
-How to Install sogou skin:
 
-You can find sogou skin here: http://pinyin.sogou.com/skins/
-Once you have download skin file named like demo.ssf, you can install like this:
-
-  mv demo.ssf demo.zip
-  unzip -d demo demo.zip
-  sudo cp -r demo /usr/share/fcitx/skin/

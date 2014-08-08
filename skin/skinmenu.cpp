@@ -26,7 +26,6 @@
 #include "../main_controller.h"
 #include "../my_action.h"
 #include "skinfcitx.h"
-#include "skinsogou.h"
 #include "../main.h"
 
 SkinMenu::SkinMenu(const QString &title, QWidget *parent)
@@ -80,8 +79,6 @@ void SkinMenu::triggerUpdateSkinListMenu()
 
                 if (fcitxSkinConfFile.exists()){
                     skinClass = FCITX;
-                }else if (sogouSkinConfFile.exists()){
-                    skinClass = SOGOU;
                 }else continue;
 
                 menu = new MyAction(iter->fileName(), this);
@@ -116,8 +113,6 @@ void SkinMenu::triggerUpdateSkinListMenu()
 
                 if (fcitxSkinConfFile.exists()){
                     skinClass = FCITX;
-                }else if (sogouSkinConfFile.exists()){
-                    skinClass = SOGOU;
                 }else continue;
 
                 //check if exist in local
@@ -167,8 +162,6 @@ void SkinMenu::menuItemOnClick(QAction *action)
 
     if (FCITX == myAction->getSkinClass())
         skin = new SkinFcitx;
-    else if (SOGOU == myAction->getSkinClass())
-        skin = new SkinSogou;
     else qDebug() << "Load skin failed!";
 
     skin->loadSkin(myAction->getSkinPath());

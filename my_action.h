@@ -26,7 +26,6 @@
 typedef enum SkinClass
 {
     FCITX,
-    SOGOU
 } SkinClass;
 
 class MyAction : public QAction

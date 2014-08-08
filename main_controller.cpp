@@ -197,10 +197,6 @@ void MainController::setSkinBase(SkinBase *skinBase, int skinType)
    mView->rootContext()->setContextProperty("mainSkin", mSkinBase);
 
    switch (skinType) {
-       case SOGOU:
-           qDebug() << "SkinType is sogou";
-           mView->setSource(QUrl("qrc:/qml/sogou.qml"));
-           break;
        case FCITX:
        default:
            qDebug() << "SkinType is default";

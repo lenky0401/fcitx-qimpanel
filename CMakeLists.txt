@@ -34,3 +34,4 @@ install(TARGETS fcitx-qimpanel RUNTIME DESTINATION ${pkgbindir})
 install(FILES ${fcitx-qimpanel_TRAN_SRCS} DESTINATION ${pkgdatadir})
 
 add_subdirectory(uk-default-skin)
+add_subdirectory(config-tool)

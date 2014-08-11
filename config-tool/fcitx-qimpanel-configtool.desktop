@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=fcitx-qimpanel-configtool
+Name[zh_CN]=小企鹅皮肤配置向导
+Comment=fcitx皮肤配置向导-UbuntuKylin
+Exec=/usr/bin/fcitx-qimpanel-configtool
+Icon=fcitx_ubuntukylin.png
+StartupNotify=true
+Terminal=false
+Type=Application
+Categories=GNOME;GTK;RasterGraphics;Viewer;Utility;Network;

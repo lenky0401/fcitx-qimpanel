@@ -48,8 +48,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->listWidgetAllSkin, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
             this, SLOT(sltOnAllSkinItemDoubleClicked(QListWidgetItem*)));
-    connect(ui->listWidgetAllSkin, SIGNAL(itemClicked(QListWidgetItem*)),
-            this, SLOT(sltOnAllSkinItemClicked(QListWidgetItem *)));
+
     connect(ui->comboBoxSkinType,SIGNAL(currentIndexChanged(int)),this,SLOT(setListWidgetAllSkinIndex(int)));
     linkQtDbusServer();
 }
@@ -134,7 +133,7 @@ void MainWindow::sltOnAllSkinItemDoubleClicked(QListWidgetItem *item)
     }
 }
 
-void MainWindow::sltOnAllSkinItemClicked(QListWidgetItem *current)
+void MainWindow::on_listWidgetAllSkin_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous)
 {
     curtSkinType = current->text();
     if(curtSkinType.indexOf("local")==-1)
@@ -164,7 +163,6 @@ void MainWindow::sltOnAllSkinItemClicked(QListWidgetItem *current)
     }
 
     ui->comboBoxSkinType->setCurrentIndex(ui->listWidgetAllSkin->currentRow());//感觉如果加入其它皮肤会出bug
-
 }
 
 void MainWindow::searchAndSetSystemSkin()
@@ -432,25 +430,3 @@ void MainWindow::linkQtDbusServer()
     //            fprintf(stderr, "Check In fail!\n");
     //    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

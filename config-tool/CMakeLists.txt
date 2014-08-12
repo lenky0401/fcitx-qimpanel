@@ -37,8 +37,10 @@ target_link_libraries(fcitx-qimpanel-configtool fcitx-utils
     ${QT_QTDECLARATIVE_LIBRARY}
     #${QT_QTNETWORK_LIBRARY}
     )
-
+install(FILES fcitx_ubuntukylin.png DESTINATION /usr/share/pixmaps)
+install(FILES fcitx-qimpanel-configtool.desktop DESTINATION /usr/share/applications)
 set(pkgbindir 	/usr/bin/)
 set(pkgdatadir 	/usr/share/fcitx-qimpanel)
 install(TARGETS fcitx-qimpanel-configtool RUNTIME DESTINATION ${pkgbindir})
+
 

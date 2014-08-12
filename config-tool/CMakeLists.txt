@@ -38,5 +38,7 @@ target_link_libraries(fcitx-qimpanel-configtool fcitx-utils
     #${QT_QTNETWORK_LIBRARY}
     )
 
+set(pkgbindir 	/usr/bin/)
+set(pkgdatadir 	/usr/share/fcitx-qimpanel)
 install(TARGETS fcitx-qimpanel-configtool RUNTIME DESTINATION ${pkgbindir})
 

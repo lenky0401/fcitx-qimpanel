@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     QString locale = QLocale::system().name();
     if(locale == "zh_CN") {
        if (translator.load("/usr/share/fcitx-qimpanel/fcitx_skin_zh_CN.qm") == false)
-    //    if (translator.load(QString(getQimpanelSharePath("fcitx_skin_zh_CN.qm"))) == false)
+//        if (translator.load(QString(getQimpanelSharePath("fcitx_skin_zh_CN.qm"))) == false)
             qDebug() << "load qm error.";
     }
     QApplication app(argc, argv);
@@ -34,26 +34,30 @@ int main(int argc, char *argv[])
     QDir *temp = new QDir;
     if(false == temp->exists(localPath + "fcitx-qimpanel"))
     {
-        QString cmd = "mkdir " + localPath +"fcitx-qimpanel";
-        QByteArray ba = cmd.toLatin1();
-        const char *transpd = ba.data();
-        if(0!= system(transpd))
-        {
-            return 0;
-        }
+//        QString cmd = "mkdir " + localPath +"fcitx-qimpanel";
+//        QByteArray ba = cmd.toLatin1();
+//        const char *transpd = ba.data();
+//        if(0!= system(transpd))
+//        {
+//            return 0;
+//        }
+        if(!temp->mkdir(localPath + "fcitx-qimpanel"))
+            qDebug()<<"mkdir "+localPath + "fcitx-qimpanel fail";
     }
 
     QString localPath2 = qgetenv("HOME") + "/.config/fcitx-qimpanel/";
     QDir *temp2 = new QDir;
     if(false == temp2->exists(localPath2 + "skin"))
     {
-        QString cmd2 = "mkdir " + localPath2 +"skin";
-        QByteArray ba2 = cmd2.toLatin1();
-        const char *transpd2 = ba2.data();
-        if(0!= system(transpd2))
-        {
-            return 0 ;
-        }
+//        QString cmd2 = "mkdir " + localPath2 +"skin";
+//        QByteArray ba2 = cmd2.toLatin1();
+//        const char *transpd2 = ba2.data();
+//        if(0!= system(transpd2))
+//        {
+//            return 0 ;
+//        }
+        if(!temp2->mkdir(localPath2 +"skin"))
+            qDebug()<<"mkdir "+localPath2 +"skin fail";
     }
 
     MainWindow mainWindow;

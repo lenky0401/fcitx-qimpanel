@@ -26,7 +26,10 @@ EditingSkinDialog::EditingSkinDialog(bool pHorizontal,QListWidgetItem *item,
     mHorizontal = pHorizontal;
     ui->lineEditSkinAuthor->setEnabled(false);
     ui->lineEditSkinVersion->setEnabled(false);
-
+    ui->lineEdit_iBackImg->setEnabled(false);
+    ui->lineEdit_iTipsImg->setEnabled(false);
+    ui->lineEdit_iBackArrow->setEnabled(false);
+    ui->lineEdit_iForwardArrow->setEnabled(false);
     this->setWindowTitle("skin/"+mItem->text()+"/fcitx_skin.conf");
 
     if(mItem->text().indexOf("(local)")==-1)

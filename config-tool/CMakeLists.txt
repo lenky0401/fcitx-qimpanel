@@ -42,5 +42,5 @@ install(FILES fcitx-qimpanel-configtool.desktop DESTINATION /usr/share/applicati
 set(pkgbindir 	/usr/bin/)
 set(pkgdatadir 	/usr/share/fcitx-qimpanel)
 install(TARGETS fcitx-qimpanel-configtool RUNTIME DESTINATION ${pkgbindir})
-
+install(FILES ${fcitx-qimpanel-configtool_TRAN_SRCS} DESTINATION ${pkgdatadir})
 

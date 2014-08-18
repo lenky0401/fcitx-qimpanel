@@ -7,7 +7,7 @@ find_package(Qt4 REQUIRED)
 include_directories(${QT_INCLUDES} ${CMAKE_CURRENT_BINARY_DIR} 
     ${CMAKE_CURRENT_SOURCE_DIR})
 
-SET(fcitx-qimpanel_TRANS po/zh_CN.ts config-tool/po/fcitx_skin_zh_CN.ts)
+SET(fcitx-qimpanel_TRANS po/zh_CN.ts)
 SET(fcitx-qimpanel_RCCS qml.qrc)
 set(fcitx-qimpanel_SRCS main.cpp main_controller.cpp toplevel.cpp
     main_model.cpp kimpanelagent.cpp candidate_word.cpp system_tray_menu.cpp 

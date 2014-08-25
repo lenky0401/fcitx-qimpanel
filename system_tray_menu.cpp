@@ -72,8 +72,12 @@ void SystemTrayMenu::init()
         SLOT(triggerUpdateSyncMenu()));
 #endif
 
-    QObject::connect(this, SIGNAL(aboutToShow()), this,
-        SLOT(triggerUpdateMainMenu()));
+    if (isUnity())
+        QObject::connect(this, SIGNAL(aboutToShow()), this,
+            SLOT(triggerUpdateIMListMenu()));
+    else
+        QObject::connect(this, SIGNAL(aboutToShow()), this,
+            SLOT(triggerUpdateMainMenu()));
 
     QObject::connect(this, SIGNAL(triggered(QAction*)), this,
         SLOT(menuItemOnClick(QAction *)));
@@ -120,6 +124,11 @@ void SystemTrayMenu::triggerUpdateMainMenu()
     this->addAction(QIcon::fromTheme("help-contents"), tr("Online &Help!"));
     this->addSeparator();
 
+    if (isUnity()) {
+        appendIMListToMenu(this, mIMList);
+        this->addSeparator();
+    }
+
     foreach(const KimpanelProperty &prop, this->mStatusMenuList) {
         menu = new MyAction(QIcon::fromTheme(prop.icon), prop.label, this);
         menu->setProp(prop);
@@ -128,7 +137,8 @@ void SystemTrayMenu::triggerUpdateMainMenu()
     this->addSeparator();
 
     this->addMenu(mVKListMenu);
-    this->addMenu(mIMListMenu);
+    if (!isUnity())
+        this->addMenu(mIMListMenu);
     this->addMenu(mSkinMenu);
     this->addSeparator();
 
@@ -180,25 +190,30 @@ void SystemTrayMenu::doUpdateVKListMenu(const QList<KimpanelProperty> &prop_list
 
 void SystemTrayMenu::doUpdateIMListMenu(const QList<KimpanelProperty> &prop_list)
 {
+    mIMListMenu->clear();
+    appendIMListToMenu(mIMListMenu, prop_list);
+}
+
+void SystemTrayMenu::appendIMListToMenu(QMenu *menu, const QList<KimpanelProperty> &prop_list)
+{
     bool checked = false;
-    MyAction *firstMenu = NULL, *menu;
+    MyAction *firstAction = NULL, *action;
     QList<KimpanelProperty>::const_iterator iter;
 
-    mIMListMenu->clear();
     for (iter = prop_list.begin(); iter != prop_list.end(); ++ iter) {
-        menu = new MyAction(QIcon::fromTheme(iter->icon), iter->label, this);
-        menu->setProp(*iter);
-        mIMListMenu->addAction(menu);
-        if (firstMenu == NULL)
-            firstMenu = menu;
-        menu->setCheckable(true);
+        action = new MyAction(QIcon::fromTheme(iter->icon), iter->label, this);
+        action->setProp(*iter);
+        menu->addAction(action);
+        if (firstAction == NULL)
+            firstAction = action;
+        action->setCheckable(true);
         if (iter->label == this->mCurtIMLabel) {
             checked = true;
-            menu->setChecked(true);
+            action->setChecked(true);
         }
     }
-    if (!checked)
-        firstMenu->setChecked(true);
+    if (!checked && firstAction)
+        firstAction->setChecked(true);
 }
 
 void SystemTrayMenu::execMenu(const QList<KimpanelProperty> &prop_list)
@@ -210,7 +225,12 @@ void SystemTrayMenu::execMenu(const QList<KimpanelProperty> &prop_list)
         doUpdateVKListMenu(prop_list);
         break;
     case updateIMListMenu:
-        doUpdateIMListMenu(prop_list);
+        if (isUnity()) {
+            mIMList = prop_list;
+            triggerUpdateMainMenu();
+        } else {
+            doUpdateIMListMenu(prop_list);
+        }
         break;
     //case updateThemerMenu:
     //    tmpMenu = mSkinMenu;
@@ -256,7 +276,7 @@ void SystemTrayMenu::restart()
     }
 }
 
-void SystemTrayMenu::startChildApp(const char *app_exe)
+void SystemTrayMenu::startChildApp(const char *app_exe, char * const argv[])
 {
     /* exec command */
     pid_t child_pid;
@@ -272,7 +292,7 @@ void SystemTrayMenu::startChildApp(const char *app_exe)
             perror("fork");
             _exit(1);
         } else if (grandchild_pid == 0) { /* grandchild process  */
-            execvp(app_exe, NULL);
+            execvp(app_exe, argv);
             perror("execvp");
             _exit(1);
         } else {
@@ -430,4 +450,10 @@ void SystemTrayMenu::menuItemOnClick(QAction *action)
             mAgent->triggerProperty(myAction->getProp().key);
         }
     }
+}
+
+bool SystemTrayMenu::isUnity()
+{
+    const char *desktop = getenv("XDG_CURRENT_DESKTOP");
+    return desktop && !strcmp(desktop, "Unity");
 }

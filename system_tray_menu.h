@@ -66,7 +66,8 @@ public slots:
 private:
     void doUpdateVKListMenu(const QList<KimpanelProperty> &prop_list);
     void doUpdateIMListMenu(const QList<KimpanelProperty> &prop_list);
-    void startChildApp(const char *app_exe);
+    void appendIMListToMenu(QMenu *menu, const QList<KimpanelProperty> &prop_list);
+    void startChildApp(const char *app_exe, char * const argv[] = NULL);
 #ifndef DISABLE_UK_SYNC
     void syncConfigUp();
     void syncConfigDown();
@@ -75,9 +76,13 @@ public:
     void restart();
 
 private:
+    static bool isUnity();
+
+private:
     QString mCurtIMLabel;
     //前两个用不到，见后端KimpanelRegisterAllStatus()函数
 #define StatusMenuSkip (2)
+    QList<KimpanelProperty> mIMList;
     QList<KimpanelProperty> mStatusMenuList;
     SkinMenu *mSkinMenu;
     QMenu *mVKListMenu;

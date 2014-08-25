@@ -150,6 +150,13 @@ void SystemTrayMenu::triggerUpdateMainMenu()
 #endif
     this->addSeparator();
 
+    if (isUnity()) {
+        this->addAction(tr("Character Map"));
+        this->addAction(tr("Keyboard Layout Chart"));
+        this->addAction(tr("Text Entry Settings…"));
+        this->addSeparator();
+    }
+
     this->addAction(QIcon::fromTheme("view-refresh"), tr("Restart"));
     this->addAction(QIcon::fromTheme("application-exit"), tr("Exit"));
 }
@@ -276,7 +283,7 @@ void SystemTrayMenu::restart()
     }
 }
 
-void SystemTrayMenu::startChildApp(const char *app_exe, char * const argv[])
+void SystemTrayMenu::startChildApp(const char *app_exe, const char * const argv[])
 {
     /* exec command */
     pid_t child_pid;
@@ -292,7 +299,7 @@ void SystemTrayMenu::startChildApp(const char *app_exe, char * const argv[])
             perror("fork");
             _exit(1);
         } else if (grandchild_pid == 0) { /* grandchild process  */
-            execvp(app_exe, argv);
+            execvp(app_exe, const_cast<char * const *>(argv));
             perror("execvp");
             _exit(1);
         } else {
@@ -444,6 +451,28 @@ void SystemTrayMenu::menuItemOnClick(QAction *action)
         qDebug()<<"SystemTrayMenu::ConfigureDown";
         syncConfigDown();
 #endif		
+    } else if (tr("Character Map") == action->text()) {
+        startChildApp("gucharmap");
+    } else if (tr("Keyboard Layout Chart") == action->text()) {
+        const char *argv[4] = { "gkbd-keyboard-display", "-l", NULL, NULL };
+
+        QString layout = "us";
+        QList<KimpanelProperty>::const_iterator i;
+        for (i = mIMList.begin(); i != mIMList.end(); ++i) {
+            if (i->label == mCurtIMLabel) {
+                if (i->key.startsWith("/Fcitx/im/fcitx-keyboard-")) {
+                    layout = i->key.mid(strlen("/Fcitx/im/fcitx-keyboard-"));
+                }
+                break;
+            }
+        }
+        QByteArray bytes = layout.toLatin1();
+        argv[2] = bytes.constData();
+
+        startChildApp("gkbd-keyboard-display", argv);
+    } else if (tr("Text Entry Settings…") == action->text()) {
+        const char *argv[4] = { "unity-control-center", "region", "layouts", NULL };
+        startChildApp("unity-control-center", argv);
     } else {
         MyAction *myAction = (MyAction *)action;
         if (myAction->getProp().key != "") {

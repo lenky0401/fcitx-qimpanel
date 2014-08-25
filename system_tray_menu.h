@@ -67,7 +67,7 @@ private:
     void doUpdateVKListMenu(const QList<KimpanelProperty> &prop_list);
     void doUpdateIMListMenu(const QList<KimpanelProperty> &prop_list);
     void appendIMListToMenu(QMenu *menu, const QList<KimpanelProperty> &prop_list);
-    void startChildApp(const char *app_exe, char * const argv[] = NULL);
+    void startChildApp(const char *app_exe, const char * const argv[] = NULL);
 #ifndef DISABLE_UK_SYNC
     void syncConfigUp();
     void syncConfigDown();

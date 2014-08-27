@@ -467,6 +467,9 @@ void SystemTrayMenu::menuItemOnClick(QAction *action)
             }
         }
         QByteArray bytes = layout.toLatin1();
+        int separator = bytes.indexOf('-');
+        if (separator != -1)
+            bytes[separator] = '\t';
         argv[2] = bytes.constData();
 
         startChildApp("gkbd-keyboard-display", argv);

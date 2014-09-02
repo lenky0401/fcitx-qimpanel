@@ -30,7 +30,7 @@
 #include "system_tray_menu.h"
 #include "config.h"
 
-#ifndef DISABLE_UK_SYNC
+#ifdef ENABLE_UK_SYNC
 #define UBUNTU_KYLIN_SYNC "/[Ubuntu\\ Kylin\\ Sync]/"
 
 #define UBUNTU_KYLIN_SYNC_M "/[Ubuntu Kylin Sync]/"
@@ -47,7 +47,7 @@ SystemTrayMenu::~SystemTrayMenu()
     delete mVKListMenu;
     delete mIMListMenu;
     delete mSkinMenu;
-#ifndef DISABLE_UK_SYNC
+#ifdef ENABLE_UK_SYNC
     delete mSyncMenu;
 #endif
 }
@@ -56,7 +56,7 @@ void SystemTrayMenu::init()
 {
     mVKListMenu = new QMenu(tr("Virtual Keyboard"), this);
     mIMListMenu = new QMenu(tr("Input Method"), this);
-#ifndef DISABLE_UK_SYNC
+#ifdef ENABLE_UK_SYNC
     mSyncMenu = new QMenu(tr("ConfigureSync"),this);
 #endif
     mSkinMenu = new SkinMenu(tr("Skin"), this);
@@ -67,7 +67,7 @@ void SystemTrayMenu::init()
     QObject::connect(mIMListMenu, SIGNAL(aboutToShow()), this,
         SLOT(triggerUpdateIMListMenu()));
 
-#ifndef DISABLE_UK_SYNC
+#ifdef ENABLE_UK_SYNC
     QObject::connect(mSyncMenu, SIGNAL(aboutToShow()), this,
         SLOT(triggerUpdateSyncMenu()));
 #endif
@@ -145,7 +145,7 @@ void SystemTrayMenu::triggerUpdateMainMenu()
     this->addAction(QIcon::fromTheme("preferences-desktop"), tr("Configure"));
     this->addAction(QIcon::fromTheme("preferences-desktop"), tr("ConfigureIMPanel"));
     this->addAction(QIcon::fromTheme("preferences-desktop"), tr("ConfigureIM"));
-#ifndef DISABLE_UK_SYNC
+#ifdef ENABLE_UK_SYNC
     this->addMenu(mSyncMenu);
 #endif
     this->addSeparator();
@@ -173,7 +173,7 @@ void SystemTrayMenu::triggerUpdateIMListMenu()
     mAgent->triggerProperty(QString("/Fcitx/im"));
 }
 
-#ifndef DISABLE_UK_SYNC
+#ifdef ENABLE_UK_SYNC
 void SystemTrayMenu::triggerUpdateSyncMenu()
 {
     mSyncMenu->clear();
@@ -308,7 +308,7 @@ void SystemTrayMenu::startChildApp(const char *app_exe, const char * const argv[
     }
 }
 
-#ifndef DISABLE_UK_SYNC
+#ifdef ENABLE_UK_SYNC
 void SystemTrayMenu::syncConfigUp()
 {
     qDebug()<<"SystemTrayMenu::syncConfigUp";
@@ -443,7 +443,7 @@ void SystemTrayMenu::menuItemOnClick(QAction *action)
     } else if (tr("Exit") == action->text()) {
         mAgent->exit();
         exit(0);
-#ifndef DISABLE_UK_SYNC		
+#ifdef ENABLE_UK_SYNC
     } else if (tr("ConfigureUp") == action->text()) {
         qDebug()<<"SystemTrayMenu::ConfigureUp";
         syncConfigUp();

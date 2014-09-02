@@ -51,7 +51,7 @@ private slots:
     void triggerUpdateMainMenu();
     void triggerUpdateVKListMenu();
     void triggerUpdateIMListMenu();
-#ifndef DISABLE_UK_SYNC	
+#ifdef ENABLE_UK_SYNC
     void triggerUpdateSyncMenu();
 #endif
     void menuItemOnClick(QAction* action);
@@ -68,7 +68,7 @@ private:
     void doUpdateIMListMenu(const QList<KimpanelProperty> &prop_list);
     void appendIMListToMenu(QMenu *menu, const QList<KimpanelProperty> &prop_list);
     void startChildApp(const char *app_exe, const char * const argv[] = NULL);
-#ifndef DISABLE_UK_SYNC
+#ifdef ENABLE_UK_SYNC
     void syncConfigUp();
     void syncConfigDown();
 #endif	
@@ -87,7 +87,7 @@ private:
     SkinMenu *mSkinMenu;
     QMenu *mVKListMenu;
     QMenu *mIMListMenu;
-#ifndef DISABLE_UK_SYNC
+#ifdef ENABLE_UK_SYNC
     QMenu *mSyncMenu;
 #endif
     ExecMenuType mExecMenuType;

@@ -130,9 +130,9 @@ void SystemTrayMenu::triggerUpdateMainMenu()
     }
 
     foreach(const KimpanelProperty &prop, this->mStatusMenuList) {
-        menu = new MyAction(QIcon::fromTheme(prop.icon), prop.label, this);
-        menu->setProp(prop);
-        this->addAction(menu);
+           menu = new MyAction(QIcon::fromTheme(prop.icon), prop.label, this);
+           menu->setProp(prop);
+           this->addAction(menu);
     }
     this->addSeparator();
 
@@ -208,7 +208,10 @@ void SystemTrayMenu::appendIMListToMenu(QMenu *menu, const QList<KimpanelPropert
     QList<KimpanelProperty>::const_iterator iter;
 
     for (iter = prop_list.begin(); iter != prop_list.end(); ++ iter) {
-        action = new MyAction(QIcon::fromTheme(iter->icon), iter->label, this);
+        if(iter->icon=="fcitx-kbd" || iter->icon==""||iter->icon.indexOf("indicator-keyboard")!=-1)
+            action = new MyAction(QIcon::fromTheme("fcitx-kbd"), iter->label, this);
+        else
+            action = new MyAction(QIcon::fromTheme(iter->icon), iter->label, this);
         action->setProp(*iter);
         menu->addAction(action);
         if (firstAction == NULL)

@@ -227,7 +227,11 @@ void MainController::updateProperty(const KimpanelProperty &prop)
         mSystemTray->setIcon(icon);
         return;
     }
-    QIcon icon = QIcon::fromTheme(prop.icon, QIcon::fromTheme("fcitx-kbd"));
+   QIcon icon;
+   if(prop.icon=="fcitx-kbd" || prop.icon==""|| prop.icon.indexOf("indicator-keyboard")!=-1)
+               icon = QIcon::fromTheme("fcitx-kbd");
+   else
+         icon = QIcon::fromTheme(prop.icon, QIcon::fromTheme("fcitx-kbd"));
     mSystemTray->setIcon(icon);
     mModel->resetData();
 }

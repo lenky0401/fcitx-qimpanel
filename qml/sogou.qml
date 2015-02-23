@@ -1,4 +1,4 @@
-import QtQuick 1.1
+import QtQuick 2.0
 
 Rectangle {
     id: mainWindow
@@ -99,8 +99,8 @@ Rectangle {
             model: mainModel.candidateWords
             Text {
                 id: "candidateWord"
-                text: "<font style='color:" + mainSkin.indexColor + "'>" + cddLabel + "</font>" + 
-                         "<font style='color:" + ((index == mainModel.highLight) ? mainSkin.firstCandColor : 
+                text: "<font color='" + mainSkin.indexColor + "'>" + cddLabel + "</font>" + 
+                         "<font color='" + ((index == mainModel.highLight) ? mainSkin.firstCandColor : 
                             mainSkin.otherColor) + "'>" + cddText + "</font>" + "  "
                 font.pointSize : mainSkin.candFontSize != 0 ? mainSkin.candFontSize : mainSkin.fontSize
                 MouseArea {
@@ -121,8 +121,8 @@ Rectangle {
             model: mainModel.candidateWords
             Text {
                 id: "candidateWord"
-                text: "<font style='color:" + mainSkin.indexColor + "'>" + cddLabel + "</font>" + 
-                         "<font style='color:" + ((index == mainModel.highLight) ? mainSkin.firstCandColor : 
+                text: "<font color='" + mainSkin.indexColor + "'>" + cddLabel + "</font>" + 
+                         "<font color='" + ((index == mainModel.highLight) ? mainSkin.firstCandColor : 
                             mainSkin.otherColor) + "'>" + cddText + "</font>" + "  "
                 font.pointSize : mainSkin.candFontSize != 0 ? mainSkin.candFontSize : mainSkin.fontSize
                 MouseArea {
@@ -191,7 +191,7 @@ Rectangle {
         target: mainModel
         
         onMainWindowSizeChanged: {
-            var tmp;
+            var tmp, i;
             var width, width1;
             var height, height1;
             
@@ -233,20 +233,32 @@ Rectangle {
                 
             if (mainModel.showLookupTable) {
                 if (mainSkin.outputCandPosX > 0) {
-                    if (mainModel.isHorizontal)
-                        tmp = horizontal.x + horizontal.width;
-                    else
-                        tmp = vertical.x + vertical.width;
+                    if (mainModel.isHorizontal) {
+                        tmp = horizontal.x;
+                        for (i = 0; i < horizontal.children.length; i++)
+                            tmp += horizontal.children[i].width;
+                    } else {
+                        tmp = 0;
+                        for (i = 0; i < vertical.children.length; i++)
+                            tmp = max(tmp, vertical.children[i].width);
+                        tmp += vertical.x;
+                    }
                     width = max(width, tmp);
                 } else {
                     width1 = max(width1, -mainSkin.outputCandPosX);
                 }
                 
                 if (mainSkin.outputCandPosY > 0) {
-                    if (mainModel.isHorizontal)
-                        tmp = horizontal.y + horizontal.height;
-                    else
-                        tmp = vertical.y + vertical.height;
+                    if (mainModel.isHorizontal) {
+                        tmp = 0;
+                        for (i = 0; i < horizontal.children.length; i++)
+                            tmp = max(tmp, horizontal.children[i].height);
+                        tmp += horizontal.y;
+                    } else {
+                        tmp = vertical.y;
+                        for (i = 0; i < vertical.children.length; i++)
+                            tmp += vertical.children[i].height;
+                    }
                     height = max(height, tmp);
                 } else {
                     height1 = max(height1, -mainSkin.outputCandPosY);

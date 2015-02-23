@@ -17,13 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QDebug>
-#include <QSettings>
-#include <QDeclarativeView>
-#include <QtDeclarative/QDeclarativeContext>
-#include <QtDBus/QDBusConnection>
-#include <QtDBus/QDBusAbstractAdaptor>
-#include <QtDBus/QDBusInterface>
+#include <QtQuick>
+#include <QtDBus>
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -70,18 +65,16 @@ void MainController::init()
     qmlRegisterType<CandidateWord>();
 
     mTopLevel = new TopLevel;
-    mView = new QDeclarativeView;
+    mView = new QQuickWidget;
     mModel = MainModel::self();
     mModel->setIsHorizontal(mIsHorizontal);
 
     mSkinBase = new SkinBase;
 
     mTopLevel->setCenterWidget(mView);
-
+    mView->setClearColor(Qt::transparent);
     mView->setContentsMargins(0, 0, 0, 0);
-    mView->setResizeMode(QDeclarativeView::SizeViewToRootObject);
-    mView->setResizeAnchor(QGraphicsView::AnchorViewCenter);
-    mView->viewport()->setAutoFillBackground(false);
+    mView->setResizeMode(QQuickWidget::SizeViewToRootObject);
     mView->rootContext()->setContextProperty("mainCtrl", this);
     mView->rootContext()->setContextProperty("mainModel", mModel);
     mView->rootContext()->setContextProperty("mainSkin", mSkinBase);

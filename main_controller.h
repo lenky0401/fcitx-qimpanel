@@ -20,13 +20,7 @@
 #ifndef __MAIN_CONTROLLER_H__
 #define __MAIN_CONTROLLER_H__
 
-#include <QObject>
-#include <QApplication>
-#include <QSystemTrayIcon>
-#include <QSocketNotifier>
-#include <QMenu>
-#include <QIcon>
-#include <QTimer>
+#include <QtQuickWidgets>
 #include "main_model.h"
 #include "system_tray_menu.h"
 #include "kimpanelagent.h"
@@ -62,7 +56,7 @@ private:
     MainModel *mModel;
     PanelAgent *mAgent;
     SkinBase *mSkinBase;
-    QDeclarativeView *mView;
+    QQuickWidget *mView;
     QUrl mUrl;
     QTimer *mTimer;
     QSystemTrayIcon *mSystemTray;

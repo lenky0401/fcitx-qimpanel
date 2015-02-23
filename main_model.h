@@ -20,9 +20,7 @@
 #ifndef __MAIN_MODEL_H__
 #define __MAIN_MODEL_H__
 
-#include <QDeclarativeView>
-#include <QObject>
-#include <qdeclarative.h>
+#include <QtQuick>
 #include "candidate_word.h"
 #include "kimpanelagenttype.h"
 
@@ -35,7 +33,7 @@ class MainModel : public QObject
     Q_PROPERTY(QString tipsString READ tipsString WRITE setTipsString
         NOTIFY tipsStringChanged)
 
-    Q_PROPERTY(QDeclarativeListProperty<CandidateWord> candidateWords
+    Q_PROPERTY(QQmlListProperty<CandidateWord> candidateWords
         READ candidateWords NOTIFY candidateWordsChanged)
     Q_PROPERTY(bool hasPrev READ hasPrev WRITE setHasPrev
         NOTIFY hasPrevChanged)
@@ -72,7 +70,7 @@ public:
     void setTipsString(const QString tipsString);
     QString tipsString() const;
     void setCandidateWords(const KimpanelLookupTable &lookup_table);
-    QDeclarativeListProperty<CandidateWord> candidateWords();
+    QQmlListProperty<CandidateWord> candidateWords();
     void setHasPrev(const bool hasPrev);
     bool hasPrev() const;
     void setHasNext(const bool hasNext);

@@ -17,15 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QApplication>
-#include <QDeclarativeEngine>
-#include <QDeclarativeView>
-#include <QtDeclarative>
-#include <QTextCodec>
-#include <QTranslator>
-#include <QDBusConnection>
-#include <QDBusReply>
-#include <QDBusConnectionInterface>
+#include <QtQuick>
+#include <QtDBus>
 
 #include <signal.h>
 #include <unistd.h>
@@ -131,11 +124,6 @@ int main(int argc, char** argv)
     if (isRunning()) {
         exit(1);
     }
-
-    QTextCodec::setCodecForTr(QTextCodec::codecForLocale());
-    QTextCodec::setCodecForCStrings(QTextCodec::codecForLocale());
-    QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
-    QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
 
     QTranslator translator;
     QString locale = QLocale::system().name();

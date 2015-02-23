@@ -1,7 +1,6 @@
 #include <QString>
 #include <QDebug>
 #include <QApplication>
-#include <QTextCodec>
 #include <qtextstream.h>
 #include <QTranslator>
 #include "mainwindow.h"
@@ -14,11 +13,6 @@ char sharePath[BUFF_SIZE] = {0};
 
 int main(int argc, char *argv[])
 {
-    QTextCodec::setCodecForTr(QTextCodec::codecForLocale());
-    QTextCodec::setCodecForCStrings(QTextCodec::codecForLocale());
-    QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
-    QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
-
     QTranslator translator;
     QString locale = QLocale::system().name();
     if(locale == "zh_CN") {

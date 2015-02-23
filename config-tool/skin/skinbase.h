@@ -20,13 +20,7 @@
 #ifndef __SKIN_BASE_H__
 #define __SKIN_BASE_H__
 
-#include <QColor>
-#include <QFont>
-#include <QPixmap>
-#include <QRegion>
-#include <QDeclarativeView>
-#include <QObject>
-#include <qdeclarative.h>
+#include <QtQuick>
 
 class SkinBase : public QObject
 {

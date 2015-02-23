@@ -13,6 +13,7 @@
 #include "candidate_word.h"
 #include "editingskindialog.h"
 #include <QtDBus/QDBusInterface>
+#include <QtQuickWidgets>
 
 namespace Ui {
 class MainWindow;
@@ -37,7 +38,7 @@ private:
     QList<SkinTypeEntry> allSkinType;
     SkinFcitx *mSkinFcitx;
     MainModel *mMainModer;
-    QDeclarativeView *qmlView;
+    QQuickWidget *qmlView;
     QHBoxLayout *mLayout;
     QString curtSkinType;
     QString localPath;

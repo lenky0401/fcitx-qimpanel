@@ -27,7 +27,7 @@
 #include "toplevel.h"
 
 TopLevel::TopLevel(QWidget* parent) : QWidget(parent,
-                                              Qt::Tool | Qt::WindowStaysOnTopHint
+                                              Qt::Tool | Qt::WindowStaysOnTopHint | Qt::WindowDoesNotAcceptFocus
                                             | Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint)
 {
     setAttribute(Qt::WA_TranslucentBackground, true);

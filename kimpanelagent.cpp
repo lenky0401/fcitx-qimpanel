@@ -28,7 +28,6 @@
 #include <QString>
 #include <QStringList>
 #include <QVariant>
-#include <QtDBus/QDBusServiceWatcher>
 
 #include "kimpanelagent.h"
 

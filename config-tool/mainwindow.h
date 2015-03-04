@@ -7,13 +7,13 @@
 #include <QVector>
 #include <QListWidgetItem>
 #include <QHBoxLayout>
+#include <QQuickWidget>
+#include <QDBusInterface>
 #include "skin/skinbase.h"
 #include "skin/skinfcitx.h"
 #include "main_model.h"
 #include "candidate_word.h"
 #include "editingskindialog.h"
-#include <QtDBus/QDBusInterface>
-#include <QtQuickWidgets>
 
 namespace Ui {
 class MainWindow;

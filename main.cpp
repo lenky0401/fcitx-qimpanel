@@ -17,13 +17,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QtQuick>
-#include <QtDBus>
-
 #include <signal.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
+
+#include <QDBusConnection>
+#include <QDBusReply>
+#include <QDBusConnectionInterface>
+#include <QDebug>
+#include <QTranslator>
+#include <QApplication>
 
 #include <fcitx-utils/utils.h>
 

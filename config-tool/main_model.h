@@ -20,7 +20,8 @@
 #ifndef __MAIN_MODEL_H__
 #define __MAIN_MODEL_H__
 
-#include <QtQuick>
+#include <QQmlListProperty>
+
 #include "kimpanelagenttype.h"
 #include "candidate_word.h"
 

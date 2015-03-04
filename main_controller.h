@@ -20,7 +20,10 @@
 #ifndef __MAIN_CONTROLLER_H__
 #define __MAIN_CONTROLLER_H__
 
-#include <QtQuickWidgets>
+#include <QQuickWidget>
+#include <QSystemTrayIcon>
+#include <QSocketNotifier>
+
 #include "main_model.h"
 #include "system_tray_menu.h"
 #include "kimpanelagent.h"

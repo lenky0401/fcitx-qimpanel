@@ -20,7 +20,7 @@
 #ifndef __CANDIDATE_WORD_H__
 #define __CANDIDATE_WORD_H__
 
-#include <QtQuick>
+#include <QObject>
 
 class CandidateWord : public QObject
 {

@@ -1,8 +1,11 @@
-#include <QtQuick>
-#include <QtWidgets>
-
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+
+#include <QDebug>
+#include <QDir>
+#include <QMessageBox>
+#include <QQmlContext>
+#include <QTime>
 
 #define FCITXSKINSYSTEM_PATH "/usr/share/fcitx-qimpanel/skin/"
 

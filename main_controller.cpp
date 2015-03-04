@@ -17,11 +17,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QtQuick>
-#include <QtDBus>
-
 #include <sys/types.h>
 #include <sys/socket.h>
+
+#include <QSettings>
+#include <QDebug>
+#include <QQmlContext>
+#include <QDBusConnection>
 
 #include "main_model.h"
 #include "candidate_word.h"

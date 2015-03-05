@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0">
+<TS version="2.1">
 <context>
     <name>EditingSkinDialog</name>
     <message>
@@ -169,12 +169,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../config-tool/editingskindialog.cpp" line="276"/>
+        <location filename="../config-tool/editingskindialog.cpp" line="275"/>
         <source>tips</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../config-tool/editingskindialog.cpp" line="276"/>
+        <location filename="../config-tool/editingskindialog.cpp" line="275"/>
         <source>The default configuration has been restored</source>
         <translation type="unfinished"></translation>
     </message>
@@ -182,7 +182,7 @@
 <context>
     <name>MainController</name>
     <message>
-        <location filename="../main_controller.cpp" line="225"/>
+        <location filename="../main_controller.cpp" line="220"/>
         <source>No input window</source>
         <translation>无输入窗口</translation>
     </message>
@@ -250,23 +250,23 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../config-tool/mainwindow.cpp" line="37"/>
+        <location filename="../config-tool/mainwindow.cpp" line="25"/>
         <source>Qimpanel Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../config-tool/mainwindow.cpp" line="112"/>
-        <location filename="../config-tool/mainwindow.cpp" line="126"/>
+        <location filename="../config-tool/mainwindow.cpp" line="100"/>
+        <location filename="../config-tool/mainwindow.cpp" line="114"/>
+        <location filename="../config-tool/mainwindow.cpp" line="134"/>
         <location filename="../config-tool/mainwindow.cpp" line="146"/>
-        <location filename="../config-tool/mainwindow.cpp" line="158"/>
         <source>tips</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../config-tool/mainwindow.cpp" line="112"/>
-        <location filename="../config-tool/mainwindow.cpp" line="126"/>
+        <location filename="../config-tool/mainwindow.cpp" line="100"/>
+        <location filename="../config-tool/mainwindow.cpp" line="114"/>
+        <location filename="../config-tool/mainwindow.cpp" line="134"/>
         <location filename="../config-tool/mainwindow.cpp" line="146"/>
-        <location filename="../config-tool/mainwindow.cpp" line="158"/>
         <source>Sougo Skin does not support preview and edit!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -300,99 +300,99 @@
     </message>
     <message>
         <location filename="../system_tray_menu.cpp" line="124"/>
-        <location filename="../system_tray_menu.cpp" line="422"/>
+        <location filename="../system_tray_menu.cpp" line="425"/>
         <source>Online &amp;Help!</source>
         <translation>在线帮助</translation>
     </message>
     <message>
         <location filename="../system_tray_menu.cpp" line="147"/>
-        <location filename="../system_tray_menu.cpp" line="425"/>
+        <location filename="../system_tray_menu.cpp" line="428"/>
         <source>ConfigureIM</source>
         <translation>配置当前输入法</translation>
     </message>
     <message>
         <location filename="../system_tray_menu.cpp" line="154"/>
-        <location filename="../system_tray_menu.cpp" line="454"/>
+        <location filename="../system_tray_menu.cpp" line="457"/>
         <source>Character Map</source>
         <translation type="unfinished">字符映射表</translation>
     </message>
     <message>
         <location filename="../system_tray_menu.cpp" line="155"/>
-        <location filename="../system_tray_menu.cpp" line="456"/>
+        <location filename="../system_tray_menu.cpp" line="459"/>
         <source>Keyboard Layout Chart</source>
         <translation type="unfinished">键盘布局图</translation>
     </message>
     <message>
         <location filename="../system_tray_menu.cpp" line="156"/>
-        <location filename="../system_tray_menu.cpp" line="476"/>
-        <source>Text Entry Settingsâ¦</source>
+        <location filename="../system_tray_menu.cpp" line="479"/>
+        <source>Text Entry Settings…</source>
         <translation type="unfinished">文本输入设置</translation>
     </message>
     <message>
         <location filename="../system_tray_menu.cpp" line="180"/>
-        <location filename="../system_tray_menu.cpp" line="447"/>
+        <location filename="../system_tray_menu.cpp" line="450"/>
         <source>ConfigureUp</source>
         <translation>同步上传</translation>
     </message>
     <message>
         <location filename="../system_tray_menu.cpp" line="181"/>
-        <location filename="../system_tray_menu.cpp" line="450"/>
+        <location filename="../system_tray_menu.cpp" line="453"/>
         <source>ConfigureDwon</source>
         <translation>同步下载</translation>
     </message>
     <message>
-        <location filename="../system_tray_menu.cpp" line="361"/>
-        <location filename="../system_tray_menu.cpp" line="365"/>
-        <location filename="../system_tray_menu.cpp" line="389"/>
-        <location filename="../system_tray_menu.cpp" line="410"/>
-        <location filename="../system_tray_menu.cpp" line="415"/>
-        <location filename="../system_tray_menu.cpp" line="432"/>
+        <location filename="../system_tray_menu.cpp" line="364"/>
+        <location filename="../system_tray_menu.cpp" line="368"/>
+        <location filename="../system_tray_menu.cpp" line="392"/>
+        <location filename="../system_tray_menu.cpp" line="413"/>
+        <location filename="../system_tray_menu.cpp" line="418"/>
+        <location filename="../system_tray_menu.cpp" line="435"/>
         <source>Warning</source>
         <translation>警告！</translation>
     </message>
     <message>
-        <location filename="../system_tray_menu.cpp" line="361"/>
-        <location filename="../system_tray_menu.cpp" line="410"/>
+        <location filename="../system_tray_menu.cpp" line="364"/>
+        <location filename="../system_tray_menu.cpp" line="413"/>
         <source>[Ubuntu Kylin Sync] Synchronize directories have been deleted?!</source>
         <translation>[Ubuntu Kylin Sync]该同步目录已经被删除？请自行创建。</translation>
     </message>
     <message>
-        <location filename="../system_tray_menu.cpp" line="365"/>
-        <location filename="../system_tray_menu.cpp" line="415"/>
+        <location filename="../system_tray_menu.cpp" line="368"/>
+        <location filename="../system_tray_menu.cpp" line="418"/>
         <source>Please log in kuaipan!</source>
         <translation>请登录金山快盘！</translation>
     </message>
     <message>
-        <location filename="../system_tray_menu.cpp" line="389"/>
+        <location filename="../system_tray_menu.cpp" line="392"/>
         <source>No configure can be synchronized!</source>
         <translation>云端没有存储配置文件，无法同步到本地！</translation>
     </message>
     <message>
-        <location filename="../system_tray_menu.cpp" line="432"/>
+        <location filename="../system_tray_menu.cpp" line="435"/>
         <source>Please install fcitx-qimpanel-configtool!</source>
         <translation>请安装配置工具：fcitx-qimpanel-configtool</translation>
     </message>
     <message>
         <location filename="../system_tray_menu.cpp" line="145"/>
-        <location filename="../system_tray_menu.cpp" line="436"/>
+        <location filename="../system_tray_menu.cpp" line="439"/>
         <source>Configure</source>
         <translation>配置</translation>
     </message>
     <message>
         <location filename="../system_tray_menu.cpp" line="146"/>
-        <location filename="../system_tray_menu.cpp" line="428"/>
+        <location filename="../system_tray_menu.cpp" line="431"/>
         <source>ConfigureIMPanel</source>
         <translation>配置面板和皮肤</translation>
     </message>
     <message>
         <location filename="../system_tray_menu.cpp" line="160"/>
-        <location filename="../system_tray_menu.cpp" line="439"/>
+        <location filename="../system_tray_menu.cpp" line="442"/>
         <source>Restart</source>
         <translation>重新启动</translation>
     </message>
     <message>
         <location filename="../system_tray_menu.cpp" line="161"/>
-        <location filename="../system_tray_menu.cpp" line="443"/>
+        <location filename="../system_tray_menu.cpp" line="446"/>
         <source>Exit</source>
         <translation>退出</translation>
     </message>

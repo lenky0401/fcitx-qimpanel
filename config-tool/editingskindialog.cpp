@@ -7,7 +7,6 @@
 #include <QFile>
 #include <QMessageBox>
 #include <QDir>
-#include <QtNetwork/QHostInfo>
 
 #include "editingskindialog.h"
 #include "ui_editingskindialog.h"

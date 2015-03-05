@@ -1,23 +1,11 @@
-#include <QDir>
-#include <QFileInfoList>
-#include <QDebug>
-#include <QListWidgetItem>
-#include <QDeclarativeView>
-#include <QtDeclarative/QDeclarativeContext>
-#include <QMessageBox>
-#include <QThread>
-#include <QTime>
-
-#include <QtDBus/QtDBus>
-#include <QtDBus/QDBusAbstractAdaptor>
-#include <QtDBus/QDBusConnection>
-#include <QtDBus/QDBusAbstractInterface>
-#include <QtDBus/QDBusMessage>
-#include <QtDBus/QDBusContext>
-
-
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+
+#include <QDebug>
+#include <QDir>
+#include <QMessageBox>
+#include <QQmlContext>
+#include <QTime>
 
 #define FCITXSKINSYSTEM_PATH "/usr/share/fcitx-qimpanel/skin/"
 
@@ -27,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     qmlRegisterType<CandidateWord>();//注册CandidateWord列表到qml
-    qmlView = new QDeclarativeView;
+    qmlView = new QQuickWidget;
     mSkinFcitx = new SkinFcitx;
     mMainModer = MainModel::self();
     mSettings = new QSettings("fcitx-qimpanel", "main");
@@ -308,6 +296,8 @@ void MainWindow::setSkinBase()
     qmlView->rootContext()->setContextProperty("mainSkin", mSkinFcitx);//把qt程序暴露到qml
     qmlView->rootContext()->setContextProperty("mainModel", mMainModer);
     qmlView->setSource(QUrl("qrc:/new/prefix1/main.qml"));
+    qmlView->setAttribute(Qt::WA_AlwaysStackOnTop);
+    qmlView->setClearColor(Qt::transparent);
     mLayout->addWidget(qmlView);
     mMainModer->emitSigMainWindowSizeChanged();
 }

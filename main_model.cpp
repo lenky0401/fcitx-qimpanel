@@ -79,19 +79,19 @@ void MainModel::setInputStringCursorPos(int pos) {
     setInputString(mInputString.insert(pos, QString("|")));
 }
 
-void candidateWordsPropAppend(QDeclarativeListProperty<CandidateWord>* prop, CandidateWord* value)
+void candidateWordsPropAppend(QQmlListProperty<CandidateWord>* prop, CandidateWord* value)
 {
     Q_UNUSED(prop);
     Q_UNUSED(value);
     return; //Append not supported
 }
 
-int candidateWordsPropCount(QDeclarativeListProperty<CandidateWord>* prop)
+int candidateWordsPropCount(QQmlListProperty<CandidateWord>* prop)
 {
     return static_cast<QList<CandidateWord*>*>(prop->data)->count();
 }
 
-CandidateWord* candidateWordsPropAt(QDeclarativeListProperty<CandidateWord>* prop, int index)
+CandidateWord* candidateWordsPropAt(QQmlListProperty<CandidateWord>* prop, int index)
 {
     return static_cast<QList<CandidateWord*>*>(prop->data)->at(index);
 }
@@ -101,8 +101,11 @@ void MainModel::setCandidateWords(const KimpanelLookupTable &lookup_table) {
     QList<KimpanelLookupTable::Entry>::iterator iter;
     QList<KimpanelLookupTable::Entry> entries = lookup_table.entries;
 
-    qDeleteAll(mCandidateWords);
+    foreach (candidate, mCandidateWords) {
+        candidate->deleteLater();
+    }
     mCandidateWords.clear();
+
     for (iter = entries.begin(); iter != entries.end(); ++ iter) {
         if ((candidate = new (std::nothrow)CandidateWord) == NULL)
             break;
@@ -119,8 +122,8 @@ void MainModel::setCandidateWords(const KimpanelLookupTable &lookup_table) {
     emit mainWindowSizeChanged();
 }
 
-QDeclarativeListProperty<CandidateWord> MainModel::candidateWords() {
-    return QDeclarativeListProperty<CandidateWord>(this, &mCandidateWords, &candidateWordsPropAppend,
+QQmlListProperty<CandidateWord> MainModel::candidateWords() {
+    return QQmlListProperty<CandidateWord>(this, &mCandidateWords, &candidateWordsPropAppend,
         &candidateWordsPropCount, &candidateWordsPropAt, 0);
 }
 

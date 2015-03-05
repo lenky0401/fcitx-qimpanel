@@ -7,12 +7,13 @@
 #include <QVector>
 #include <QListWidgetItem>
 #include <QHBoxLayout>
+#include <QQuickWidget>
+#include <QDBusInterface>
 #include "skin/skinbase.h"
 #include "skin/skinfcitx.h"
 #include "main_model.h"
 #include "candidate_word.h"
 #include "editingskindialog.h"
-#include <QtDBus/QDBusInterface>
 
 namespace Ui {
 class MainWindow;
@@ -37,7 +38,7 @@ private:
     QList<SkinTypeEntry> allSkinType;
     SkinFcitx *mSkinFcitx;
     MainModel *mMainModer;
-    QDeclarativeView *qmlView;
+    QQuickWidget *qmlView;
     QHBoxLayout *mLayout;
     QString curtSkinType;
     QString localPath;

@@ -20,9 +20,7 @@
 #ifndef __CANDIDATE_WORD_H__
 #define __CANDIDATE_WORD_H__
 
-#include <QDeclarativeView>
 #include <QObject>
-#include <qdeclarative.h>
 
 class CandidateWord : public QObject
 {

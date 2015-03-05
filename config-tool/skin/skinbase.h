@@ -21,12 +21,6 @@
 #define __SKIN_BASE_H__
 
 #include <QColor>
-#include <QFont>
-#include <QPixmap>
-#include <QRegion>
-#include <QDeclarativeView>
-#include <QObject>
-#include <qdeclarative.h>
 
 class SkinBase : public QObject
 {

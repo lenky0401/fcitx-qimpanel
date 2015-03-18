@@ -24,6 +24,7 @@
 #include <QDebug>
 #include <QQmlContext>
 #include <QDBusConnection>
+#include <libintl.h>
 
 #include "main_model.h"
 #include "candidate_word.h"
@@ -54,7 +55,7 @@ void MainController::loadCfg()
     settings->beginGroup("base");
     mIsHorizontal = !settings->value("VerticalList", false).toBool();
     qDebug() << "mIsHorizontal:" << mIsHorizontal;
-    mSkinName = settings->value("CurtSkinType", "ubuntukylin-dark1").toString();
+    mSkinName = settings->value("CurtSkinType", "ubuntu-orange").toString();
     qDebug() << "mSkinName:" << mSkinName;
     settings->endGroup();
     delete settings;
@@ -217,7 +218,7 @@ void MainController::setSkinName(QString skinName)
 
 void MainController::updateProperty(const KimpanelProperty &prop)
 {
-    if (tr("No input window") == prop.label) {
+    if (gettext("No input window") == prop.label) {
         QIcon icon = QIcon::fromTheme("fcitx");
         mSystemTray->setIcon(icon);
         return;

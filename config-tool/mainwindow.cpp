@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include <QQmlContext>
 #include <QTime>
+#include <libintl.h>
 
 #define FCITXSKINSYSTEM_PATH "/usr/share/fcitx-qimpanel/skin/"
 
@@ -22,12 +23,25 @@ MainWindow::MainWindow(QWidget *parent) :
     mSettings->setIniCodec("UTF-8");
     mLayout = new QHBoxLayout(ui->widgetSkinPreview);
     localPath = qgetenv("HOME") + "/.config/fcitx-qimpanel/skin/";
-    this->setWindowTitle(tr("Qimpanel Settings"));
+    this->setWindowTitle(gettext("Qimpanel Settings"));
     loadMainConf();
     ui->tabWidget->setCurrentIndex(0);
     ui->listWidgetAllSkin->setCurrentRow(0);
     mMainModer->resetData();
     changeMainWindowSize();   
+
+    ui->tabWidget->setTabText(0,gettext("Appearance"));
+    ui->tabWidget->setTabText(1,gettext("Skin Design"));
+    ui->labelVerticalList->setText(gettext("Vertical List"));
+    ui->labelSkinType->setText(gettext("Skin Type"));
+    ui->radioButtonHorizontal->setText(gettext("Horizontal"));
+    ui->radioButtonVertical->setText(gettext("Vertical"));
+
+    ui->labelAllSkin->setText(gettext("All Skin"));
+    ui->labelPreview->setText(gettext("Preview"));
+    ui->labelDescription->setText(gettext("Description: Click to select and preview, double-click local to edit, save locally."));
+    ui->pushButtonApply->setText(gettext("&Apply"));
+    ui->pushButtonCancel->setText(gettext("&Cancel"));
 
     connect(ui->pushButtonCancel, SIGNAL(clicked()), this, SLOT(sltOnPushButtonCancel()));
     connect(ui->pushButtonApply, SIGNAL(clicked()), this, SLOT(sltOnPushButtonApply()));
@@ -97,7 +111,7 @@ void MainWindow::sltOnAllSkinItemDoubleClicked(QListWidgetItem *item)
         QDir *temp = new QDir;
         if(true == temp->exists(localPath + "/skin.ini"))
         {
-            QMessageBox::information(this,tr("tips"),tr("Sougo Skin does not support preview and edit!"));
+            QMessageBox::information(this,gettext("tips"),gettext("Sougo Skin does not support preview and edit!"));
         }
         else{
             EditingSkinDialog * editingSkinDialog = new EditingSkinDialog(ui->radioButtonHorizontal->isChecked(),item);
@@ -111,7 +125,7 @@ void MainWindow::sltOnAllSkinItemDoubleClicked(QListWidgetItem *item)
         QDir *temp1 = new QDir;
         if(true == temp1->exists(localPath + "/skin.ini"))
         {
-            QMessageBox::information(this,tr("tips"),tr("Sougo Skin does not support preview and edit!"));
+            QMessageBox::information(this,gettext("tips"),gettext("Sougo Skin does not support preview and edit!"));
         }
         else{
             EditingSkinDialog * editingSkinDialog1 = new EditingSkinDialog(ui->radioButtonHorizontal->isChecked(),item);
@@ -131,7 +145,7 @@ void MainWindow::on_listWidgetAllSkin_currentItemChanged(QListWidgetItem *curren
         QDir *temp = new QDir;
         if(true == temp->exists(localPath + "/skin.ini"))
         {
-            QMessageBox::information(this,tr("tips"),tr("Sougo Skin does not support preview and edit!"));
+            QMessageBox::information(this,gettext("tips"),gettext("Sougo Skin does not support preview and edit!"));
         }
         else{
             setSkinBase();
@@ -143,7 +157,7 @@ void MainWindow::on_listWidgetAllSkin_currentItemChanged(QListWidgetItem *curren
         QDir *temp1 = new QDir;
         if(true == temp1->exists(localPath + "/skin.ini"))
         {
-            QMessageBox::information(this,tr("tips"),tr("Sougo Skin does not support preview and edit!"));
+            QMessageBox::information(this,gettext("tips"),gettext("Sougo Skin does not support preview and edit!"));
         }
         else{
             setSkinBase();

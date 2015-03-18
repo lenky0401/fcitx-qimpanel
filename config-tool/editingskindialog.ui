@@ -26,7 +26,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <property name="movable">
       <bool>false</bool>
@@ -345,7 +345,7 @@
               <item row="1" column="0">
                <layout class="QHBoxLayout" name="horizontalLayout_2">
                 <item>
-                 <widget class="QLabel" name="labe_iTipsImg">
+                 <widget class="QLabel" name="label_iTipsImg">
                   <property name="minimumSize">
                    <size>
                     <width>170</width>

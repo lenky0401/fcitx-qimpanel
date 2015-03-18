@@ -24,6 +24,7 @@
 #include <QString>
 #include <QMessageBox>
 #include <QSettings>
+#include <libintl.h>
 
 #include "main.h"
 #include "my_action.h"
@@ -54,12 +55,12 @@ SystemTrayMenu::~SystemTrayMenu()
 
 void SystemTrayMenu::init()
 {
-    mVKListMenu = new QMenu(tr("Virtual Keyboard"), this);
-    mIMListMenu = new QMenu(tr("Input Method"), this);
+    mVKListMenu = new QMenu(gettext("Virtual Keyboard"), this);
+    mIMListMenu = new QMenu(gettext("Input Method"), this);
 #ifdef ENABLE_UK_SYNC
-    mSyncMenu = new QMenu(tr("ConfigureSync"),this);
+    mSyncMenu = new QMenu(gettext("ConfigureSync"),this);
 #endif
-    mSkinMenu = new SkinMenu(tr("Skin"), this);
+    mSkinMenu = new SkinMenu(gettext("Skin"), this);
 
     QObject::connect(mVKListMenu, SIGNAL(aboutToShow()), this,
         SLOT(triggerUpdateVKListMenu()));
@@ -110,7 +111,7 @@ void SystemTrayMenu::registerProperties(const QList<KimpanelProperty> &props)
 
 void SystemTrayMenu::updateProperty(const KimpanelProperty &prop)
 {
-    if (tr("No input window") == prop.label)
+    if (gettext("No input window") == prop.label)
         return;
 
     this->mCurtIMLabel = prop.label;
@@ -121,7 +122,7 @@ void SystemTrayMenu::triggerUpdateMainMenu()
     MyAction *menu;
     this->clear();
 
-    this->addAction(QIcon::fromTheme("help-contents"), tr("Online &Help!"));
+    this->addAction(QIcon::fromTheme("help-contents"), gettext("Online &Help!"));
     this->addSeparator();
 
     if (isUnity()) {
@@ -142,23 +143,23 @@ void SystemTrayMenu::triggerUpdateMainMenu()
     this->addMenu(mSkinMenu);
     this->addSeparator();
 
-    this->addAction(QIcon::fromTheme("preferences-desktop"), tr("Configure"));
-    this->addAction(QIcon::fromTheme("preferences-desktop"), tr("ConfigureIMPanel"));
-    this->addAction(QIcon::fromTheme("preferences-desktop"), tr("ConfigureIM"));
+    this->addAction(QIcon::fromTheme("preferences-desktop"), gettext("Configure"));
+    this->addAction(QIcon::fromTheme("preferences-desktop"), gettext("ConfigureIMPanel"));
+    this->addAction(QIcon::fromTheme("preferences-desktop"), gettext("ConfigureIM"));
 #ifdef ENABLE_UK_SYNC
     this->addMenu(mSyncMenu);
 #endif
     this->addSeparator();
 
     if (isUnity()) {
-        this->addAction(tr("Character Map"));
-        this->addAction(tr("Keyboard Layout Chart"));
-        this->addAction(tr("Text Entry Settings…"));
+        this->addAction(gettext("Character Map"));
+        this->addAction(gettext("Keyboard Layout Chart"));
+        this->addAction(gettext("Text Entry Settings..."));
         this->addSeparator();
     }
 
-    this->addAction(QIcon::fromTheme("view-refresh"), tr("Restart"));
-    this->addAction(QIcon::fromTheme("application-exit"), tr("Exit"));
+    this->addAction(QIcon::fromTheme("view-refresh"), gettext("Restart"));
+    this->addAction(QIcon::fromTheme("application-exit"), gettext("Exit"));
 }
 
 void SystemTrayMenu::triggerUpdateVKListMenu()
@@ -177,8 +178,8 @@ void SystemTrayMenu::triggerUpdateIMListMenu()
 void SystemTrayMenu::triggerUpdateSyncMenu()
 {
     mSyncMenu->clear();
-    mSyncMenu->addAction(QIcon::fromTheme(""), tr("ConfigureUp"));
-    mSyncMenu->addAction(QIcon::fromTheme(""), tr("ConfigureDwon"));
+    mSyncMenu->addAction(QIcon::fromTheme(""), gettext("ConfigureUp"));
+    mSyncMenu->addAction(QIcon::fromTheme(""), gettext("ConfigureDwon"));
 }
 #endif
 
@@ -361,11 +362,11 @@ void SystemTrayMenu::syncConfigUp()
            }
         }
         else{
-           QMessageBox::warning(this,tr("Warning"),tr("[Ubuntu Kylin Sync] Synchronize directories have been deleted?!"));
+           QMessageBox::warning(this,gettext("Warning"),gettext("[Ubuntu Kylin Sync] Synchronize directories have been deleted?!"));
        }
     }
     else{
-         QMessageBox::warning(this,tr("Warning"),tr("Please log in kuaipan!"));
+         QMessageBox::warning(this,gettext("Warning"),gettext("Please log in kuaipan!"));
     }
 }
 
@@ -389,7 +390,7 @@ void SystemTrayMenu::syncConfigDown()
        {
            if(false == temp1->exists(kuaipanSyncPath + UBUNTU_KYLIN_SYNC_M"fcitx"))
            {
-               QMessageBox::warning(this,tr("Warning"),tr("No configure can be synchronized!"));
+               QMessageBox::warning(this,gettext("Warning"),gettext("No configure can be synchronized!"));
                return;
            }
            //fcitx-qimpanel
@@ -410,53 +411,53 @@ void SystemTrayMenu::syncConfigDown()
            }
         }
        else{
-            QMessageBox::warning(this,tr("Warning"),tr("[Ubuntu Kylin Sync] Synchronize directories have been deleted?!"));
+            QMessageBox::warning(this,gettext("Warning"),gettext("[Ubuntu Kylin Sync] Synchronize directories have been deleted?!"));
        }
 
     }
     else{
-         QMessageBox::warning(this,tr("Warning"),tr("Please log in kuaipan!"));
+         QMessageBox::warning(this,gettext("Warning"),gettext("Please log in kuaipan!"));
     }
 }
 #endif	
 
 void SystemTrayMenu::menuItemOnClick(QAction *action)
 {
-    if (tr("Online &Help!") == action->text()) {
+    if (gettext("Online &Help!") == action->text()) {
         QDesktopServices::openUrl(QUrl("http://fcitx-im.org/"));
 
-    } else if (tr("ConfigureIM") == action->text()) {
+    } else if (gettext("ConfigureIM") == action->text()) {
         mAgent->triggerProperty(QString("/Fcitx/logo/configureim"));
 
-    } else if (tr("ConfigureIMPanel") == action->text()) {
+    } else if (gettext("ConfigureIMPanel") == action->text()) {
 
         QFile toolFile(getQimpanelBinPath("fcitx-qimpanel-configtool"));
         if (!toolFile.exists()) {
-            QMessageBox::warning(this,tr("Warning"),tr("Please install fcitx-qimpanel-configtool!"));
+            QMessageBox::warning(this,gettext("Warning"),gettext("Please install fcitx-qimpanel-configtool!"));
         }
         startChildApp("fcitx-qimpanel-configtool");
 
-    } else if (tr("Configure") == action->text()) {
+    } else if (gettext("Configure") == action->text()) {
         mAgent->configure();
 
-    } else if (tr("Restart") == action->text()) {
+    } else if (gettext("Restart") == action->text()) {
         mAgent->restart();
         this->restart();
 
-    } else if (tr("Exit") == action->text()) {
+    } else if (gettext("Exit") == action->text()) {
         mAgent->exit();
         exit(0);
 #ifdef ENABLE_UK_SYNC
-    } else if (tr("ConfigureUp") == action->text()) {
+    } else if (gettext("ConfigureUp") == action->text()) {
         qDebug()<<"SystemTrayMenu::ConfigureUp";
         syncConfigUp();
-    } else if (tr("ConfigureDwon") == action->text()){
+    } else if (gettext("ConfigureDwon") == action->text()){
         qDebug()<<"SystemTrayMenu::ConfigureDown";
         syncConfigDown();
 #endif		
-    } else if (tr("Character Map") == action->text()) {
+    } else if (gettext("Character Map") == action->text()) {
         startChildApp("gucharmap");
-    } else if (tr("Keyboard Layout Chart") == action->text()) {
+    } else if (gettext("Keyboard Layout Chart") == action->text()) {
         const char *argv[4] = { "gkbd-keyboard-display", "-l", NULL, NULL };
 
         QString layout = "us";
@@ -476,7 +477,7 @@ void SystemTrayMenu::menuItemOnClick(QAction *action)
         argv[2] = bytes.constData();
 
         startChildApp("gkbd-keyboard-display", argv);
-    } else if (tr("Text Entry Settings…") == action->text()) {
+    } else if (gettext("Text Entry Settings...") == action->text()) {
         const char *argv[4] = { "unity-control-center", "region", "layouts", NULL };
         startChildApp("unity-control-center", argv);
     } else {

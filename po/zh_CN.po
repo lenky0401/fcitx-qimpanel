@@ -234,8 +234,8 @@ msgid "Online &Help!"
 msgstr "在线帮助"
 
 #: system_tray_menu.cpp:146 system_tray_menu.cpp:440
-msgid "Configure"
-msgstr "配置"
+msgid "ConfigureFcitx"
+msgstr "配置Fcitx"
 
 #: system_tray_menu.cpp:147 system_tray_menu.cpp:432
 msgid "ConfigureIMPanel"

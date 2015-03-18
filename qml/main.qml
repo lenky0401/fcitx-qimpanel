@@ -212,9 +212,6 @@ Rectangle {
             
         clearAllAnchors(prev_page);
         setObjAbsolutePosition(prev_page, mainSkin.backArrowPosX, mainSkin.backArrowPosY);    
-                console.log("111111111111111111")
-        console.log(mainSkin.backArrowPosX)
-               console.log("111111111111111111")
         if (mainSkin.forwardArrowPosX == 0)
             mainSkin.forwardArrowPosX = - next_page.width - 10;
             

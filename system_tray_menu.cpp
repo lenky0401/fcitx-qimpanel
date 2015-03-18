@@ -135,17 +135,17 @@ void SystemTrayMenu::triggerUpdateMainMenu()
            menu->setProp(prop);
            this->addAction(menu);
     }
-    this->addSeparator();
+    //this->addSeparator();
 
-    this->addMenu(mVKListMenu);
+    //this->addMenu(mVKListMenu);
     if (!isUnity())
         this->addMenu(mIMListMenu);
-    this->addMenu(mSkinMenu);
+    //this->addMenu(mSkinMenu);
     this->addSeparator();
 
-    this->addAction(QIcon::fromTheme("preferences-desktop"), gettext("Configure"));
+    this->addAction(QIcon::fromTheme("preferences-desktop"), gettext("ConfigureFcitx"));
     this->addAction(QIcon::fromTheme("preferences-desktop"), gettext("ConfigureIMPanel"));
-    this->addAction(QIcon::fromTheme("preferences-desktop"), gettext("ConfigureIM"));
+    //this->addAction(QIcon::fromTheme("preferences-desktop"), gettext("ConfigureIM"));
 #ifdef ENABLE_UK_SYNC
     this->addMenu(mSyncMenu);
 #endif
@@ -158,8 +158,8 @@ void SystemTrayMenu::triggerUpdateMainMenu()
         this->addSeparator();
     }
 
-    this->addAction(QIcon::fromTheme("view-refresh"), gettext("Restart"));
-    this->addAction(QIcon::fromTheme("application-exit"), gettext("Exit"));
+    //this->addAction(QIcon::fromTheme("view-refresh"), gettext("Restart"));
+    //this->addAction(QIcon::fromTheme("application-exit"), gettext("Exit"));
 }
 
 void SystemTrayMenu::triggerUpdateVKListMenu()
@@ -437,7 +437,7 @@ void SystemTrayMenu::menuItemOnClick(QAction *action)
         }
         startChildApp("fcitx-qimpanel-configtool");
 
-    } else if (gettext("Configure") == action->text()) {
+    } else if (gettext("ConfigureFcitx") == action->text()) {
         mAgent->configure();
 
     } else if (gettext("Restart") == action->text()) {

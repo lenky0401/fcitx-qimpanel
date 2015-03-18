@@ -1,5 +1,6 @@
 #include <QString>
 #include <QDebug>
+#include <libintl.h>
 #include <QApplication>
 #include <qtextstream.h>
 #include <QTranslator>
@@ -13,6 +14,7 @@ char sharePath[BUFF_SIZE] = {0};
 
 int main(int argc, char *argv[])
 {
+    /*
     QTranslator translator;
     QString locale = QLocale::system().name();
     if(locale == "zh_CN") {
@@ -20,8 +22,9 @@ int main(int argc, char *argv[])
 //        if (translator.load(QString(getQimpanelSharePath("fcitx_skin_zh_CN.qm"))) == false)
             qDebug() << "load qm error.";
     }
+    */
     QApplication app(argc, argv);
-    app.installTranslator(&translator);
+//    app.installTranslator(&translator);
     app.setApplicationName("fcitx-qimpanel-configtool");
 
     QString localPath = qgetenv("HOME") + "/.config/";
@@ -38,6 +41,11 @@ int main(int argc, char *argv[])
         if(!temp->mkdir(localPath + "fcitx-qimpanel"))
             qDebug()<<"mkdir "+localPath + "fcitx-qimpanel fail";
     }
+
+    setlocale(LC_ALL,"");
+    bindtextdomain ("fcitx-qimpanel", "/usr/share/locale"); //告诉gettext最终的生成的翻译文件mo的位置
+    bind_textdomain_codeset("fcitx-qimpanel","UTF-8"); //指定域消息条目(mo)中消息的字符编码
+    textdomain("fcitx-qimpanel");//设定翻译环境，即指定使用gettext的翻译。
 
     QString localPath2 = qgetenv("HOME") + "/.config/fcitx-qimpanel/";
     QDir *temp2 = new QDir;

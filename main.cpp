@@ -28,7 +28,8 @@
 #include <QDebug>
 #include <QTranslator>
 #include <QApplication>
-
+#include <libintl.h>
+#include <locale.h> 
 #include <fcitx-utils/utils.h>
 
 #include "main.h"
@@ -123,21 +124,25 @@ int main(int argc, char** argv)
 {
 //    signal(SIGHUP, SIG_IGN);
 
-    fcitx_utils_init_as_daemon();//?
-
+    fcitx_utils_init_as_daemon();
     if (isRunning()) {
         exit(1);
     }
-
+/*
     QTranslator translator;
     QString locale = QLocale::system().name();
     if(locale == "zh_CN") {
         if (translator.load(QString(getQimpanelSharePath("zh_CN.qm"))) == false)
             qDebug() << "load qm error.";
-    }
+    }*/
 
     QApplication *app = new QApplication(argc, argv);
-    app->installTranslator(&translator);
+//    app->installTranslator(&translator);
+    setlocale(LC_ALL,"");
+    bindtextdomain ("fcitx-qimpanel", "/usr/share/locale"); //告诉gettext最终的生成的翻译文件mo的位置
+    bind_textdomain_codeset("fcitx-qimpanel","UTF-8"); //指定域消息条目(mo)中消息的字符编码
+    textdomain("fcitx-qimpanel");//设定翻译环境，即指定使用gettext的翻译。
+
     app->setApplicationName("fcitx-qimpanel");
 
     int waittTick = 0;

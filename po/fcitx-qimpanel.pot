@@ -1,0 +1,296 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Canonical Ltd.
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: fcitx-qimpanel\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-03-18 13:53+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: config-tool/editingskindialog.cpp:35
+msgid "SkinInfo"
+msgstr ""
+
+#: config-tool/editingskindialog.cpp:36
+msgid "SkinFont"
+msgstr ""
+
+#: config-tool/editingskindialog.cpp:37
+msgid "SkinInputBar"
+msgstr ""
+
+#: config-tool/editingskindialog.cpp:39
+msgid "Version"
+msgstr ""
+
+#: config-tool/editingskindialog.cpp:40
+msgid "Author"
+msgstr ""
+
+#: config-tool/editingskindialog.cpp:41
+msgid "FontSize"
+msgstr ""
+
+#: config-tool/editingskindialog.cpp:42
+msgid "CandFontSize"
+msgstr ""
+
+#: config-tool/editingskindialog.cpp:43
+msgid "InputColor"
+msgstr ""
+
+#: config-tool/editingskindialog.cpp:44
+msgid "IndexColor"
+msgstr ""
+
+#: config-tool/editingskindialog.cpp:45
+msgid "FirstCandColor"
+msgstr ""
+
+#: config-tool/editingskindialog.cpp:46
+msgid "OtherColor"
+msgstr ""
+
+#: config-tool/editingskindialog.cpp:48
+msgid "BackImg"
+msgstr ""
+
+#: config-tool/editingskindialog.cpp:49
+msgid "TipsImg"
+msgstr ""
+
+#: config-tool/editingskindialog.cpp:50
+msgid "MarginLeft"
+msgstr ""
+
+#: config-tool/editingskindialog.cpp:51
+msgid "MarginRight"
+msgstr ""
+
+#: config-tool/editingskindialog.cpp:52
+msgid "MarginTop"
+msgstr ""
+
+#: config-tool/editingskindialog.cpp:53
+msgid "MarginBottom"
+msgstr ""
+
+#: config-tool/editingskindialog.cpp:54
+msgid "InputStringPosX"
+msgstr ""
+
+#: config-tool/editingskindialog.cpp:55
+msgid "InputStringPosY"
+msgstr ""
+
+#: config-tool/editingskindialog.cpp:56
+msgid "OutputCandPosX"
+msgstr ""
+
+#: config-tool/editingskindialog.cpp:57
+msgid "OutputCandPosY"
+msgstr ""
+
+#: config-tool/editingskindialog.cpp:58
+msgid "BackArrow"
+msgstr ""
+
+#: config-tool/editingskindialog.cpp:59
+msgid "BackArrowX"
+msgstr ""
+
+#: config-tool/editingskindialog.cpp:60
+msgid "BackArrowY"
+msgstr ""
+
+#: config-tool/editingskindialog.cpp:61
+msgid "ForwardArrow"
+msgstr ""
+
+#: config-tool/editingskindialog.cpp:62
+msgid "ForwardArrowX"
+msgstr ""
+
+#: config-tool/editingskindialog.cpp:63
+msgid "ForwardArrowY"
+msgstr ""
+
+#: config-tool/editingskindialog.cpp:64
+msgid "AdjustWidth"
+msgstr ""
+
+#: config-tool/editingskindialog.cpp:65
+msgid "AdjustHeight"
+msgstr ""
+
+#: config-tool/editingskindialog.cpp:67
+msgid "&Cannel"
+msgstr ""
+
+#: config-tool/editingskindialog.cpp:68
+msgid "&Ok"
+msgstr ""
+
+#: config-tool/editingskindialog.cpp:69
+msgid "&Refresh"
+msgstr ""
+
+#: config-tool/editingskindialog.cpp:312 config-tool/mainwindow.cpp:114
+#: config-tool/mainwindow.cpp:128 config-tool/mainwindow.cpp:148
+#: config-tool/mainwindow.cpp:160
+msgid "tips"
+msgstr ""
+
+#: config-tool/editingskindialog.cpp:312
+msgid "The default configuration has been restored"
+msgstr ""
+
+#: config-tool/mainwindow.cpp:26
+msgid "Qimpanel Settings"
+msgstr ""
+
+#: config-tool/mainwindow.cpp:33
+msgid "Appearance"
+msgstr ""
+
+#: config-tool/mainwindow.cpp:34
+msgid "Skin Design"
+msgstr ""
+
+#: config-tool/mainwindow.cpp:35
+msgid "Vertical List"
+msgstr ""
+
+#: config-tool/mainwindow.cpp:36
+msgid "Skin Type"
+msgstr ""
+
+#: config-tool/mainwindow.cpp:37
+msgid "Horizontal"
+msgstr ""
+
+#: config-tool/mainwindow.cpp:38
+msgid "Vertical"
+msgstr ""
+
+#: config-tool/mainwindow.cpp:40
+msgid "All Skin"
+msgstr ""
+
+#: config-tool/mainwindow.cpp:41
+msgid "Preview"
+msgstr ""
+
+#: config-tool/mainwindow.cpp:42
+msgid ""
+"Description: Click to select and preview, double-click local to edit, save "
+"locally."
+msgstr ""
+
+#: config-tool/mainwindow.cpp:43
+msgid "&Apply"
+msgstr ""
+
+#: config-tool/mainwindow.cpp:44
+msgid "&Cancel"
+msgstr ""
+
+#: config-tool/mainwindow.cpp:114 config-tool/mainwindow.cpp:128
+#: config-tool/mainwindow.cpp:148 config-tool/mainwindow.cpp:160
+msgid "Sougo Skin does not support preview and edit!"
+msgstr ""
+
+#: main_controller.cpp:221 system_tray_menu.cpp:114
+msgid "No input window"
+msgstr ""
+
+#: system_tray_menu.cpp:58
+msgid "Virtual Keyboard"
+msgstr ""
+
+#: system_tray_menu.cpp:59
+msgid "Input Method"
+msgstr ""
+
+#: system_tray_menu.cpp:61
+msgid "ConfigureSync"
+msgstr ""
+
+#: system_tray_menu.cpp:63
+msgid "Skin"
+msgstr ""
+
+#: system_tray_menu.cpp:125 system_tray_menu.cpp:426
+msgid "Online &Help!"
+msgstr ""
+
+#: system_tray_menu.cpp:146 system_tray_menu.cpp:440
+msgid "Configure"
+msgstr ""
+
+#: system_tray_menu.cpp:147 system_tray_menu.cpp:432
+msgid "ConfigureIMPanel"
+msgstr ""
+
+#: system_tray_menu.cpp:148 system_tray_menu.cpp:429
+msgid "ConfigureIM"
+msgstr ""
+
+#: system_tray_menu.cpp:155 system_tray_menu.cpp:458
+msgid "Character Map"
+msgstr ""
+
+#: system_tray_menu.cpp:156 system_tray_menu.cpp:460
+msgid "Keyboard Layout Chart"
+msgstr ""
+
+#: system_tray_menu.cpp:157 system_tray_menu.cpp:480
+msgid "Text Entry Settings..."
+msgstr ""
+
+#: system_tray_menu.cpp:161 system_tray_menu.cpp:443
+msgid "Restart"
+msgstr ""
+
+#: system_tray_menu.cpp:162 system_tray_menu.cpp:447
+msgid "Exit"
+msgstr ""
+
+#: system_tray_menu.cpp:181 system_tray_menu.cpp:451
+msgid "ConfigureUp"
+msgstr ""
+
+#: system_tray_menu.cpp:182 system_tray_menu.cpp:454
+msgid "ConfigureDwon"
+msgstr ""
+
+#: system_tray_menu.cpp:365 system_tray_menu.cpp:369 system_tray_menu.cpp:393
+#: system_tray_menu.cpp:414 system_tray_menu.cpp:419 system_tray_menu.cpp:436
+msgid "Warning"
+msgstr ""
+
+#: system_tray_menu.cpp:365 system_tray_menu.cpp:414
+msgid "[Ubuntu Kylin Sync] Synchronize directories have been deleted?!"
+msgstr ""
+
+#: system_tray_menu.cpp:369 system_tray_menu.cpp:419
+msgid "Please log in kuaipan!"
+msgstr ""
+
+#: system_tray_menu.cpp:393
+msgid "No configure can be synchronized!"
+msgstr ""
+
+#: system_tray_menu.cpp:436
+msgid "Please install fcitx-qimpanel-configtool!"
+msgstr ""

@@ -11,7 +11,6 @@ include_directories(BEFORE
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR})
 
-SET(fcitx-qimpanel-configtool_TRANS po/fcitx_skin_zh_CN.ts)
 SET(fcitx-qimpanel-configtool_RCCS main.qrc)
 
 set(fcitx-qimpanel-configtool_SRCS main.cpp 
@@ -26,7 +25,6 @@ set(fcitx-qimpanel-configtool_FORMS mainwindow.ui
     editingskindialog.ui
     )
 
-QT5_ADD_TRANSLATION(fcitx-qimpanel-configtool_TRAN_SRCS ${fcitx-qimpanel-configtool_TRANS})
 QT5_ADD_RESOURCES(fcitx-qimpanel-configtool_RCC_SRCS ${fcitx-qimpanel-configtool_RCCS})
 QT5_WRAP_UI(helloworld_FORMS_HEADERS ${fcitx-qimpanel-configtool_FORMS})
 

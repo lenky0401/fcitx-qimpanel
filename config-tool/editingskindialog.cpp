@@ -7,6 +7,7 @@
 #include <QFile>
 #include <QMessageBox>
 #include <QDir>
+#include <libintl.h>
 
 #include "editingskindialog.h"
 #include "ui_editingskindialog.h"
@@ -30,6 +31,42 @@ EditingSkinDialog::EditingSkinDialog(bool pHorizontal,QListWidgetItem *item,
     ui->lineEdit_iBackArrow->setEnabled(false);
     ui->lineEdit_iForwardArrow->setEnabled(false);
     this->setWindowTitle("skin/"+mItem->text()+"/fcitx_skin.conf");
+
+    ui->EditingSkinTabWidget->setTabText(0,gettext("SkinInfo"));
+    ui->EditingSkinTabWidget->setTabText(1,gettext("SkinFont"));
+    ui->EditingSkinTabWidget->setTabText(2,gettext("SkinInputBar"));
+
+    ui->labelSkinVersion->setText(gettext("Version"));
+    ui->labelSkinAuthor->setText(gettext("Author"));
+    ui->labelIputFontSize->setText(gettext("FontSize"));
+    ui->labelCandFontSize->setText(gettext("CandFontSize"));
+    ui->labelInputColor->setText(gettext("InputColor"));
+    ui->labelCandIndexColor->setText(gettext("IndexColor"));
+    ui->labelFirstCandColor->setText(gettext("FirstCandColor"));
+    ui->labelOtherCandColor->setText(gettext("OtherColor"));
+
+    ui->label_iBackImg->setText(gettext("BackImg"));
+    ui->label_iTipsImg->setText(gettext("TipsImg"));
+    ui->label_iLeftMargin->setText(gettext("MarginLeft"));
+    ui->label_iRightMargin->setText(gettext("MarginRight"));
+    ui->label_iTopMargin->setText(gettext("MarginTop"));
+    ui->label_iBottomMargin->setText(gettext("MarginBottom"));
+    ui->label_iInputStringPosX->setText(gettext("InputStringPosX"));
+    ui->label_iInputStringPosY->setText(gettext("InputStringPosY"));
+    ui->label_iOutputCandPosX->setText(gettext("OutputCandPosX"));
+    ui->label_iOutputCandPosY->setText(gettext("OutputCandPosY"));
+    ui->label_iBackArrow->setText(gettext("BackArrow"));
+    ui->label_iBackArrowX->setText(gettext("BackArrowX"));
+    ui->label_iBackArrowY->setText(gettext("BackArrowY"));
+    ui->label_iForwardArrow->setText(gettext("ForwardArrow"));
+    ui->label_iForwardArrowX->setText(gettext("ForwardArrowX"));
+    ui->label_iForwardArrowY->setText(gettext("ForwardArrowY"));
+    ui->label_iAdjustWidth->setText(gettext("AdjustWidth"));
+    ui->label_iAdjustHeight->setText(gettext("AdjustHeight"));
+
+    ui->pushButton_cannel->setText(gettext("&Cannel"));
+    ui->pushButton_ok->setText(gettext("&Ok"));
+    ui->pushButton_refresh->setText(gettext("&Refresh"));
 
     if(mItem->text().indexOf("(local)")==-1)
     {
@@ -250,7 +287,7 @@ void EditingSkinDialog::on_pushButton_ok_released()
         }
     }
     saveMainConf();
-    this->accept();
+    this->close();
 }
 
 void EditingSkinDialog::on_pushButton_cannel_released()
@@ -272,7 +309,7 @@ void EditingSkinDialog::on_pushButton_refresh_released()
             return ;
         }
     }
-    QMessageBox::information(this,tr("tips"),tr("The default configuration has been restored"));
+    QMessageBox::information(this,gettext("tips"),gettext("The default configuration has been restored"));
 }
 
 void EditingSkinDialog::on_pushButtonInputColor_released()

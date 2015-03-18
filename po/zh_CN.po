@@ -1,0 +1,295 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Canonical Ltd.
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: fcitx-qimpanel\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-03-18 11:38+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: config-tool/editingskindialog.cpp:35
+msgid "SkinInfo"
+msgstr "皮肤信息"
+
+#: config-tool/editingskindialog.cpp:36
+msgid "SkinFont"
+msgstr "皮肤字体"
+
+#: config-tool/editingskindialog.cpp:37
+msgid "SkinInputBar"
+msgstr "皮肤输入框设置"
+
+#: config-tool/editingskindialog.cpp:39
+msgid "Version"
+msgstr "皮肤版本"
+
+#: config-tool/editingskindialog.cpp:40
+msgid "Author"
+msgstr "皮肤作者"
+
+#: config-tool/editingskindialog.cpp:41
+msgid "FontSize"
+msgstr "输入字体大小"
+
+#: config-tool/editingskindialog.cpp:42
+msgid "CandFontSize"
+msgstr "候选词字体大小"
+
+#: config-tool/editingskindialog.cpp:43
+msgid "InputColor"
+msgstr "输入字符串字体颜色"
+
+#: config-tool/editingskindialog.cpp:44
+msgid "IndexColor"
+msgstr "候选词前数字字体颜色"
+
+#: config-tool/editingskindialog.cpp:45
+msgid "FirstCandColor"
+msgstr "首候选词字体颜色"
+
+#: config-tool/editingskindialog.cpp:46
+msgid "OtherColor"
+msgstr "其他候选次词字体颜色"
+
+#: config-tool/editingskindialog.cpp:48
+msgid "BackImg"
+msgstr "背景图片"
+
+#: config-tool/editingskindialog.cpp:49
+msgid "TipsImg"
+msgstr "切换时提示信息背景图片"
+
+#: config-tool/editingskindialog.cpp:50
+msgid "MarginLeft"
+msgstr "左边距"
+
+#: config-tool/editingskindialog.cpp:51
+msgid "MarginRight"
+msgstr "右边距"
+
+#: config-tool/editingskindialog.cpp:52
+msgid "MarginTop"
+msgstr "上边距"
+
+#: config-tool/editingskindialog.cpp:53
+msgid "MarginBottom"
+msgstr "下边距"
+
+#: config-tool/editingskindialog.cpp:54
+msgid "InputStringPosX"
+msgstr "输入字符串位置X坐标"
+
+#: config-tool/editingskindialog.cpp:55
+msgid "InputStringPosY"
+msgstr "输入字符串位置Y坐标"
+
+#: config-tool/editingskindialog.cpp:56
+msgid "OutputCandPosX"
+msgstr "输出候选词位置X坐标"
+
+#: config-tool/editingskindialog.cpp:57
+msgid "OutputCandPosY"
+msgstr "输出候选词位置Y坐标"
+
+#: config-tool/editingskindialog.cpp:58
+msgid "BackArrow"
+msgstr "左翻页图片"
+
+#: config-tool/editingskindialog.cpp:59
+msgid "BackArrowX"
+msgstr "左翻页图片位置X坐标"
+
+#: config-tool/editingskindialog.cpp:60
+msgid "BackArrowY"
+msgstr "左翻页图片位置Y坐标"
+
+#: config-tool/editingskindialog.cpp:61
+msgid "ForwardArrow"
+msgstr "右翻页图片"
+
+#: config-tool/editingskindialog.cpp:62
+msgid "ForwardArrowX"
+msgstr "右翻页图片位置X坐标"
+
+#: config-tool/editingskindialog.cpp:63
+msgid "ForwardArrowY"
+msgstr "右翻页图片位置Y坐标"
+
+#: config-tool/editingskindialog.cpp:64
+msgid "AdjustWidth"
+msgstr "面板宽度调节"
+
+#: config-tool/editingskindialog.cpp:65
+msgid "AdjustHeight"
+msgstr "面板高度调节"
+
+#: config-tool/editingskindialog.cpp:67
+msgid "&Cannel"
+msgstr "取消"
+
+#: config-tool/editingskindialog.cpp:68
+msgid "&Ok"
+msgstr "确定"
+
+#: config-tool/editingskindialog.cpp:69
+msgid "&Refresh"
+msgstr "恢复默认"
+
+#: config-tool/editingskindialog.cpp:303 config-tool/mainwindow.cpp:114
+#: config-tool/mainwindow.cpp:128 config-tool/mainwindow.cpp:148
+#: config-tool/mainwindow.cpp:160
+msgid "tips"
+msgstr "友情提示："
+
+#: config-tool/editingskindialog.cpp:303
+msgid "The default configuration has been restored"
+msgstr "该皮肤已经恢复默认配置."
+
+#: config-tool/mainwindow.cpp:26
+msgid "Qimpanel Settings"
+msgstr "输入法面板设置"
+
+#: config-tool/mainwindow.cpp:33
+msgid "Appearance"
+msgstr "外观设置"
+
+#: config-tool/mainwindow.cpp:34
+msgid "Skin Design"
+msgstr "皮肤设计"
+
+#: config-tool/mainwindow.cpp:35
+msgid "Vertical List"
+msgstr "候选词列表显示："
+
+#: config-tool/mainwindow.cpp:36
+msgid "Skin Type"
+msgstr "当前使用皮肤:"
+
+#: config-tool/mainwindow.cpp:37
+msgid "Horizontal"
+msgstr "横向显示"
+
+#: config-tool/mainwindow.cpp:38
+msgid "Vertical"
+msgstr "竖向显示"
+
+#: config-tool/mainwindow.cpp:40
+msgid "All Skin"
+msgstr "所有皮肤"
+
+#: config-tool/mainwindow.cpp:41
+msgid "Preview"
+msgstr "效果预览:"
+
+#: config-tool/mainwindow.cpp:42
+msgid ""
+"Description: Click to select and preview, double-click local to edit, save locally."
+msgstr "单击选择并预览，双击创造本地配置或者进行编辑"
+
+#: config-tool/mainwindow.cpp:43
+msgid "&Apply"
+msgstr "应用"
+
+#: config-tool/mainwindow.cpp:44
+msgid "&Cancel"
+msgstr "取消"
+
+#: config-tool/mainwindow.cpp:114 config-tool/mainwindow.cpp:128
+#: config-tool/mainwindow.cpp:148 config-tool/mainwindow.cpp:160
+msgid "Sougo Skin does not support preview and edit!"
+msgstr "不支持sougo皮肤预览和编辑！"
+
+#: main_controller.cpp:221 system_tray_menu.cpp:114
+msgid "No input window"
+msgstr "无输入窗口"
+
+#: system_tray_menu.cpp:58
+msgid "Virtual Keyboard"
+msgstr "虚拟键盘"
+
+#: system_tray_menu.cpp:59
+msgid "Input Method"
+msgstr "输入法"
+
+#: system_tray_menu.cpp:61
+msgid "ConfigureSync"
+msgstr "配置同步"
+
+#: system_tray_menu.cpp:63
+msgid "Skin"
+msgstr "皮肤"
+
+#: system_tray_menu.cpp:125 system_tray_menu.cpp:426
+msgid "Online &Help!"
+msgstr "在线帮助"
+
+#: system_tray_menu.cpp:146 system_tray_menu.cpp:440
+msgid "Configure"
+msgstr "配置"
+
+#: system_tray_menu.cpp:147 system_tray_menu.cpp:432
+msgid "ConfigureIMPanel"
+msgstr "配置面板和皮肤"
+
+#: system_tray_menu.cpp:148 system_tray_menu.cpp:429
+msgid "ConfigureIM"
+msgstr "配置当前输入法"
+
+#: system_tray_menu.cpp:155 system_tray_menu.cpp:458
+msgid "Character Map"
+msgstr "字符映射表"
+
+#: system_tray_menu.cpp:156 system_tray_menu.cpp:460
+msgid "Keyboard Layout Chart"
+msgstr "键盘布局图"
+
+#: system_tray_menu.cpp:157 system_tray_menu.cpp:480
+msgid "Text Entry Settings..."
+msgstr "文本输入设置"
+
+#: system_tray_menu.cpp:161 system_tray_menu.cpp:443
+msgid "Restart"
+msgstr "重新启动"
+
+#: system_tray_menu.cpp:162 system_tray_menu.cpp:447
+msgid "Exit"
+msgstr "退出"
+
+#: system_tray_menu.cpp:181 system_tray_menu.cpp:451
+msgid "ConfigureUp"
+msgstr "同步上传"
+
+#: system_tray_menu.cpp:182 system_tray_menu.cpp:454
+msgid "ConfigureDwon"
+msgstr "同步下载"
+
+#: system_tray_menu.cpp:365 system_tray_menu.cpp:369 system_tray_menu.cpp:393
+#: system_tray_menu.cpp:414 system_tray_menu.cpp:419 system_tray_menu.cpp:436
+msgid "Warning"
+msgstr "警告!"
+
+#: system_tray_menu.cpp:365 system_tray_menu.cpp:414
+msgid "[Ubuntu Kylin Sync] Synchronize directories have been deleted?!"
+msgstr "[Ubuntu Kylin Sync]该同步目录已经被删除？请自行创建。"
+
+#: system_tray_menu.cpp:369 system_tray_menu.cpp:419
+msgid "Please log in kuaipan!"
+msgstr "请登录金山快盘！"
+
+#: system_tray_menu.cpp:393
+msgid "No configure can be synchronized!"
+msgstr "云端没有存储配置文件，无法同步到本地"
+
+#: system_tray_menu.cpp:436
+msgid "Please install fcitx-qimpanel-configtool!"
+msgstr "请安装配置工具：fcitx-qimpanel-configtool"

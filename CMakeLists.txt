@@ -16,7 +16,6 @@ include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR})
 
-SET(fcitx-qimpanel_TRANS po/zh_CN.ts)
 SET(fcitx-qimpanel_RCCS qml.qrc)
 set(fcitx-qimpanel_SRCS main.cpp main_controller.cpp toplevel.cpp
     main_model.cpp kimpanelagent.cpp candidate_word.cpp system_tray_menu.cpp 
@@ -25,7 +24,7 @@ QT5_ADD_DBUS_ADAPTOR(fcitx-qimpanel_SRCS
     org.kde.impanel.xml
     kimpanelagent.h
     PanelAgent)
-QT5_ADD_TRANSLATION(fcitx-qimpanel_TRAN_SRCS ${fcitx-qimpanel_TRANS})
+
 QT5_ADD_RESOURCES(fcitx-qimpanel_RCC_SRCS ${fcitx-qimpanel_RCCS})
 
 configure_file(${PROJECT_SOURCE_DIR}/config.h.in ${PROJECT_BINARY_DIR}/config.h)
@@ -47,5 +46,6 @@ set(pkgdatadir 	/usr/share/fcitx-qimpanel)
 install(TARGETS fcitx-qimpanel RUNTIME DESTINATION ${pkgbindir})
 install(FILES ${fcitx-qimpanel_TRAN_SRCS} DESTINATION ${pkgdatadir})
 
-add_subdirectory(uk-default-skin)
+add_subdirectory(ubuntu-default-skin)
 add_subdirectory(config-tool)
+add_subdirectory(po)

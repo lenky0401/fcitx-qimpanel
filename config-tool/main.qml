@@ -19,7 +19,6 @@ Rectangle {
             bottom: mainSkin.marginBottom;
         }
         source: mainSkin.inputBackImg
-
     }
     
     Text {

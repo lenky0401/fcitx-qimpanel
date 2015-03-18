@@ -132,11 +132,11 @@ void EditingSkinDialog::loadMainConf()
     int outputCandPosX = mSettings->value("OutputCandPosX").toInt();
     int outputCandPosY = mSettings->value("OutputCandPosY").toInt();
     QString backArrow = mSettings->value("BackArrow").toString();
-    int backArrowX = mSettings->value("BackArrowX").toInt();
-    int backArrowY = mSettings->value("BackArrowY").toInt();
+    int backArrowPosX = mSettings->value("BackArrowPosX").toInt();
+    int backArrowPosY = mSettings->value("BackArrowPosY").toInt();
     QString forwardArrow = mSettings->value("ForwardArrow").toString();
-    int forwardArrowX = mSettings->value("ForwardArrowX").toInt();
-    int forwardArrowY = mSettings->value("ForwardArrowY").toInt();
+    int forwardArrowPosX = mSettings->value("ForwardArrowPosX").toInt();
+    int forwardArrowPosY = mSettings->value("ForwardArrowPosY").toInt();
     int adjustWidth = mSettings->value("AdjustWidth").toInt();
     int adjustHeight = mSettings->value("AdjustHeight").toInt();
     mSettings->endGroup();
@@ -158,11 +158,11 @@ void EditingSkinDialog::loadMainConf()
     ui->spinBox_iOutputCandPosX->setValue(outputCandPosX);
     ui->spinBox_iOutputCandPosY->setValue(outputCandPosY);
     ui->lineEdit_iBackArrow->setText(backArrow);
-    ui->spinBox_iBackArrowX->setValue(backArrowX);
-    ui->spinBox_iBackArrowY->setValue(backArrowY);
+    ui->spinBox_iBackArrowX->setValue(backArrowPosX);
+    ui->spinBox_iBackArrowY->setValue(backArrowPosY);
     ui->lineEdit_iForwardArrow->setText(forwardArrow);
-    ui->spinBox_iForwardArrowX->setValue(forwardArrowX);
-    ui->spinBox_iForwardArrowY->setValue(forwardArrowY);
+    ui->spinBox_iForwardArrowX->setValue(forwardArrowPosX);
+    ui->spinBox_iForwardArrowY->setValue(forwardArrowPosY);
     if(mHorizontal == true)
     {
         ui->spinBox_iAdjustHeight->setValue(adjustHeight);
@@ -219,11 +219,11 @@ void EditingSkinDialog::saveMainConf()
     int outputCandPosX = ui->spinBox_iOutputCandPosX->value();
     int outputCandPosY = ui->spinBox_iOutputCandPosY->value();
     QString backArrow = ui->lineEdit_iBackArrow->text();
-    int backArrowX = ui->spinBox_iBackArrowX->value();
-    int backArrowY = ui->spinBox_iBackArrowY->value();
+    int backArrowPosX = ui->spinBox_iBackArrowX->value();
+    int backArrowPosY = ui->spinBox_iBackArrowY->value();
     QString forwardArrow = ui->lineEdit_iForwardArrow->text();
-    int forwardArrowX = ui->spinBox_iForwardArrowX->value();
-    int forwardArrowY = ui->spinBox_iForwardArrowY->value();
+    int forwardArrowPosX = ui->spinBox_iForwardArrowX->value();
+    int forwardArrowPosY = ui->spinBox_iForwardArrowY->value();
 
     int marginTop = ui->spinBox_iTopMargin->value();
     int marginBottom = ui->spinBox_iBottomMargin->value();
@@ -240,11 +240,11 @@ void EditingSkinDialog::saveMainConf()
     mSettings->setValue("OutputCandPosX",outputCandPosX);
     mSettings->setValue("OutputCandPosY",outputCandPosY);
     mSettings->setValue("BackArrow",backArrow);
-    mSettings->setValue("BackArrowX",backArrowX);
-    mSettings->setValue("BackArrowY",backArrowY);
+    mSettings->setValue("BackArrowPosX",backArrowPosX);
+    mSettings->setValue("BackArrowPosY",backArrowPosY);
     mSettings->setValue("ForwardArrow",forwardArrow);
-    mSettings->setValue("ForwardArrowX",forwardArrowX);
-    mSettings->setValue("ForwardArrowY",forwardArrowY);
+    mSettings->setValue("ForwardArrowPosX",forwardArrowPosX);
+    mSettings->setValue("ForwardArrowPosY",forwardArrowPosY);
     if(mHorizontal == true)
     {
         mSettings->setValue("MarginTop",marginTop);

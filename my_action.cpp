@@ -66,3 +66,13 @@ const SkinClass MyAction::getSkinClass()
     return this->mSkinClass;
 }
 
+void MyAction::setMyActionType(const MyActionType myActionType)
+{
+    this->mMyActionType = myActionType;
+}
+
+const MyActionType MyAction::getMyActionType()
+{
+    return this->mMyActionType;
+}
+

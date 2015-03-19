@@ -26,10 +26,14 @@
 #include <QSettings>
 #include <libintl.h>
 
+#include <fcitx-config/fcitx-config.h>
+
 #include "main.h"
 #include "my_action.h"
+#include "main_controller.h"
 #include "system_tray_menu.h"
 #include "config.h"
+#include "skin/skinfcitx.h"
 
 SystemTrayMenu::SystemTrayMenu(PanelAgent *agent)
     : QMenu()
@@ -44,6 +48,8 @@ SystemTrayMenu::~SystemTrayMenu()
 
 void SystemTrayMenu::init()
 {
+
+    updateMainMenu();
 
     QObject::connect(this, SIGNAL(aboutToShow()), this,
         SLOT(triggerUpdateVKListMenu()));
@@ -90,7 +96,6 @@ void SystemTrayMenu::updateProperty(const KimpanelProperty &prop)
 
 void SystemTrayMenu::updateMainMenu()
 {
-    MyAction *menu;
     this->clear();
 
     this->addAction(QIcon::fromTheme("help-contents"), gettext("Online &Help!"));
@@ -106,7 +111,8 @@ void SystemTrayMenu::updateMainMenu()
     }
 
     foreach(const KimpanelProperty &prop, this->mStatusMenuList) {
-           menu = new MyAction(QIcon::fromTheme(prop.icon), prop.label, this);
+           MyAction *menu = new MyAction(QIcon::fromTheme(prop.icon), prop.label, this);
+           menu->setMyActionType(StatusAction);
            menu->setProp(prop);
            this->addAction(menu);
     }
@@ -114,14 +120,17 @@ void SystemTrayMenu::updateMainMenu()
 
     this->addAction(QIcon::fromTheme("preferences-desktop"), gettext("ConfigureFcitx"));
     this->addAction(QIcon::fromTheme("preferences-desktop"), gettext("ConfigureIMPanel"));
+    this->addSeparator();
 
     if (isUnity()) {
-        this->addSeparator();
         this->addAction(gettext("Character Map"));
         this->addAction(gettext("Keyboard Layout Chart"));
         this->addAction(gettext("Text Entry Settings..."));
         this->addSeparator();
     }
+
+    doUpdateSkinListMenu();
+
 }
 
 void SystemTrayMenu::triggerUpdateVKListMenu()
@@ -141,6 +150,7 @@ void SystemTrayMenu::doUpdateVKListMenu(const QList<KimpanelProperty> &prop_list
 
     for (iter = prop_list.begin(); iter != prop_list.end(); ++ iter) {
         menu = new MyAction(QIcon::fromTheme(iter->icon), iter->label, this);
+        menu->setMyActionType(VKAction);
         menu->setProp(*iter);
         this->addAction(menu);
     }
@@ -158,6 +168,7 @@ bool SystemTrayMenu::doUpdateIMListMenu(const QList<KimpanelProperty> &prop_list
         else
             action = new MyAction(QIcon::fromTheme(iter->icon), iter->label, this);
         action->setProp(*iter);
+        action->setMyActionType(IMAction);
         this->addAction(action);
         if (firstAction == NULL)
             firstAction = action;
@@ -316,7 +327,9 @@ void SystemTrayMenu::menuItemOnClick(QAction *action)
         startChildApp("unity-control-center", argv);
     } else {
         MyAction *myAction = (MyAction *)action;
-        if (myAction->getProp().key != "") {
+        if (SkinAction == myAction->getMyActionType()) {
+            skinMenuItemOnClick(myAction);
+        } else if (myAction->getProp().key != "") {
             mAgent->triggerProperty(myAction->getProp().key);
         }
     }
@@ -327,4 +340,164 @@ bool SystemTrayMenu::isUnity()
     const char *desktop = getenv("XDG_CURRENT_DESKTOP");
     return desktop && !strcmp(desktop, "Unity");
 }
+
+void SystemTrayMenu::doUpdateSkinListMenu()
+{
+    int i;
+    size_t len;
+    QDir skinDir;
+    bool checked = false;
+    MyAction *firstMenu = NULL, *menu;
+    QFileInfoList list;
+    QFileInfoList::Iterator iter;
+    QString skinName = MainController::self()->getSkinName();
+    SkinClass skinClass;
+    bool localExist;
+    MyAction *skinNameMenu;
+
+    QString localSkinPath = qgetenv("HOME") + "/.config/fcitx-qimpanel/skin/";
+
+    for (i = 0; i < 1; i ++) {
+        skinDir = QDir(localSkinPath);
+        if (!skinDir.exists())
+            continue;
+
+        skinDir.setFilter(QDir::Dirs);
+        list = skinDir.entryInfoList();
+        for (iter = list.begin(); iter != list.end(); ++ iter) {
+            if (iter->isDir() && "." != iter->fileName() && ".." != iter->fileName()) {
+                QFile fcitxSkinConfFile(iter->absoluteFilePath() + "/fcitx_skin.conf");
+                QFile sogouSkinConfFile(iter->absoluteFilePath() + "/skin.ini");
+
+                if (fcitxSkinConfFile.exists()){
+                    skinClass = FCITX;
+                }else continue;
+
+                menu = new MyAction(iter->fileName(), this);
+                menu->setMyActionType(SkinAction);
+                menu->setSkinPath(iter->absoluteFilePath() + "/");
+                menu->setSkinClass(skinClass);
+                this->addAction(menu);
+                if (firstMenu == NULL)
+                    firstMenu = menu;
+                menu->setCheckable(true);
+                if (iter->fileName() == skinName) {
+                    checked = true;
+                    menu->setChecked(true);
+                    skinNameMenu = menu;
+                }
+            }
+        }
+    }
+
+    char* ukSkinPath = getQimpanelSharePath("skin");
+
+    for (i = 0; i < 1; i ++) {
+        skinDir = QDir(ukSkinPath);
+        if (!skinDir.exists())
+            continue;
+
+        skinDir.setFilter(QDir::Dirs);
+        list = skinDir.entryInfoList();
+        for (iter = list.begin(); iter != list.end(); ++ iter) {
+            if (iter->isDir() && "." != iter->fileName() && ".." != iter->fileName()) {
+                QFile fcitxSkinConfFile(iter->absoluteFilePath() + "/fcitx_skin.conf");
+                QFile sogouSkinConfFile(iter->absoluteFilePath() + "/skin.ini");
+
+                if (fcitxSkinConfFile.exists()){
+                    skinClass = FCITX;
+                }else continue;
+
+                //check if exist in local
+                localExist = false;
+                QList<QAction *> localExistList = this->actions();
+                QList<QAction *>::iterator localExistIter;
+                for (localExistIter = localExistList.begin();
+                    localExistIter != localExistList.end(); ++ localExistIter)
+                {
+                    if (((MyAction *)(*localExistIter))->text() == iter->fileName()) {
+                        localExist = true;
+                        break;
+                    }
+                }
+                if (localExist)
+                    continue;
+
+                menu = new MyAction(iter->fileName(), this);
+                menu->setMyActionType(SkinAction);
+                //qDebug() << iter->absoluteFilePath();
+                menu->setSkinPath(iter->absoluteFilePath() + "/");
+                menu->setSkinClass(skinClass);
+                this->addAction(menu);
+                if (firstMenu == NULL)
+                    firstMenu = menu;
+                menu->setCheckable(true);
+                if (iter->fileName() == skinName) {
+                    checked = true;
+                    menu->setChecked(true);
+                    skinNameMenu = menu;
+                }
+            }
+        }
+    }
+
+    char **skinPath = FcitxXDGGetPathWithPrefix(&len, "skin");
+    for (i = 0; i < len; i ++) {
+        skinDir = QDir(skinPath[i]);
+        if (!skinDir.exists())
+            continue;
+
+        skinDir.setFilter(QDir::Dirs);
+        list = skinDir.entryInfoList();
+        for (iter = list.begin(); iter != list.end(); ++ iter) {
+            if (iter->isDir() && "." != iter->fileName() && ".." != iter->fileName()) {
+                QFile fcitxSkinConfFile(iter->absoluteFilePath() + "/fcitx_skin.conf");
+                QFile sogouSkinConfFile(iter->absoluteFilePath() + "/skin.ini");
+
+                if (fcitxSkinConfFile.exists()){
+                    skinClass = FCITX;
+                }else continue;
+
+                menu = new MyAction(iter->fileName(), this);
+                menu->setMyActionType(SkinAction);
+                menu->setSkinPath(iter->absoluteFilePath() + "/");
+                menu->setSkinClass(skinClass);
+                this->addAction(menu);
+                if (firstMenu == NULL)
+                    firstMenu = menu;
+                menu->setCheckable(true);
+                if (iter->fileName() == skinName) {
+                    checked = true;
+                    menu->setChecked(true);
+                    skinNameMenu = menu;
+                }
+            }
+        }
+    }
+
+    if (!checked)
+        firstMenu->setChecked(true);
+
+    if (skinNameMenu == NULL)
+        skinNameMenu = firstMenu;
+
+    FcitxXDGFreePath(skinPath);
+
+    skinMenuItemOnClick(skinNameMenu);
+}
+
+void SystemTrayMenu::skinMenuItemOnClick(QAction* action)
+{
+    SkinBase *skin;
+    MyAction *myAction = (MyAction *)action;
+    MainController::self()->setSkinName(myAction->text());
+
+    if (FCITX == myAction->getSkinClass())
+        skin = new SkinFcitx;
+    else qDebug() << "Load skin failed!";
+
+    skin->loadSkin(myAction->getSkinPath());
+    MainController::self()->setSkinBase(skin, myAction->getSkinClass());
+}
+
 

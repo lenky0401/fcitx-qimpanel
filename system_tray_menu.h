@@ -28,7 +28,6 @@
 #include <sys/wait.h>
 
 #include "config.h"
-#include "skin/skinmenu.h"
 
 class SystemTrayMenu : public QMenu
 {
@@ -74,6 +73,10 @@ private:
     QList<KimpanelProperty> mIMList;
     QList<KimpanelProperty> mVKList;
     QList<KimpanelProperty> mStatusMenuList;
+
+private:
+    void skinMenuItemOnClick(QAction* action);
+    void doUpdateSkinListMenu();
 };
 
 #endif // __SYSTEM_TRAY_MENU_H__

@@ -29,7 +29,7 @@
 #include "kimpanelagent.h"
 #include "toplevel.h"
 #include "skin/skinbase.h"
-#include "skin/skinmenu.h"
+#include "my_action.h"
 
 //必须与FcitxCandidateLayoutHint的定义一致
 enum CandidateLayout {

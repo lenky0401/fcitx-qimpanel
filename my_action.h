@@ -23,6 +23,14 @@
 #include <QAction>
 #include "kimpanelagent.h"
 
+typedef enum MyActionType
+{
+    IMAction,
+    StatusAction,
+    VKAction,
+    SkinAction,
+} MyActionType;
+
 typedef enum SkinClass
 {
     FCITX,
@@ -44,12 +52,15 @@ public:
     const QString getSkinPath();
     void setSkinClass(const SkinClass skinClass);
     const SkinClass getSkinClass();
+    void setMyActionType(const MyActionType myActionType);
+    const MyActionType getMyActionType();
 
 private:
 
     KimpanelProperty mProp;
     QString mSkinPath;
     SkinClass mSkinClass;
+    MyActionType mMyActionType;
 };
 
 #endif // __MY_ACTION_H__

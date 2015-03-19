@@ -19,7 +19,7 @@ include_directories(
 SET(fcitx-qimpanel_RCCS qml.qrc)
 set(fcitx-qimpanel_SRCS main.cpp main_controller.cpp toplevel.cpp
     main_model.cpp kimpanelagent.cpp candidate_word.cpp system_tray_menu.cpp 
-    my_action.cpp skin/skinmenu.cpp skin/skinbase.cpp skin/skinfcitx.cpp)
+    my_action.cpp skin/skinbase.cpp skin/skinfcitx.cpp)
 QT5_ADD_DBUS_ADAPTOR(fcitx-qimpanel_SRCS
     org.kde.impanel.xml
     kimpanelagent.h

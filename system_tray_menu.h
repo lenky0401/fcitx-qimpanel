@@ -30,14 +30,6 @@
 #include "config.h"
 #include "skin/skinmenu.h"
 
-enum ExecMenuType
-{
-    nullExecMenuType,
-    updateVKListMenu,
-    updateIMListMenu,
-    //updateThemerMenu,
-};
-
 class SystemTrayMenu : public QMenu
 {
     Q_OBJECT
@@ -47,8 +39,10 @@ public:
     virtual ~SystemTrayMenu();
     void init();
 
+private:
+    void updateMainMenu();
+
 private slots:
-    void triggerUpdateMainMenu();
     void triggerUpdateVKListMenu();
     void triggerUpdateIMListMenu();
     void menuItemOnClick(QAction* action);
@@ -61,26 +55,25 @@ public slots:
     void updateProperty(const KimpanelProperty &prop);
 
 private:
+    //return True if is the fcitx-kbd checked.
+    bool doUpdateIMListMenu(const QList<KimpanelProperty> &prop_list);
     void doUpdateVKListMenu(const QList<KimpanelProperty> &prop_list);
-    void doUpdateIMListMenu(const QList<KimpanelProperty> &prop_list);
-    void appendIMListToMenu(QMenu *menu, const QList<KimpanelProperty> &prop_list);
     void startChildApp(const char *app_exe, const char * const argv[] = NULL);
 public:
     void restart();
 
 private:
     static bool isUnity();
+    static bool isIMList(const QString &key);
+    static bool isVKList(const QString &key);
 
 private:
     QString mCurtIMLabel;
     //前两个用不到，见后端KimpanelRegisterAllStatus()函数
 #define StatusMenuSkip (2)
     QList<KimpanelProperty> mIMList;
+    QList<KimpanelProperty> mVKList;
     QList<KimpanelProperty> mStatusMenuList;
-    SkinMenu *mSkinMenu;
-    QMenu *mVKListMenu;
-    QMenu *mIMListMenu;
-    ExecMenuType mExecMenuType;
 };
 
 #endif // __SYSTEM_TRAY_MENU_H__

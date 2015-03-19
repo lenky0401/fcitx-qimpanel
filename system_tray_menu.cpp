@@ -39,29 +39,17 @@ SystemTrayMenu::SystemTrayMenu(PanelAgent *agent)
 
 SystemTrayMenu::~SystemTrayMenu()
 {
-    delete mVKListMenu;
-    delete mIMListMenu;
-    delete mSkinMenu;
+
 }
 
 void SystemTrayMenu::init()
 {
-    mVKListMenu = new QMenu(gettext("Virtual Keyboard"), this);
-    mIMListMenu = new QMenu(gettext("Input Method"), this);
-    mSkinMenu = new SkinMenu(gettext("Skin"), this);
 
-    QObject::connect(mVKListMenu, SIGNAL(aboutToShow()), this,
+    QObject::connect(this, SIGNAL(aboutToShow()), this,
         SLOT(triggerUpdateVKListMenu()));
 
-    QObject::connect(mIMListMenu, SIGNAL(aboutToShow()), this,
+    QObject::connect(this, SIGNAL(aboutToShow()), this,
         SLOT(triggerUpdateIMListMenu()));
-
-    if (isUnity())
-        QObject::connect(this, SIGNAL(aboutToShow()), this,
-            SLOT(triggerUpdateIMListMenu()));
-    else
-        QObject::connect(this, SIGNAL(aboutToShow()), this,
-            SLOT(triggerUpdateMainMenu()));
 
     QObject::connect(this, SIGNAL(triggered(QAction*)), this,
         SLOT(menuItemOnClick(QAction *)));
@@ -82,7 +70,7 @@ void SystemTrayMenu::registerProperties(const QList<KimpanelProperty> &props)
     int count = 0;
     mStatusMenuList.clear();
     foreach(const KimpanelProperty &prop, props) {
-        //qDebug() << QString("triggerUpdateMainMenu(1:%1 2:%2 3:%3 4:%4 5:%5 6:%6)").arg(prop.key)
+        //qDebug() << QString("registerProperties(1:%1 2:%2 3:%3 4:%4 5:%5 6:%6)").arg(prop.key)
         //    .arg(prop.label).arg(prop.icon).arg(prop.tip).arg(prop.state).arg(prop.menu);
         if (count ++ < StatusMenuSkip)
             continue;
@@ -100,7 +88,7 @@ void SystemTrayMenu::updateProperty(const KimpanelProperty &prop)
     this->mCurtIMLabel = prop.label;
 }
 
-void SystemTrayMenu::triggerUpdateMainMenu()
+void SystemTrayMenu::updateMainMenu()
 {
     MyAction *menu;
     this->clear();
@@ -108,8 +96,12 @@ void SystemTrayMenu::triggerUpdateMainMenu()
     this->addAction(QIcon::fromTheme("help-contents"), gettext("Online &Help!"));
     this->addSeparator();
 
-    if (isUnity()) {
-        appendIMListToMenu(this, mIMList);
+    bool kbd = this->doUpdateIMListMenu(mIMList);
+    this->addSeparator();
+
+    if (kbd)
+    {
+        this->doUpdateVKListMenu(mVKList);
         this->addSeparator();
     }
 
@@ -118,39 +110,27 @@ void SystemTrayMenu::triggerUpdateMainMenu()
            menu->setProp(prop);
            this->addAction(menu);
     }
-    //this->addSeparator();
-
-    //this->addMenu(mVKListMenu);
-    if (!isUnity())
-        this->addMenu(mIMListMenu);
-    //this->addMenu(mSkinMenu);
     this->addSeparator();
 
     this->addAction(QIcon::fromTheme("preferences-desktop"), gettext("ConfigureFcitx"));
     this->addAction(QIcon::fromTheme("preferences-desktop"), gettext("ConfigureIMPanel"));
-    //this->addAction(QIcon::fromTheme("preferences-desktop"), gettext("ConfigureIM"));
-    this->addSeparator();
 
     if (isUnity()) {
+        this->addSeparator();
         this->addAction(gettext("Character Map"));
         this->addAction(gettext("Keyboard Layout Chart"));
         this->addAction(gettext("Text Entry Settings..."));
         this->addSeparator();
     }
-
-    //this->addAction(QIcon::fromTheme("view-refresh"), gettext("Restart"));
-    //this->addAction(QIcon::fromTheme("application-exit"), gettext("Exit"));
 }
 
 void SystemTrayMenu::triggerUpdateVKListMenu()
 {
-    mExecMenuType = updateVKListMenu;
     mAgent->triggerProperty(QString("/Fcitx/vk"));
 }
 
 void SystemTrayMenu::triggerUpdateIMListMenu()
 {
-    mExecMenuType = updateIMListMenu;
     mAgent->triggerProperty(QString("/Fcitx/im"));
 }
 
@@ -159,24 +139,17 @@ void SystemTrayMenu::doUpdateVKListMenu(const QList<KimpanelProperty> &prop_list
     MyAction *menu;
     QList<KimpanelProperty>::const_iterator iter;
 
-    mVKListMenu->clear();
     for (iter = prop_list.begin(); iter != prop_list.end(); ++ iter) {
         menu = new MyAction(QIcon::fromTheme(iter->icon), iter->label, this);
         menu->setProp(*iter);
-        mVKListMenu->addAction(menu);
+        this->addAction(menu);
     }
 }
 
-void SystemTrayMenu::doUpdateIMListMenu(const QList<KimpanelProperty> &prop_list)
-{
-    mIMListMenu->clear();
-    appendIMListToMenu(mIMListMenu, prop_list);
-}
-
-void SystemTrayMenu::appendIMListToMenu(QMenu *menu, const QList<KimpanelProperty> &prop_list)
+bool SystemTrayMenu::doUpdateIMListMenu(const QList<KimpanelProperty> &prop_list)
 {
     bool checked = false;
-    MyAction *firstAction = NULL, *action;
+    MyAction *firstAction = NULL, *action = NULL, *actionChecked = NULL;
     QList<KimpanelProperty>::const_iterator iter;
 
     for (iter = prop_list.begin(); iter != prop_list.end(); ++ iter) {
@@ -185,47 +158,54 @@ void SystemTrayMenu::appendIMListToMenu(QMenu *menu, const QList<KimpanelPropert
         else
             action = new MyAction(QIcon::fromTheme(iter->icon), iter->label, this);
         action->setProp(*iter);
-        menu->addAction(action);
+        this->addAction(action);
         if (firstAction == NULL)
             firstAction = action;
         action->setCheckable(true);
         if (iter->label == this->mCurtIMLabel) {
             checked = true;
+            actionChecked = action;
             action->setChecked(true);
         }
     }
+
     if (!checked && firstAction)
+    {
+        actionChecked = firstAction;
         firstAction->setChecked(true);
+    }
+
+    if (actionChecked == NULL)
+        return false;
+    else
+        return actionChecked->icon().name() == "fcitx-kbd";
+}
+
+bool SystemTrayMenu::isIMList(const QString &key)
+{
+    return key.startsWith("/Fcitx/im");
+}
+
+bool SystemTrayMenu::isVKList(const QString &key)
+{
+    return key.startsWith("/Fcitx/vk");
 }
 
 void SystemTrayMenu::execMenu(const QList<KimpanelProperty> &prop_list)
 {
-    QList<KimpanelProperty>::const_iterator iter;
-
-    switch (mExecMenuType) {
-    case updateVKListMenu:
-        doUpdateVKListMenu(prop_list);
-        break;
-    case updateIMListMenu:
-        if (isUnity()) {
-            mIMList = prop_list;
-            triggerUpdateMainMenu();
-        } else {
-            doUpdateIMListMenu(prop_list);
-        }
-        break;
-    //case updateThemerMenu:
-    //    tmpMenu = mSkinMenu;
-    //    break;
-    default:
+    QList<KimpanelProperty>::const_iterator iter = prop_list.begin();
+    if (isIMList(iter->key))
+        mIMList = prop_list;
+    else if (isVKList(iter->key))
+        mVKList = prop_list;
+    else {
         for (iter = prop_list.begin(); iter != prop_list.end(); ++ iter) {
             qDebug() << QString("execMenuCallback(1:%1 2:%2 3:%3 4:%4 5:%5 6:%6)").arg(iter->key)
                 .arg(iter->label).arg(iter->icon).arg(iter->tip).arg(iter->state).arg(iter->menu);
         }
-        break;
     }
 
-    mExecMenuType = nullExecMenuType;
+    updateMainMenu();
 }
 
 void SystemTrayMenu::restart()
@@ -347,3 +327,4 @@ bool SystemTrayMenu::isUnity()
     const char *desktop = getenv("XDG_CURRENT_DESKTOP");
     return desktop && !strcmp(desktop, "Unity");
 }
+

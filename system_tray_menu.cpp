@@ -31,12 +31,6 @@
 #include "system_tray_menu.h"
 #include "config.h"
 
-#ifdef ENABLE_UK_SYNC
-#define UBUNTU_KYLIN_SYNC "/[Ubuntu\\ Kylin\\ Sync]/"
-
-#define UBUNTU_KYLIN_SYNC_M "/[Ubuntu Kylin Sync]/"
-#endif
-
 SystemTrayMenu::SystemTrayMenu(PanelAgent *agent)
     : QMenu()
 {
@@ -48,18 +42,12 @@ SystemTrayMenu::~SystemTrayMenu()
     delete mVKListMenu;
     delete mIMListMenu;
     delete mSkinMenu;
-#ifdef ENABLE_UK_SYNC
-    delete mSyncMenu;
-#endif
 }
 
 void SystemTrayMenu::init()
 {
     mVKListMenu = new QMenu(gettext("Virtual Keyboard"), this);
     mIMListMenu = new QMenu(gettext("Input Method"), this);
-#ifdef ENABLE_UK_SYNC
-    mSyncMenu = new QMenu(gettext("ConfigureSync"),this);
-#endif
     mSkinMenu = new SkinMenu(gettext("Skin"), this);
 
     QObject::connect(mVKListMenu, SIGNAL(aboutToShow()), this,
@@ -67,11 +55,6 @@ void SystemTrayMenu::init()
 
     QObject::connect(mIMListMenu, SIGNAL(aboutToShow()), this,
         SLOT(triggerUpdateIMListMenu()));
-
-#ifdef ENABLE_UK_SYNC
-    QObject::connect(mSyncMenu, SIGNAL(aboutToShow()), this,
-        SLOT(triggerUpdateSyncMenu()));
-#endif
 
     if (isUnity())
         QObject::connect(this, SIGNAL(aboutToShow()), this,
@@ -146,9 +129,6 @@ void SystemTrayMenu::triggerUpdateMainMenu()
     this->addAction(QIcon::fromTheme("preferences-desktop"), gettext("ConfigureFcitx"));
     this->addAction(QIcon::fromTheme("preferences-desktop"), gettext("ConfigureIMPanel"));
     //this->addAction(QIcon::fromTheme("preferences-desktop"), gettext("ConfigureIM"));
-#ifdef ENABLE_UK_SYNC
-    this->addMenu(mSyncMenu);
-#endif
     this->addSeparator();
 
     if (isUnity()) {
@@ -173,15 +153,6 @@ void SystemTrayMenu::triggerUpdateIMListMenu()
     mExecMenuType = updateIMListMenu;
     mAgent->triggerProperty(QString("/Fcitx/im"));
 }
-
-#ifdef ENABLE_UK_SYNC
-void SystemTrayMenu::triggerUpdateSyncMenu()
-{
-    mSyncMenu->clear();
-    mSyncMenu->addAction(QIcon::fromTheme(""), gettext("ConfigureUp"));
-    mSyncMenu->addAction(QIcon::fromTheme(""), gettext("ConfigureDwon"));
-}
-#endif
 
 void SystemTrayMenu::doUpdateVKListMenu(const QList<KimpanelProperty> &prop_list)
 {
@@ -312,115 +283,6 @@ void SystemTrayMenu::startChildApp(const char *app_exe, const char * const argv[
     }
 }
 
-#ifdef ENABLE_UK_SYNC
-void SystemTrayMenu::syncConfigUp()
-{
-    qDebug()<<"SystemTrayMenu::syncConfigUp";
-    QString kuaipanConfPath = qgetenv("HOME") + "/.config/ubuntukylin/";
-    QString kuaipanSyncPath;
-    QString fcitxQimpanelConfPath = qgetenv("HOME") +"/.config/fcitx-qimpanel/main.conf ";
-    QString fcitxConfPath = qgetenv("HOME") +"/.config/fcitx/config ";
-    QDir *temp = new QDir;
-    QDir *temp1 = new QDir;
-    if(true == temp->exists(kuaipanConfPath))
-    {
-       QSettings* mSettings = new QSettings(kuaipanConfPath + "kuaipan4uk.conf",QSettings::IniFormat);
-       mSettings->setIniCodec("UTF-8");
-       mSettings->beginGroup("client-info");
-       kuaipanSyncPath = mSettings->value("Root").toString();
-       mSettings->endGroup();
-       if(true == temp1->exists(kuaipanSyncPath + UBUNTU_KYLIN_SYNC_M))
-       {
-           if(false == temp1->exists(kuaipanSyncPath + UBUNTU_KYLIN_SYNC_M"fcitx"))
-           {
-               QString cmd = "mkdir " + kuaipanSyncPath +UBUNTU_KYLIN_SYNC +"fcitx";
-               qDebug()<<cmd;
-               QByteArray ba = cmd.toLatin1();
-               const char *transpd = ba.data();
-               if(0!= system(transpd))
-               {
-                   return;
-               }
-           }
-           //fcitx-qimpanel
-           QString cmd1 = "cp " + fcitxQimpanelConfPath + kuaipanSyncPath +UBUNTU_KYLIN_SYNC"fcitx";
-           qDebug()<<cmd1;
-           QByteArray ba1 = cmd1.toLatin1();
-           const char *transpd1 = ba1.data();
-           if(0!= system(transpd1))
-           {
-               return;
-           }
-           //fcitx
-           QString cmd2 = "cp " + fcitxConfPath + kuaipanSyncPath +UBUNTU_KYLIN_SYNC"fcitx";
-           qDebug()<<cmd2;
-           QByteArray ba2 = cmd2.toLatin1();
-           const char *transpd2 = ba2.data();
-           if(0!= system(transpd2))
-           {
-               return;
-           }
-        }
-        else{
-           QMessageBox::warning(this,gettext("Warning"),gettext("[Ubuntu Kylin Sync] Synchronize directories have been deleted?!"));
-       }
-    }
-    else{
-         QMessageBox::warning(this,gettext("Warning"),gettext("Please log in kuaipan!"));
-    }
-}
-
-void SystemTrayMenu::syncConfigDown()
-{
-    qDebug()<<"SystemTrayMenu::syncConfigDown";
-    QString kuaipanConfPath = qgetenv("HOME") + "/.config/ubuntukylin/";
-    QString kuaipanSyncPath;
-    QString fcitxQimpanelConfPath = qgetenv("HOME") +"/.config/fcitx-qimpanel/";
-    QString fcitxConfPath = qgetenv("HOME") +"/.config/fcitx/";
-    QDir *temp = new QDir;
-    QDir *temp1 = new QDir;
-    if(true == temp->exists(kuaipanConfPath))
-    {
-       QSettings* mSettings = new QSettings(kuaipanConfPath + "kuaipan4uk.conf",QSettings::IniFormat);
-       mSettings->setIniCodec("UTF-8");
-       mSettings->beginGroup("client-info");
-       kuaipanSyncPath = mSettings->value("Root").toString();
-       mSettings->endGroup();
-       if(true == temp1->exists(kuaipanSyncPath + UBUNTU_KYLIN_SYNC_M))
-       {
-           if(false == temp1->exists(kuaipanSyncPath + UBUNTU_KYLIN_SYNC_M"fcitx"))
-           {
-               QMessageBox::warning(this,gettext("Warning"),gettext("No configure can be synchronized!"));
-               return;
-           }
-           //fcitx-qimpanel
-           QString cmd1 = "cp " + kuaipanSyncPath +UBUNTU_KYLIN_SYNC"fcitx/main.conf "  + fcitxQimpanelConfPath;
-           QByteArray ba1 = cmd1.toLatin1();
-           const char *transpd1 = ba1.data();
-           if(0!= system(transpd1))
-           {
-               return;
-           }
-           //fcitx
-           QString cmd2 = "cp " + kuaipanSyncPath +UBUNTU_KYLIN_SYNC"fcitx/config " + fcitxConfPath;
-           QByteArray ba2 = cmd2.toLatin1();
-           const char *transpd2 = ba2.data();
-           if(0!= system(transpd2))
-           {
-               return;
-           }
-        }
-       else{
-            QMessageBox::warning(this,gettext("Warning"),gettext("[Ubuntu Kylin Sync] Synchronize directories have been deleted?!"));
-       }
-
-    }
-    else{
-         QMessageBox::warning(this,gettext("Warning"),gettext("Please log in kuaipan!"));
-    }
-}
-#endif	
-
 void SystemTrayMenu::menuItemOnClick(QAction *action)
 {
     if (gettext("Online &Help!") == action->text()) {
@@ -447,14 +309,6 @@ void SystemTrayMenu::menuItemOnClick(QAction *action)
     } else if (gettext("Exit") == action->text()) {
         mAgent->exit();
         exit(0);
-#ifdef ENABLE_UK_SYNC
-    } else if (gettext("ConfigureUp") == action->text()) {
-        qDebug()<<"SystemTrayMenu::ConfigureUp";
-        syncConfigUp();
-    } else if (gettext("ConfigureDwon") == action->text()){
-        qDebug()<<"SystemTrayMenu::ConfigureDown";
-        syncConfigDown();
-#endif		
     } else if (gettext("Character Map") == action->text()) {
         startChildApp("gucharmap");
     } else if (gettext("Keyboard Layout Chart") == action->text()) {

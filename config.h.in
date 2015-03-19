@@ -1,6 +1,6 @@
 #ifndef ___CONFIG_H___
 #define ___CONFIG_H___
 
-#cmakedefine ENABLE_UK_SYNC
+
 
 #endif

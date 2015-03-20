@@ -320,15 +320,12 @@ void MainWindow::sltOnPushButtonApply()
 {
     saveMainConf();
     static int flag = 0;
-    static int timeFlag = QTime::currentTime().secsTo(QTime(1970,1,1));
-    int currentTime = QTime::currentTime().secsTo(QTime(1970,1,1));
-    qDebug()<< timeFlag;
-    qDebug()<< currentTime;
-    if(((timeFlag - currentTime) > 1)||(flag == 0))
+    static int timeFlag = QTime::currentTime().second();
+    int currentTime = QTime::currentTime().second();
+    if((qAbs(currentTime-timeFlag) > 1)||(flag == 0))
     {
         flag ++;
 //        qDebug()<<"MainWindow::sltOnPushButtonApply()->killall -HUP";
-        timeFlag = QTime::currentTime().secsTo(QTime(1970,1,1));
 //        QString cmd2 = "killall -HUP fcitx-qimpanel";
 //        QByteArray ba2 = cmd2.toLatin1();
 //        const char * transpd2 = ba2.data();
@@ -336,8 +333,10 @@ void MainWindow::sltOnPushButtonApply()
 //        {
 //            return ;
 //        }
+        qDebug()<<"emit sigRestartQimpanel();";
         emit sigRestartQimpanel();
     }
+     timeFlag = QTime::currentTime().second();
 }
 
 void MainWindow::sltOnPushButtonCancel()

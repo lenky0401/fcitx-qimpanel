@@ -46,6 +46,8 @@ private:
     QStringList localSkin_list;
     int idx;
     QDBusInterface * myInterface;
+    bool listWidgetChangeClearFlag;
+
 private:
     void searchAndSetSystemSkin( );
     void searchAndSetLocalSkin( );

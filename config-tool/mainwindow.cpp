@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     qmlRegisterType<CandidateWord>();//注册CandidateWord列表到qml
     qmlView = new QQuickWidget;
+    listWidgetChangeClearFlag = false;
     mSkinFcitx = new SkinFcitx;
     mMainModer = MainModel::self();
     mSettings = new QSettings("fcitx-qimpanel", "main");
@@ -137,6 +138,8 @@ void MainWindow::sltOnAllSkinItemDoubleClicked(QListWidgetItem *item)
 
 void MainWindow::on_listWidgetAllSkin_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous)
 {
+    if(listWidgetChangeClearFlag)
+        return;
     curtSkinType = current->text();
     if(curtSkinType.indexOf("local")==-1)
     {
@@ -386,12 +389,11 @@ void MainWindow::showListWidgetAllSkin()
 void MainWindow::refreshListWidgetAllSkin()
 {
     disconnect(ui->listWidgetAllSkin, SIGNAL(itemDoubleClicked(QListWidgetItem*)),0, 0);
-    disconnect(ui->listWidgetAllSkin, SIGNAL(itemClicked(QListWidgetItem*)),0,0);
+    listWidgetChangeClearFlag=true;
     ui->listWidgetAllSkin->clear();
+    listWidgetChangeClearFlag=false;
     connect(ui->listWidgetAllSkin, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
             this, SLOT(sltOnAllSkinItemDoubleClicked(QListWidgetItem*)));
-    connect(ui->listWidgetAllSkin, SIGNAL(itemClicked(QListWidgetItem*)),
-            this, SLOT(sltOnAllSkinItemClicked(QListWidgetItem *)));
     searchAndSetLocalSkin();
     searchAndSetSystemSkin();
     ui->comboBoxSkinType->clear();
@@ -401,6 +403,8 @@ void MainWindow::refreshListWidgetAllSkin()
 
 void MainWindow::setListWidgetAllSkinIndex(int index)
 {
+    if(index<0)
+        return ;
     ui->listWidgetAllSkin->setCurrentRow(index);
 }
 

@@ -22,5 +22,6 @@
 
 char* getQimpanelSharePath(const char * const fileName);
 char* getQimpanelBinPath(const char * const fileName);
+void getRunCmdOuput(const char*command);
 
 #endif // __MAIN_H__

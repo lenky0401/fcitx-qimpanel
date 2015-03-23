@@ -25,9 +25,10 @@
 #include <QMessageBox>
 #include <QSettings>
 #include <libintl.h>
+#include <QProcess>
 
 #include <fcitx-config/fcitx-config.h>
-
+#include <stdio.h>
 #include "main.h"
 #include "my_action.h"
 #include "main_controller.h"
@@ -288,8 +289,9 @@ void SystemTrayMenu::menuItemOnClick(QAction *action)
         if (!toolFile.exists()) {
             QMessageBox::warning(this,gettext("Warning"),gettext("Please install fcitx-qimpanel-configtool!"));
         }
-        startChildApp("fcitx-qimpanel-configtool");
-
+       // getRunCmdOuput("fcitx-qimpanel-configtool");
+        QProcess *pro = new QProcess;
+        pro->start("fcitx-qimpanel-configtool");
     } else if (gettext("ConfigureFcitx") == action->text()) {
         mAgent->configure();
 

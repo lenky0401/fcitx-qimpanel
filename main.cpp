@@ -88,6 +88,14 @@ char* getQimpanelBinPath(const char * const fileName)
     return filePath;
 }
 
+void getRunCmdOuput(const char*command)
+{
+//    FILE * stream;
+//    if((stream = popen(command,"r"))==NULL)
+//        return ;
+//    pclose(stream);
+}
+
 //void sigRoutine(int sigNum) {
 //    switch (sigNum) {
 //    case 1:

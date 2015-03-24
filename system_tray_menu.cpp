@@ -40,11 +40,13 @@ SystemTrayMenu::SystemTrayMenu(PanelAgent *agent)
     : QMenu()
 {
     mAgent = agent;
+    configtoolPro= new QProcess;
 }
 
 SystemTrayMenu::~SystemTrayMenu()
 {
-
+    if(configtoolPro)
+        free(configtoolPro);
 }
 
 void SystemTrayMenu::init()
@@ -290,8 +292,8 @@ void SystemTrayMenu::menuItemOnClick(QAction *action)
             QMessageBox::warning(this,gettext("Warning"),gettext("Please install fcitx-qimpanel-configtool!"));
         }
        // getRunCmdOuput("fcitx-qimpanel-configtool");
-        QProcess *pro = new QProcess;
-        pro->start("fcitx-qimpanel-configtool");
+        if(configtoolPro->state()!=QProcess::Running)
+                configtoolPro->start("fcitx-qimpanel-configtool");
     } else if (gettext("ConfigureFcitx") == action->text()) {
         mAgent->configure();
 

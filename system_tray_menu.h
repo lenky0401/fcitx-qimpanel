@@ -26,7 +26,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-
+#include <QProcess>
 #include "config.h"
 
 class SystemTrayMenu : public QMenu
@@ -73,7 +73,7 @@ private:
     QList<KimpanelProperty> mIMList;
     QList<KimpanelProperty> mVKList;
     QList<KimpanelProperty> mStatusMenuList;
-
+    QProcess *configtoolPro ;
 private:
     void skinMenuItemOnClick(QAction* action);
     void doUpdateSkinListMenu();

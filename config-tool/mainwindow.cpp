@@ -38,7 +38,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->radioButtonHorizontal->setText(gettext("Horizontal"));
     ui->radioButtonVertical->setText(gettext("Vertical"));
 
-    ui->labelAllSkin->setText(gettext("All Skin"));
+    ui->labelAllSkin->setText(gettext("All Skins"));
     ui->labelPreview->setText(gettext("Preview"));
     ui->labelDescription->setText(gettext("Description: Click to select and preview, double-click local to edit, save locally."));
     ui->pushButtonApply->setText(gettext("&Apply"));
@@ -328,14 +328,6 @@ void MainWindow::sltOnPushButtonApply()
     if((qAbs(currentTime-timeFlag) > 1)||(flag == 0))
     {
         flag ++;
-//        qDebug()<<"MainWindow::sltOnPushButtonApply()->killall -HUP";
-//        QString cmd2 = "killall -HUP fcitx-qimpanel";
-//        QByteArray ba2 = cmd2.toLatin1();
-//        const char * transpd2 = ba2.data();
-//        if(0!= system(transpd2))
-//        {
-//            return ;
-//        }
         qDebug()<<"emit sigRestartQimpanel();";
         emit sigRestartQimpanel();
     }

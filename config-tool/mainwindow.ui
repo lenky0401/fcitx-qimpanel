@@ -154,7 +154,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>All Skin:</string>
+      <string>All Skins:</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx-qimpanel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-18 17:02+0800\n"
+"POT-Creation-Date: 2015-03-24 11:25+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -184,7 +184,7 @@ msgid "Vertical"
 msgstr ""
 
 #: config-tool/mainwindow.cpp:40
-msgid "All Skin"
+msgid "All Skins"
 msgstr ""
 
 #: config-tool/mainwindow.cpp:41
@@ -210,91 +210,50 @@ msgstr ""
 msgid "Sougo Skin does not support preview and edit!"
 msgstr ""
 
-#: main_controller.cpp:221 system_tray_menu.cpp:114
+#: main_controller.cpp:252 system_tray_menu.cpp:94
 msgid "No input window"
 msgstr ""
 
-#: system_tray_menu.cpp:58
-msgid "Virtual Keyboard"
-msgstr ""
-
-#: system_tray_menu.cpp:59
-msgid "Input Method"
-msgstr ""
-
-#: system_tray_menu.cpp:61
-msgid "ConfigureSync"
-msgstr ""
-
-#: system_tray_menu.cpp:63
-msgid "Skin"
-msgstr ""
-
-#: system_tray_menu.cpp:125 system_tray_menu.cpp:426
+#: system_tray_menu.cpp:104 system_tray_menu.cpp:282
 msgid "Online &Help!"
 msgstr ""
 
-#: system_tray_menu.cpp:146
+#: system_tray_menu.cpp:124 system_tray_menu.cpp:297
 msgid "ConfigureFcitx"
 msgstr ""
 
-#: system_tray_menu.cpp:147 system_tray_menu.cpp:432
+#: system_tray_menu.cpp:125 system_tray_menu.cpp:288
 msgid "ConfigureIMPanel"
 msgstr ""
 
-#: system_tray_menu.cpp:155 system_tray_menu.cpp:458
+#: system_tray_menu.cpp:129 system_tray_menu.cpp:307
 msgid "Character Map"
 msgstr ""
 
-#: system_tray_menu.cpp:156 system_tray_menu.cpp:460
+#: system_tray_menu.cpp:130 system_tray_menu.cpp:309
 msgid "Keyboard Layout Chart"
 msgstr ""
 
-#: system_tray_menu.cpp:157 system_tray_menu.cpp:480
+#: system_tray_menu.cpp:131 system_tray_menu.cpp:329
 msgid "Text Entry Settings..."
 msgstr ""
 
-#: system_tray_menu.cpp:181 system_tray_menu.cpp:451
-msgid "ConfigureUp"
-msgstr ""
-
-#: system_tray_menu.cpp:182 system_tray_menu.cpp:454
-msgid "ConfigureDwon"
-msgstr ""
-
-#: system_tray_menu.cpp:365 system_tray_menu.cpp:369 system_tray_menu.cpp:393
-#: system_tray_menu.cpp:414 system_tray_menu.cpp:419 system_tray_menu.cpp:436
-msgid "Warning"
-msgstr ""
-
-#: system_tray_menu.cpp:365 system_tray_menu.cpp:414
-msgid "[Ubuntu Kylin Sync] Synchronize directories have been deleted?!"
-msgstr ""
-
-#: system_tray_menu.cpp:369 system_tray_menu.cpp:419
-msgid "Please log in kuaipan!"
-msgstr ""
-
-#: system_tray_menu.cpp:393
-msgid "No configure can be synchronized!"
-msgstr ""
-
-#: system_tray_menu.cpp:429
+#: system_tray_menu.cpp:285
 msgid "ConfigureIM"
 msgstr ""
 
-#: system_tray_menu.cpp:436
+#: system_tray_menu.cpp:292
+msgid "Warning"
+msgstr ""
+
+#: system_tray_menu.cpp:292
 msgid "Please install fcitx-qimpanel-configtool!"
 msgstr ""
 
-#: system_tray_menu.cpp:440
-msgid "Configure"
-msgstr ""
-
-#: system_tray_menu.cpp:443
+#: system_tray_menu.cpp:300
 msgid "Restart"
 msgstr ""
 
-#: system_tray_menu.cpp:447
+#: system_tray_menu.cpp:304
 msgid "Exit"
 msgstr ""

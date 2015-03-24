@@ -88,19 +88,6 @@ char* getQimpanelBinPath(const char * const fileName)
     return filePath;
 }
 
-//void sigRoutine(int sigNum) {
-//    switch (sigNum) {
-//    case 1:
-//        char a = '1';
-//        write(MainController::self()->mSigFd[0], &a, sizeof(a));
-//        qDebug()<<"write(MainController::self()->mSigFd[0], &a, sizeof(a))";
-//        break;
-//    }
-//    qDebug() << "Get a signal" << sigNum;
-
-//    return;
-//}
-
 #define FCITX_DBUS_SERVICE "org.fcitx.Fcitx"
 int fcitxIsNotRunning()
 {
@@ -122,22 +109,11 @@ int fcitxIsNotRunning()
 
 int main(int argc, char** argv)
 {
-//    signal(SIGHUP, SIG_IGN);
-
     fcitx_utils_init_as_daemon();
     if (isRunning()) {
         exit(1);
     }
-/*
-    QTranslator translator;
-    QString locale = QLocale::system().name();
-    if(locale == "zh_CN") {
-        if (translator.load(QString(getQimpanelSharePath("zh_CN.qm"))) == false)
-            qDebug() << "load qm error.";
-    }*/
-
     QApplication *app = new QApplication(argc, argv);
-//    app->installTranslator(&translator);
     setlocale(LC_ALL,"");
     bindtextdomain ("fcitx-qimpanel", "/usr/share/locale"); //告诉gettext最终的生成的翻译文件mo的位置
     bind_textdomain_codeset("fcitx-qimpanel","UTF-8"); //指定域消息条目(mo)中消息的字符编码
@@ -156,8 +132,6 @@ int main(int argc, char** argv)
         return -1;
 
     MainController *ctrl = MainController::self();
-
-//    signal(SIGHUP, sigRoutine);
 
     app->setQuitOnLastWindowClosed(false);
     app->exec();

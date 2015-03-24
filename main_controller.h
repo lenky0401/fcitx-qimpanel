@@ -49,6 +49,7 @@ public:
     virtual ~MainController();
     void init();
     void loadCfg();
+    bool isUbuntuKylin_os();
 
 private:
     explicit MainController();

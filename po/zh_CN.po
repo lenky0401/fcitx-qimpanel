@@ -184,7 +184,7 @@ msgid "Vertical"
 msgstr "竖向显示"
 
 #: config-tool/mainwindow.cpp:40
-msgid "All Skin"
+msgid "All Skins"
 msgstr "所有皮肤"
 
 #: config-tool/mainwindow.cpp:41

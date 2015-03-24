@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx-qimpanel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-23 20:53+0800\n"
+"POT-Creation-Date: 2015-03-24 09:27+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -210,7 +210,7 @@ msgstr ""
 msgid "Sougo Skin does not support preview and edit!"
 msgstr ""
 
-#: main_controller.cpp:221 system_tray_menu.cpp:92
+#: main_controller.cpp:252 system_tray_menu.cpp:92
 msgid "No input window"
 msgstr ""
 
@@ -218,7 +218,7 @@ msgstr ""
 msgid "Online &Help!"
 msgstr ""
 
-#: system_tray_menu.cpp:122 system_tray_menu.cpp:296
+#: system_tray_menu.cpp:122 system_tray_menu.cpp:295
 msgid "ConfigureFcitx"
 msgstr ""
 
@@ -226,15 +226,15 @@ msgstr ""
 msgid "ConfigureIMPanel"
 msgstr ""
 
-#: system_tray_menu.cpp:127 system_tray_menu.cpp:306
+#: system_tray_menu.cpp:127 system_tray_menu.cpp:305
 msgid "Character Map"
 msgstr ""
 
-#: system_tray_menu.cpp:128 system_tray_menu.cpp:308
+#: system_tray_menu.cpp:128 system_tray_menu.cpp:307
 msgid "Keyboard Layout Chart"
 msgstr ""
 
-#: system_tray_menu.cpp:129 system_tray_menu.cpp:328
+#: system_tray_menu.cpp:129 system_tray_menu.cpp:327
 msgid "Text Entry Settings..."
 msgstr ""
 
@@ -250,10 +250,10 @@ msgstr ""
 msgid "Please install fcitx-qimpanel-configtool!"
 msgstr ""
 
-#: system_tray_menu.cpp:299
+#: system_tray_menu.cpp:298
 msgid "Restart"
 msgstr ""
 
-#: system_tray_menu.cpp:303
+#: system_tray_menu.cpp:302
 msgid "Exit"
 msgstr ""

@@ -25,6 +25,7 @@
 #include <QQmlContext>
 #include <QDBusConnection>
 #include <libintl.h>
+#include <QFile>
 
 #include "main_model.h"
 #include "candidate_word.h"
@@ -47,15 +48,45 @@ MainController::MainController()
 {
 
 }
+bool MainController::isUbuntuKylin_os()
+{
+    QFile os_release("/etc/os-release");
+    if(!os_release.exists())
+        return false;
+    QFile ukSkinFile ("/usr/share/fcitx-qimpanel/skin/ubuntukylin-dark1/fcitx_skin.conf");
+    if(!ukSkinFile.exists())
+        return false;
+    if(!os_release.open(QIODevice::ReadOnly))
+        return false;
+    QString line;
+    QTextStream textStream(os_release.readAll());
+    textStream.setCodec("UTF_8");
+    line = textStream.readLine();
+    if(line.indexOf("\"Ubuntu Kylin\"")!=-1)
+    {
+        os_release.close();
+        return true;
+    }
+    else
+    {
+        os_release.close();
+        return false;
+    }
+}
 
 void MainController::loadCfg()
 {
     QSettings *settings = new QSettings("fcitx-qimpanel", "main");
+    QString defaultSkin;
     settings->setIniCodec("UTF-8");
     settings->beginGroup("base");
     mIsHorizontal = !settings->value("VerticalList", false).toBool();
     qDebug() << "mIsHorizontal:" << mIsHorizontal;
-    mSkinName = settings->value("CurtSkinType", "ubuntu-orange").toString();
+    if(isUbuntuKylin_os())
+        defaultSkin = "ubuntukylin-dark1";
+    else
+        defaultSkin ="ubuntu-orange";
+    mSkinName = settings->value("CurtSkinType", defaultSkin).toString();
     qDebug() << "mSkinName:" << mSkinName;
     settings->endGroup();
     delete settings;

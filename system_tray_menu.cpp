@@ -353,7 +353,7 @@ void SystemTrayMenu::doUpdateSkinListMenu()
     QString skinName = MainController::self()->getSkinName();
     SkinClass skinClass;
     bool localExist;
-    MyAction *skinNameMenu;
+    MyAction *skinNameMenu = NULL;
 
     QString localSkinPath = qgetenv("HOME") + "/.config/fcitx-qimpanel/skin/";
 

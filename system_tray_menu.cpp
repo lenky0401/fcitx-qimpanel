@@ -55,8 +55,8 @@ SystemTrayMenu::~SystemTrayMenu()
 void SystemTrayMenu::init()
 {
     #ifdef IS_QT_4
-        mVKListMenu = new QMenu(tr("Virtual Keyboard"), this);
-        mSkinMenu = new QMenu(tr("Skin"), this);
+        mVKListMenu = new QMenu(gettext("Virtual Keyboard"), this);
+        mSkinMenu = new QMenu(gettext("Skin"), this);
    #endif
     QObject::connect(this, SIGNAL(aboutToShow()), this,
         SLOT(triggerUpdateVKListMenu()));

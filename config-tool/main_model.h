@@ -19,9 +19,14 @@
 
 #ifndef __MAIN_MODEL_H__
 #define __MAIN_MODEL_H__
-
-#include <QQmlListProperty>
-
+#include "config.h"
+#ifdef IS_QT_5
+    #include <QQmlListProperty>
+#endif
+#ifdef IS_QT_4
+    #include <QDeclarativeView>
+    #include <qdeclarative.h>
+#endif
 #include "kimpanelagenttype.h"
 #include "candidate_word.h"
 
@@ -34,9 +39,14 @@ class MainModel : public QObject
 
     Q_PROPERTY(QString tipsString READ tipsString WRITE setTipsString
         NOTIFY tipsStringChanged)
-
-    Q_PROPERTY(QQmlListProperty<CandidateWord> candidateWords
-        READ candidateWords NOTIFY candidateWordsChanged)
+    #ifdef IS_QT_5
+        Q_PROPERTY(QQmlListProperty<CandidateWord> candidateWords
+            READ candidateWords NOTIFY candidateWordsChanged)
+    #endif
+    #ifdef IS_QT_4
+        Q_PROPERTY(QDeclarativeListProperty<CandidateWord> candidateWords
+            READ candidateWords NOTIFY candidateWordsChanged)
+    #endif
     Q_PROPERTY(bool hasPrev READ hasPrev WRITE setHasPrev
         NOTIFY hasPrevChanged)
     Q_PROPERTY(bool hasNext READ hasNext WRITE setHasNext
@@ -66,7 +76,12 @@ public:
     void setTipsString(const QString tipsString);
     QString tipsString() const;
     void setCandidateWords();
-    QQmlListProperty<CandidateWord> candidateWords();
+    #ifdef IS_QT_5
+        QQmlListProperty<CandidateWord> candidateWords();
+    #endif
+    #ifdef IS_QT_4
+        QDeclarativeListProperty<CandidateWord> candidateWords();
+    #endif
     void setHasPrev(const bool hasPrev);
     bool hasPrev() const;
     void setHasNext(const bool hasNext);

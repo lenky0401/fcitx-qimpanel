@@ -16,7 +16,6 @@
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .        *
  ***************************************************************************/
-
 #include <QBoxLayout>
 #include <QApplication>
 #include <QDesktopWidget>
@@ -24,11 +23,18 @@
 #include <QMouseEvent>
 #include <QDebug>
 
+#include "config.h"
 #include "toplevel.h"
-
-TopLevel::TopLevel(QWidget* parent) : QWidget(parent,
-                                              Qt::Tool | Qt::WindowStaysOnTopHint | Qt::WindowDoesNotAcceptFocus
-                                            | Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint)
+#ifdef IS_QT_5
+    TopLevel::TopLevel(QWidget* parent) : QWidget(parent,
+                                                  Qt::Tool | Qt::WindowStaysOnTopHint | Qt::WindowDoesNotAcceptFocus
+                                                | Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint)
+#endif
+#ifdef IS_QT_4
+      TopLevel::TopLevel(QWidget* parent) : QWidget(parent,
+                                                    Qt::Tool | Qt::WindowStaysOnTopHint
+                                                  | Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint)
+#endif
 {
     setAttribute(Qt::WA_TranslucentBackground, true);
     QVBoxLayout *lay = new QVBoxLayout(this);

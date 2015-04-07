@@ -19,8 +19,15 @@
 
 #ifndef __MAIN_CONTROLLER_H__
 #define __MAIN_CONTROLLER_H__
-
-#include <QQuickWidget>
+#include "config.h"
+#ifdef IS_QT_5
+    #include <QQuickWidget>
+    #include <QQmlContext>
+#endif
+#ifdef IS_QT_4
+    #include <QDeclarativeView>
+    #include <QtDeclarative/QDeclarativeContext>
+#endif
 #include <QSystemTrayIcon>
 #include <QSocketNotifier>
 
@@ -60,7 +67,12 @@ private:
     MainModel *mModel;
     PanelAgent *mAgent;
     SkinBase *mSkinBase;
+#ifdef IS_QT_5
     QQuickWidget *mView;
+#endif
+#ifdef IS_QT_4
+    QDeclarativeView *mView;
+#endif
     QUrl mUrl;
     QTimer *mTimer;
     QSystemTrayIcon *mSystemTray;

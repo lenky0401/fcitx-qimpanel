@@ -3,6 +3,7 @@
 #include <libintl.h>
 #include <QApplication>
 #include <qtextstream.h>
+#include <QTextCodec>
 #include <QTranslator>
 #include "mainwindow.h"
 #include <QDir>
@@ -26,7 +27,15 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
 //    app.installTranslator(&translator);
     app.setApplicationName("fcitx-qimpanel-configtool");
+    #ifdef IS_QT_5
 
+    #endif
+    #ifdef IS_QT_4
+        QTextCodec::setCodecForTr(QTextCodec::codecForLocale());
+        QTextCodec::setCodecForCStrings(QTextCodec::codecForLocale());
+        QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
+        QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
+    #endif
     QString localPath = qgetenv("HOME") + "/.config/";
     QDir *temp = new QDir;
     if(false == temp->exists(localPath + "fcitx-qimpanel"))

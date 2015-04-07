@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx-qimpanel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-24 11:25+0800\n"
+"POT-Creation-Date: 2015-04-07 14:35+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -145,9 +145,9 @@ msgstr ""
 msgid "&Refresh"
 msgstr ""
 
-#: config-tool/editingskindialog.cpp:312 config-tool/mainwindow.cpp:114
-#: config-tool/mainwindow.cpp:128 config-tool/mainwindow.cpp:148
-#: config-tool/mainwindow.cpp:160
+#: config-tool/editingskindialog.cpp:312 config-tool/mainwindow.cpp:120
+#: config-tool/mainwindow.cpp:134 config-tool/mainwindow.cpp:156
+#: config-tool/mainwindow.cpp:168
 msgid "tips"
 msgstr ""
 
@@ -155,105 +155,113 @@ msgstr ""
 msgid "The default configuration has been restored"
 msgstr ""
 
-#: config-tool/mainwindow.cpp:26
+#: config-tool/mainwindow.cpp:32
 msgid "Qimpanel Settings"
 msgstr ""
 
-#: config-tool/mainwindow.cpp:33
+#: config-tool/mainwindow.cpp:39
 msgid "Appearance"
 msgstr ""
 
-#: config-tool/mainwindow.cpp:34
+#: config-tool/mainwindow.cpp:40
 msgid "Skin Design"
 msgstr ""
 
-#: config-tool/mainwindow.cpp:35
+#: config-tool/mainwindow.cpp:41
 msgid "Vertical List"
 msgstr ""
 
-#: config-tool/mainwindow.cpp:36
+#: config-tool/mainwindow.cpp:42
 msgid "Skin Type"
 msgstr ""
 
-#: config-tool/mainwindow.cpp:37
+#: config-tool/mainwindow.cpp:43
 msgid "Horizontal"
 msgstr ""
 
-#: config-tool/mainwindow.cpp:38
+#: config-tool/mainwindow.cpp:44
 msgid "Vertical"
 msgstr ""
 
-#: config-tool/mainwindow.cpp:40
+#: config-tool/mainwindow.cpp:46
 msgid "All Skins"
 msgstr ""
 
-#: config-tool/mainwindow.cpp:41
+#: config-tool/mainwindow.cpp:47
 msgid "Preview"
 msgstr ""
 
-#: config-tool/mainwindow.cpp:42
+#: config-tool/mainwindow.cpp:48
 msgid ""
 "Description: Click to select and preview, double-click local to edit, save "
 "locally."
 msgstr ""
 
-#: config-tool/mainwindow.cpp:43
+#: config-tool/mainwindow.cpp:49
 msgid "&Apply"
 msgstr ""
 
-#: config-tool/mainwindow.cpp:44
+#: config-tool/mainwindow.cpp:50
 msgid "&Cancel"
 msgstr ""
 
-#: config-tool/mainwindow.cpp:114 config-tool/mainwindow.cpp:128
-#: config-tool/mainwindow.cpp:148 config-tool/mainwindow.cpp:160
+#: config-tool/mainwindow.cpp:120 config-tool/mainwindow.cpp:134
+#: config-tool/mainwindow.cpp:156 config-tool/mainwindow.cpp:168
 msgid "Sougo Skin does not support preview and edit!"
 msgstr ""
 
-#: main_controller.cpp:252 system_tray_menu.cpp:94
+#: main_controller.cpp:274 system_tray_menu.cpp:98
 msgid "No input window"
 msgstr ""
 
-#: system_tray_menu.cpp:104 system_tray_menu.cpp:282
+#: system_tray_menu.cpp:58
+msgid "Virtual Keyboard"
+msgstr ""
+
+#: system_tray_menu.cpp:59
+msgid "Skin"
+msgstr ""
+
+#: system_tray_menu.cpp:108 system_tray_menu.cpp:302
 msgid "Online &Help!"
 msgstr ""
 
-#: system_tray_menu.cpp:124 system_tray_menu.cpp:297
+#: system_tray_menu.cpp:131 system_tray_menu.cpp:317
 msgid "ConfigureFcitx"
 msgstr ""
 
-#: system_tray_menu.cpp:125 system_tray_menu.cpp:288
+#: system_tray_menu.cpp:132 system_tray_menu.cpp:308
 msgid "ConfigureIMPanel"
 msgstr ""
 
-#: system_tray_menu.cpp:129 system_tray_menu.cpp:307
+#: system_tray_menu.cpp:136 system_tray_menu.cpp:327
 msgid "Character Map"
 msgstr ""
 
-#: system_tray_menu.cpp:130 system_tray_menu.cpp:309
+#: system_tray_menu.cpp:137 system_tray_menu.cpp:329
 msgid "Keyboard Layout Chart"
 msgstr ""
 
-#: system_tray_menu.cpp:131 system_tray_menu.cpp:329
+#: system_tray_menu.cpp:138 system_tray_menu.cpp:349
 msgid "Text Entry Settings..."
 msgstr ""
 
-#: system_tray_menu.cpp:285
+#: system_tray_menu.cpp:305
 msgid "ConfigureIM"
 msgstr ""
 
-#: system_tray_menu.cpp:292
+#: system_tray_menu.cpp:312
 msgid "Warning"
 msgstr ""
 
-#: system_tray_menu.cpp:292
+#: system_tray_menu.cpp:312
 msgid "Please install fcitx-qimpanel-configtool!"
 msgstr ""
 
-#: system_tray_menu.cpp:300
+#: system_tray_menu.cpp:320
 msgid "Restart"
 msgstr ""
 
-#: system_tray_menu.cpp:304
+#: system_tray_menu.cpp:324
 msgid "Exit"
 msgstr ""

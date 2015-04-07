@@ -1,6 +1,8 @@
 <RCC>
     <qresource prefix="/">
-        <file>qml/main.qml</file>
-        <file>qml/sogou.qml</file>
+        <file>qml/qt4_main.qml</file>
+        <file>qml/qt4_sogou.qml</file>
+        <file>qml/qt5_main.qml</file>
+        <file>qml/qt5_sogou.qml</file>
     </qresource>
 </RCC>

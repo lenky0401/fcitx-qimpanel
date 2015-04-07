@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/new/prefix1">
-        <file>main.qml</file>
+        <file>qt5_main.qml</file>
+        <file>qt4_main.qml</file>
     </qresource>
 </RCC>

@@ -1,6 +1,6 @@
 #ifndef ___CONFIG_H___
 #define ___CONFIG_H___
 
-
+#cmakedefine01 IS_QT_4
 
 #endif

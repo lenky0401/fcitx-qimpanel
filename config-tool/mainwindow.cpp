@@ -1,10 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "config.h"
 
 #include <QDebug>
 #include <QDir>
 #include <QMessageBox>
-#include <QQmlContext>
 #include <QTime>
 #include <libintl.h>
 
@@ -16,7 +16,12 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     qmlRegisterType<CandidateWord>();//注册CandidateWord列表到qml
-    qmlView = new QQuickWidget;
+    #ifdef IS_QT_5
+        qmlView = new QQuickWidget;
+    #endif
+    #ifdef IS_QT_4
+         qmlView = new QDeclarativeView;
+    #endif
     listWidgetChangeClearFlag = false;
     mSkinFcitx = new SkinFcitx;
     mMainModer = MainModel::self();
@@ -310,11 +315,19 @@ void MainWindow::setSkinBase()
     if (mSkinFcitx != skin)
        delete mSkinFcitx;
     mSkinFcitx = skin;
-    qmlView->rootContext()->setContextProperty("mainSkin", mSkinFcitx);//把qt程序暴露到qml
-    qmlView->rootContext()->setContextProperty("mainModel", mMainModer);
-    qmlView->setSource(QUrl("qrc:/new/prefix1/main.qml"));
+#ifdef IS_QT_5
     qmlView->setAttribute(Qt::WA_AlwaysStackOnTop);
     qmlView->setClearColor(Qt::transparent);
+    qmlView->rootContext()->setContextProperty("mainSkin", mSkinFcitx);//把qt程序暴露到qml
+    qmlView->rootContext()->setContextProperty("mainModel", mMainModer);
+    qmlView->setSource(QUrl("qrc:/new/prefix1/qt5_main.qml"));
+#endif
+#ifdef IS_QT_4
+    qmlView->rootContext()->setContextProperty("mainSkin", mSkinFcitx);//把qt程序暴露到qml
+    qmlView->rootContext()->setContextProperty("mainModel", mMainModer);
+    qmlView->setSource(QUrl("qrc:/new/prefix1/qt4_main.qml"));
+#endif
+
     mLayout->addWidget(qmlView);
     mMainModer->emitSigMainWindowSizeChanged();
 }

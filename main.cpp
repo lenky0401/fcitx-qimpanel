@@ -21,12 +21,13 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
-
+#include "config.h"
 #include <QDBusConnection>
 #include <QDBusReply>
 #include <QDBusConnectionInterface>
 #include <QDebug>
 #include <QTranslator>
+#include <QTextCodec>
 #include <QApplication>
 #include <libintl.h>
 #include <locale.h> 
@@ -48,6 +49,7 @@ int isRunning()
     snprintf(filePath, BUFF_SIZE, LOCKFILE, fcitx_utils_get_display_number());
 
     int fd = open(filePath, O_RDWR|O_CREAT, LOCKMODE);
+    chmod(filePath,0666);
     if (fd < 0) {
         printf("Can not open %s: %s.\n", filePath, strerror(errno));
         return -1;
@@ -111,10 +113,21 @@ int fcitxIsNotRunning()
 
 int main(int argc, char** argv)
 {
-    fcitx_utils_init_as_daemon();
+ //   fcitx_utils_init_as_daemon();
     if (isRunning()) {
         exit(1);
     }
+    #ifdef IS_QT_5
+
+    #endif
+    #ifdef IS_QT_4
+        QTextCodec::setCodecForTr(QTextCodec::codecForLocale());
+        QTextCodec::setCodecForCStrings(QTextCodec::codecForLocale());
+        QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
+        QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
+    #endif
+
+
     QApplication *app = new QApplication(argc, argv);
     setlocale(LC_ALL,"");
     bindtextdomain ("fcitx-qimpanel", "/usr/share/locale"); //告诉gettext最终的生成的翻译文件mo的位置

@@ -28,7 +28,6 @@
 #include <sys/wait.h>
 #include <QProcess>
 #include "config.h"
-
 class SystemTrayMenu : public QMenu
 {
     Q_OBJECT
@@ -74,6 +73,10 @@ private:
     QList<KimpanelProperty> mVKList;
     QList<KimpanelProperty> mStatusMenuList;
     QProcess *configtoolPro ;
+#ifdef IS_QT_4
+    QMenu *mSkinMenu;
+    QMenu *mVKListMenu;
+#endif
 private:
     void skinMenuItemOnClick(QAction* action);
     void doUpdateSkinListMenu();

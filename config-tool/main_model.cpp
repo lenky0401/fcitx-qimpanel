@@ -74,7 +74,7 @@ QString MainModel::tipsString() const {
 void MainModel::setInputStringCursorPos(int pos) {
     setInputString(mInputString.insert(pos, QString("|")));
 }
-
+#ifdef IS_QT_5
 void candidateWordsPropAppend(QQmlListProperty<CandidateWord>* prop, CandidateWord* value)
 {
     Q_UNUSED(prop);
@@ -92,6 +92,36 @@ CandidateWord* candidateWordsPropAt(QQmlListProperty<CandidateWord>* prop, int i
     return static_cast<QList<CandidateWord*>*>(prop->data)->at(index);
 }
 
+QQmlListProperty<CandidateWord> MainModel::candidateWords() {
+
+    return QQmlListProperty<CandidateWord>(this, &mCandidateWords, &candidateWordsPropAppend,
+        &candidateWordsPropCount, &candidateWordsPropAt, 0);
+}
+#endif
+#ifdef IS_QT_4
+void candidateWordsPropAppend(QDeclarativeListProperty<CandidateWord>* prop, CandidateWord* value)
+{
+    Q_UNUSED(prop);
+    Q_UNUSED(value);
+    return; //Append not supported
+}
+
+int candidateWordsPropCount(QDeclarativeListProperty<CandidateWord>* prop)
+{
+    return static_cast<QList<CandidateWord*>*>(prop->data)->count();
+}
+
+CandidateWord* candidateWordsPropAt(QDeclarativeListProperty<CandidateWord>* prop, int index)
+{
+    return static_cast<QList<CandidateWord*>*>(prop->data)->at(index);
+}
+
+QDeclarativeListProperty<CandidateWord> MainModel::candidateWords() {
+
+    return QDeclarativeListProperty<CandidateWord>(this, &mCandidateWords, &candidateWordsPropAppend,
+        &candidateWordsPropCount, &candidateWordsPropAt, 0);
+}
+#endif
 void MainModel::setCandidateWords() {
     CandidateWord *candidate;
     QStringList label;
@@ -246,13 +276,6 @@ void MainModel::setCandidateWords() {
     emit candidateWordsChanged();
     emit qmlMainWindowSizeChanged();
 }
-
-QQmlListProperty<CandidateWord> MainModel::candidateWords() {
-
-    return QQmlListProperty<CandidateWord>(this, &mCandidateWords, &candidateWordsPropAppend,
-        &candidateWordsPropCount, &candidateWordsPropAt, 0);
-}
-
 void MainModel::setHasPrev(const bool hasPrev) {
     mHasPrev = hasPrev;
     emit hasPrevChanged();

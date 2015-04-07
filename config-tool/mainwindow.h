@@ -1,13 +1,20 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
+#include "config.h"
+#ifdef IS_QT_5
+    #include <QQuickWidget>
+    #include <QQmlContext>
+#endif
+#ifdef IS_QT_4
+    #include <QDeclarativeView>
+    #include <QtDeclarative/QDeclarativeContext>
+#endif
 #include <QDialog>
 #include <QSettings>
 #include <QString>
 #include <QVector>
 #include <QListWidgetItem>
 #include <QHBoxLayout>
-#include <QQuickWidget>
 #include <QDBusInterface>
 #include "skin/skinbase.h"
 #include "skin/skinfcitx.h"
@@ -38,7 +45,13 @@ private:
     QList<SkinTypeEntry> allSkinType;
     SkinFcitx *mSkinFcitx;
     MainModel *mMainModer;
-    QQuickWidget *qmlView;
+    #ifdef IS_QT_5
+        QQuickWidget *qmlView;
+    #endif
+    #ifdef IS_QT_4
+        QDeclarativeView *qmlView;
+    #endif
+
     QHBoxLayout *mLayout;
     QString curtSkinType;
     QString localPath;

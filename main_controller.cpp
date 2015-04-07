@@ -22,7 +22,6 @@
 
 #include <QSettings>
 #include <QDebug>
-#include <QQmlContext>
 #include <QDBusConnection>
 #include <libintl.h>
 #include <QFile>
@@ -99,13 +98,18 @@ void MainController::init()
     qmlRegisterType<CandidateWord>();
 
     mTopLevel = new TopLevel;
+#ifdef IS_QT_5
     mView = new QQuickWidget;
+#endif
+#ifdef IS_QT_4
+    mView = new QDeclarativeView;
+#endif
     mModel = MainModel::self();
     mModel->setIsHorizontal(mIsHorizontal);
 
     mSkinBase = new SkinBase;
-
     mTopLevel->setCenterWidget(mView);
+#ifdef IS_QT_5
     mView->setClearColor(Qt::transparent);
     mView->setContentsMargins(0, 0, 0, 0);
     mView->setResizeMode(QQuickWidget::SizeViewToRootObject);
@@ -113,7 +117,19 @@ void MainController::init()
     mView->rootContext()->setContextProperty("mainModel", mModel);
     mView->rootContext()->setContextProperty("mainSkin", mSkinBase);
     mView->rootContext()->setContextProperty("mainWidget", mTopLevel);
-    mView->setSource(QUrl("qrc:/qml/main.qml"));
+    mView->setSource(QUrl("qrc:/qml/qt5_main.qml"));
+#endif
+#ifdef IS_QT_4
+    mView->setContentsMargins(0, 0, 0, 0);
+    mView->setResizeMode(QDeclarativeView::SizeViewToRootObject);
+    mView->setResizeAnchor(QGraphicsView::AnchorViewCenter);
+    mView->viewport()->setAutoFillBackground(false);
+    mView->rootContext()->setContextProperty("mainCtrl", this);
+    mView->rootContext()->setContextProperty("mainModel", mModel);
+    mView->rootContext()->setContextProperty("mainSkin", mSkinBase);
+    mView->rootContext()->setContextProperty("mainWidget", mTopLevel);
+    mView->setSource(QUrl("qrc:/qml/qt4_main.qml"));
+#endif
 
     mAgent = new PanelAgent(this);
     mSystemTray = new QSystemTrayIcon(QIcon::fromTheme("fcitx"), this);
@@ -227,7 +243,13 @@ void MainController::setSkinBase(SkinBase *skinBase, int skinType)
        case FCITX:
        default:
            qDebug() << "SkinType is default";
-           mView->setSource(QUrl("qrc:/qml/main.qml"));
+        #ifdef IS_QT_5
+           mView->setSource(QUrl("qrc:/qml/qt5_main.qml"));
+        #endif
+        #ifdef IS_QT_4
+           mView->setSource(QUrl("qrc:/qml/qt4_main.qml"));
+        #endif
+
    }
 }
 
@@ -257,6 +279,8 @@ void MainController::updateProperty(const KimpanelProperty &prop)
    QIcon icon;
    if(prop.icon=="fcitx-kbd" || prop.icon==""|| prop.icon.indexOf("indicator-keyboard")!=-1)
                icon = QIcon::fromTheme("fcitx-kbd");
+   else if(prop.icon.contains("/usr/share/fcitx"))
+               icon = QIcon(prop.icon);
    else
          icon = QIcon::fromTheme(prop.icon, QIcon::fromTheme("fcitx-kbd"));
     mSystemTray->setIcon(icon);

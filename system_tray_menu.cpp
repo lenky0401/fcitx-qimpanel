@@ -26,14 +26,13 @@
 #include <QSettings>
 #include <libintl.h>
 #include <QProcess>
-
 #include <fcitx-config/fcitx-config.h>
 #include <stdio.h>
+
 #include "main.h"
 #include "my_action.h"
 #include "main_controller.h"
 #include "system_tray_menu.h"
-#include "config.h"
 #include "skin/skinfcitx.h"
 
 SystemTrayMenu::SystemTrayMenu(PanelAgent *agent)
@@ -47,13 +46,18 @@ SystemTrayMenu::~SystemTrayMenu()
 {
     if(configtoolPro)
         free(configtoolPro);
+    #ifdef IS_QT_4
+        delete mVKListMenu;
+        delete mSkinMenu;
+    #endif
 }
 
 void SystemTrayMenu::init()
 {
-
-    updateMainMenu();
-
+    #ifdef IS_QT_4
+        mVKListMenu = new QMenu(tr("Virtual Keyboard"), this);
+        mSkinMenu = new QMenu(tr("Skin"), this);
+   #endif
     QObject::connect(this, SIGNAL(aboutToShow()), this,
         SLOT(triggerUpdateVKListMenu()));
 
@@ -71,7 +75,7 @@ void SystemTrayMenu::init()
 
     QObject::connect(mAgent, SIGNAL(updateProperty(KimpanelProperty)), this,
         SLOT(updateProperty(KimpanelProperty)));
-
+      updateMainMenu();
 }
 
 void SystemTrayMenu::registerProperties(const QList<KimpanelProperty> &props)
@@ -112,12 +116,15 @@ void SystemTrayMenu::updateMainMenu()
         this->doUpdateVKListMenu(mVKList);
         this->addSeparator();
     }
-
     foreach(const KimpanelProperty &prop, this->mStatusMenuList) {
-           MyAction *menu = new MyAction(QIcon::fromTheme(prop.icon), prop.label, this);
-           menu->setMyActionType(StatusAction);
-           menu->setProp(prop);
-           this->addAction(menu);
+          MyAction *menu=NULL;
+          if(prop.icon.contains("/usr/share/fcitx"))
+                menu = new MyAction(QIcon(prop.icon), prop.label, this);
+          else
+                menu = new MyAction(QIcon::fromTheme(prop.icon), prop.label, this);
+            menu->setMyActionType(StatusAction);
+            menu->setProp(prop);
+            this->addAction(menu);
     }
     this->addSeparator();
 
@@ -150,13 +157,24 @@ void SystemTrayMenu::doUpdateVKListMenu(const QList<KimpanelProperty> &prop_list
 {
     MyAction *menu;
     QList<KimpanelProperty>::const_iterator iter;
-
+    #ifdef IS_QT_5
     for (iter = prop_list.begin(); iter != prop_list.end(); ++ iter) {
         menu = new MyAction(QIcon::fromTheme(iter->icon), iter->label, this);
         menu->setMyActionType(VKAction);
         menu->setProp(*iter);
         this->addAction(menu);
     }
+    #endif
+    #ifdef IS_QT_4
+    mVKListMenu->clear();
+    for (iter = prop_list.begin(); iter != prop_list.end(); ++ iter) {
+        menu = new MyAction(QIcon::fromTheme(iter->icon), iter->label, this);
+        menu->setProp(*iter);
+        mVKListMenu->addAction(menu);
+    }
+        this->addMenu(mVKListMenu);
+    #endif
+
 }
 
 bool SystemTrayMenu::doUpdateIMListMenu(const QList<KimpanelProperty> &prop_list)
@@ -168,6 +186,8 @@ bool SystemTrayMenu::doUpdateIMListMenu(const QList<KimpanelProperty> &prop_list
     for (iter = prop_list.begin(); iter != prop_list.end(); ++ iter) {
         if(iter->icon=="fcitx-kbd" || iter->icon==""||iter->icon.indexOf("indicator-keyboard")!=-1)
             action = new MyAction(QIcon::fromTheme("fcitx-kbd"), iter->label, this);
+        else if(iter->icon.contains("/usr/share/fcitx"))
+            action = new MyAction(QIcon(iter->icon), iter->label, this);
         else
             action = new MyAction(QIcon::fromTheme(iter->icon), iter->label, this);
         action->setProp(*iter);
@@ -334,6 +354,7 @@ void SystemTrayMenu::menuItemOnClick(QAction *action)
         if (SkinAction == myAction->getMyActionType()) {
             skinMenuItemOnClick(myAction);
         } else if (myAction->getProp().key != "") {
+            qDebug()<<"---------------------"<<myAction->getProp().key;
             mAgent->triggerProperty(myAction->getProp().key);
         }
     }
@@ -358,7 +379,9 @@ void SystemTrayMenu::doUpdateSkinListMenu()
     SkinClass skinClass;
     bool localExist;
     MyAction *skinNameMenu = NULL;
-
+    #ifdef IS_QT_4
+        mSkinMenu->clear();
+    #endif
     QString localSkinPath = qgetenv("HOME") + "/.config/fcitx-qimpanel/skin/";
 
     for (i = 0; i < 1; i ++) {
@@ -381,7 +404,12 @@ void SystemTrayMenu::doUpdateSkinListMenu()
                 menu->setMyActionType(SkinAction);
                 menu->setSkinPath(iter->absoluteFilePath() + "/");
                 menu->setSkinClass(skinClass);
-                this->addAction(menu);
+                #ifdef IS_QT_5
+                    this->addAction(menu);
+                #endif
+                #ifdef IS_QT_4
+                    mSkinMenu->addAction(menu);
+                #endif
                 if (firstMenu == NULL)
                     firstMenu = menu;
                 menu->setCheckable(true);
@@ -432,7 +460,12 @@ void SystemTrayMenu::doUpdateSkinListMenu()
                 //qDebug() << iter->absoluteFilePath();
                 menu->setSkinPath(iter->absoluteFilePath() + "/");
                 menu->setSkinClass(skinClass);
-                this->addAction(menu);
+                #ifdef IS_QT_5
+                    this->addAction(menu);
+                #endif
+                #ifdef IS_QT_4
+                    mSkinMenu->addAction(menu);
+                #endif
                 if (firstMenu == NULL)
                     firstMenu = menu;
                 menu->setCheckable(true);
@@ -466,7 +499,12 @@ void SystemTrayMenu::doUpdateSkinListMenu()
                 menu->setMyActionType(SkinAction);
                 menu->setSkinPath(iter->absoluteFilePath() + "/");
                 menu->setSkinClass(skinClass);
-                this->addAction(menu);
+                #ifdef IS_QT_5
+                    this->addAction(menu);
+                #endif
+                #ifdef IS_QT_4
+                    mSkinMenu->addAction(menu);
+                #endif
                 if (firstMenu == NULL)
                     firstMenu = menu;
                 menu->setCheckable(true);
@@ -488,6 +526,9 @@ void SystemTrayMenu::doUpdateSkinListMenu()
     FcitxXDGFreePath(skinPath);
 
     skinMenuItemOnClick(skinNameMenu);
+    #ifdef IS_QT_4
+    this->addMenu(mSkinMenu);
+    #endif
 }
 
 void SystemTrayMenu::skinMenuItemOnClick(QAction* action)

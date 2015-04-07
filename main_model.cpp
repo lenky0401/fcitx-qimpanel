@@ -78,34 +78,64 @@ QString MainModel::tipsString() const {
 void MainModel::setInputStringCursorPos(int pos) {
     setInputString(mInputString.insert(pos, QString("|")));
 }
+#ifdef IS_QT_5
+    void candidateWordsPropAppend(QQmlListProperty<CandidateWord>* prop, CandidateWord* value)
+    {
+        Q_UNUSED(prop);
+        Q_UNUSED(value);
+        return; //Append not supported
+    }
+    int candidateWordsPropCount(QQmlListProperty<CandidateWord>* prop)
+    {
+        return static_cast<QList<CandidateWord*>*>(prop->data)->count();
+    }
 
-void candidateWordsPropAppend(QQmlListProperty<CandidateWord>* prop, CandidateWord* value)
-{
-    Q_UNUSED(prop);
-    Q_UNUSED(value);
-    return; //Append not supported
-}
+    CandidateWord* candidateWordsPropAt(QQmlListProperty<CandidateWord>* prop, int index)
+    {
+        return static_cast<QList<CandidateWord*>*>(prop->data)->at(index);
+    }
 
-int candidateWordsPropCount(QQmlListProperty<CandidateWord>* prop)
-{
-    return static_cast<QList<CandidateWord*>*>(prop->data)->count();
-}
+    QQmlListProperty<CandidateWord> MainModel::candidateWords() {
+        return QQmlListProperty<CandidateWord>(this, &mCandidateWords, &candidateWordsPropAppend,
+            &candidateWordsPropCount, &candidateWordsPropAt, 0);
+    }
+#endif
+#ifdef IS_QT_4
+    void candidateWordsPropAppend(QDeclarativeListProperty<CandidateWord>* prop, CandidateWord* value)
+    {
+        Q_UNUSED(prop);
+        Q_UNUSED(value);
+        return; //Append not supported
+    }
 
-CandidateWord* candidateWordsPropAt(QQmlListProperty<CandidateWord>* prop, int index)
-{
-    return static_cast<QList<CandidateWord*>*>(prop->data)->at(index);
-}
+    int candidateWordsPropCount(QDeclarativeListProperty<CandidateWord>* prop)
+    {
+        return static_cast<QList<CandidateWord*>*>(prop->data)->count();
+    }
 
+    CandidateWord* candidateWordsPropAt(QDeclarativeListProperty<CandidateWord>* prop, int index)
+    {
+        return static_cast<QList<CandidateWord*>*>(prop->data)->at(index);
+    }
+
+    QDeclarativeListProperty<CandidateWord> MainModel::candidateWords() {
+        return QDeclarativeListProperty<CandidateWord>(this, &mCandidateWords, &candidateWordsPropAppend,
+            &candidateWordsPropCount, &candidateWordsPropAt, 0);
+    }
+#endif
 void MainModel::setCandidateWords(const KimpanelLookupTable &lookup_table) {
     CandidateWord *candidate;
     QList<KimpanelLookupTable::Entry>::iterator iter;
     QList<KimpanelLookupTable::Entry> entries = lookup_table.entries;
-
+    #ifdef IS_QT_5
     foreach (candidate, mCandidateWords) {
         candidate->deleteLater();
-    }
+   }
+    #endif
+    #ifdef IS_QT_4
+    qDeleteAll(mCandidateWords);
+    #endif
     mCandidateWords.clear();
-
     for (iter = entries.begin(); iter != entries.end(); ++ iter) {
         if ((candidate = new (std::nothrow)CandidateWord) == NULL)
             break;
@@ -120,11 +150,6 @@ void MainModel::setCandidateWords(const KimpanelLookupTable &lookup_table) {
 
     emit candidateWordsChanged();
     emit mainWindowSizeChanged();
-}
-
-QQmlListProperty<CandidateWord> MainModel::candidateWords() {
-    return QQmlListProperty<CandidateWord>(this, &mCandidateWords, &candidateWordsPropAppend,
-        &candidateWordsPropCount, &candidateWordsPropAt, 0);
 }
 
 void MainModel::setHasPrev(const bool hasPrev) {

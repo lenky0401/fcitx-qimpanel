@@ -53,6 +53,8 @@ int isRunning()
         return -1;
     }
 
+    chmod(filePath, 0666);
+
     fl.l_type = F_WRLCK;
     fl.l_start = 0;
     fl.l_whence = SEEK_SET;

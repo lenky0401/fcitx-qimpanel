@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx-qimpanel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-07 15:40+0800\n"
+"POT-Creation-Date: 2015-04-09 16:37+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -210,58 +210,66 @@ msgstr ""
 msgid "Sougo Skin does not support preview and edit!"
 msgstr ""
 
-#: main_controller.cpp:274 system_tray_menu.cpp:98
+#: main_controller.cpp:274 system_tray_menu.cpp:111
 msgid "No input window"
 msgstr ""
 
-#: system_tray_menu.cpp:58
+#: system_tray_menu.cpp:60
 msgid "Virtual Keyboard"
 msgstr ""
 
-#: system_tray_menu.cpp:59
+#: system_tray_menu.cpp:61
 msgid "Skin"
 msgstr ""
 
-#: system_tray_menu.cpp:108 system_tray_menu.cpp:302
+#: system_tray_menu.cpp:62
+msgid "Mozc Edit mode"
+msgstr ""
+
+#: system_tray_menu.cpp:63
+msgid "Mozc Tool"
+msgstr ""
+
+#: system_tray_menu.cpp:120 system_tray_menu.cpp:393
 msgid "Online &Help!"
 msgstr ""
 
-#: system_tray_menu.cpp:131 system_tray_menu.cpp:317
+#: system_tray_menu.cpp:152 system_tray_menu.cpp:408
 msgid "ConfigureFcitx"
 msgstr ""
 
-#: system_tray_menu.cpp:132 system_tray_menu.cpp:308
+#: system_tray_menu.cpp:153 system_tray_menu.cpp:399
 msgid "ConfigureIMPanel"
 msgstr ""
 
-#: system_tray_menu.cpp:136 system_tray_menu.cpp:327
+#: system_tray_menu.cpp:157 system_tray_menu.cpp:418
 msgid "Character Map"
 msgstr ""
 
-#: system_tray_menu.cpp:137 system_tray_menu.cpp:329
+#: system_tray_menu.cpp:158 system_tray_menu.cpp:420
 msgid "Keyboard Layout Chart"
 msgstr ""
 
-#: system_tray_menu.cpp:138 system_tray_menu.cpp:349
+#: system_tray_menu.cpp:159 system_tray_menu.cpp:440
 msgid "Text Entry Settings..."
 msgstr ""
 
-#: system_tray_menu.cpp:305
+#: system_tray_menu.cpp:396
 msgid "ConfigureIM"
 msgstr ""
 
-#: system_tray_menu.cpp:312
+#: system_tray_menu.cpp:403
 msgid "Warning"
 msgstr ""
 
-#: system_tray_menu.cpp:312
+#: system_tray_menu.cpp:403
 msgid "Please install fcitx-qimpanel-configtool!"
 msgstr ""
 
-#: system_tray_menu.cpp:320
+#: system_tray_menu.cpp:411
 msgid "Restart"
 msgstr ""
 
-#: system_tray_menu.cpp:324
+#: system_tray_menu.cpp:415
 msgid "Exit"
 msgstr ""

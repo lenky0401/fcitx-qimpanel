@@ -49,6 +49,8 @@ SystemTrayMenu::~SystemTrayMenu()
     #ifdef IS_QT_4
         delete mVKListMenu;
         delete mSkinMenu;
+        delete mMozcHiraganaMenu;
+        delete mMozcToolMenu;
     #endif
 }
 
@@ -57,12 +59,20 @@ void SystemTrayMenu::init()
     #ifdef IS_QT_4
         mVKListMenu = new QMenu(gettext("Virtual Keyboard"), this);
         mSkinMenu = new QMenu(gettext("Skin"), this);
+        mMozcHiraganaMenu = new QMenu(gettext("Mozc Edit mode"), this);
+        mMozcToolMenu = new QMenu(gettext("Mozc Tool"), this);
    #endif
     QObject::connect(this, SIGNAL(aboutToShow()), this,
         SLOT(triggerUpdateVKListMenu()));
 
     QObject::connect(this, SIGNAL(aboutToShow()), this,
         SLOT(triggerUpdateIMListMenu()));
+
+    QObject::connect(this, SIGNAL(aboutToShow()), this,
+        SLOT(truggerUpdateMozcHiraganaMenu()));
+
+    QObject::connect(this, SIGNAL(aboutToShow()), this,
+        SLOT(truggerUpdateMozcToolMenu()));
 
     QObject::connect(this, SIGNAL(triggered(QAction*)), this,
         SLOT(menuItemOnClick(QAction *)));
@@ -80,11 +90,12 @@ void SystemTrayMenu::init()
 
 void SystemTrayMenu::registerProperties(const QList<KimpanelProperty> &props)
 {
-    int count = 0;
+    int count = 0,i=0;
     mStatusMenuList.clear();
     foreach(const KimpanelProperty &prop, props) {
-        //qDebug() << QString("registerProperties(1:%1 2:%2 3:%3 4:%4 5:%5 6:%6)").arg(prop.key)
-        //    .arg(prop.label).arg(prop.icon).arg(prop.tip).arg(prop.state).arg(prop.menu);
+        i++;
+//        qDebug() << i<<QString("registerProperties(1:%1 2:%2 3:%3 4:%4 5:%5 6:%6)\n").arg(prop.key)
+//            .arg(prop.label).arg(prop.icon).arg(prop.tip).arg(prop.state).arg(prop.menu);
         if (count ++ < StatusMenuSkip)
             continue;
         if (prop.key == "/Fcitx/vk")
@@ -95,9 +106,10 @@ void SystemTrayMenu::registerProperties(const QList<KimpanelProperty> &props)
 
 void SystemTrayMenu::updateProperty(const KimpanelProperty &prop)
 {
+    qDebug() <<QString("updateProperty(1:%1 2:%2 3:%3 4:%4 5:%5 6:%6)\n").arg(prop.key)
+        .arg(prop.label).arg(prop.icon).arg(prop.tip).arg(prop.state).arg(prop.menu);
     if (gettext("No input window") == prop.label)
         return;
-
     this->mCurtIMLabel = prop.label;
 }
 
@@ -108,26 +120,35 @@ void SystemTrayMenu::updateMainMenu()
     this->addAction(QIcon::fromTheme("help-contents"), gettext("Online &Help!"));
     this->addSeparator();
 
-    bool kbd = this->doUpdateIMListMenu(mIMList);
+    QString currentIM = this->doUpdateIMListMenu(mIMList);
+    qDebug()<<"-------------------currentIM="<<currentIM;
     this->addSeparator();
-
-    if (kbd)
+    if (currentIM=="fcitx-kbd")
     {
         this->doUpdateVKListMenu(mVKList);
         this->addSeparator();
     }
-    foreach(const KimpanelProperty &prop, this->mStatusMenuList) {
-          MyAction *menu=NULL;
-          if(prop.icon.contains("/usr/share/fcitx"))
-                menu = new MyAction(QIcon(prop.icon), prop.label, this);
-          else
-                menu = new MyAction(QIcon::fromTheme(prop.icon), prop.label, this);
-            menu->setMyActionType(StatusAction);
-            menu->setProp(prop);
-            this->addAction(menu);
+    if (currentIM =="/Fcitx/im/mozc")
+    {
+        this->doUpdateMozcHiraganaListMenu(mMozcHiraganaList);
+        this->addSeparator();
+        this->doUpdateMozcToolListMenu(mMozcToolList);
+        this->addSeparator();
     }
-    this->addSeparator();
-
+    else
+    {
+        foreach(const KimpanelProperty &prop, this->mStatusMenuList) {
+              MyAction *menu=NULL;
+              if(prop.icon.contains("/usr/share/fcitx"))
+                    menu = new MyAction(QIcon(prop.icon), prop.label, this);
+              else
+                    menu = new MyAction(QIcon::fromTheme(prop.icon), prop.label, this);
+                menu->setMyActionType(StatusAction);
+                menu->setProp(prop);
+                this->addAction(menu);
+        }
+        this->addSeparator();
+}
     this->addAction(QIcon::fromTheme("preferences-desktop"), gettext("ConfigureFcitx"));
     this->addAction(QIcon::fromTheme("preferences-desktop"), gettext("ConfigureIMPanel"));
     this->addSeparator();
@@ -138,9 +159,7 @@ void SystemTrayMenu::updateMainMenu()
         this->addAction(gettext("Text Entry Settings..."));
         this->addSeparator();
     }
-
-    doUpdateSkinListMenu();
-
+        doUpdateSkinListMenu();
 }
 
 void SystemTrayMenu::triggerUpdateVKListMenu()
@@ -153,6 +172,15 @@ void SystemTrayMenu::triggerUpdateIMListMenu()
     mAgent->triggerProperty(QString("/Fcitx/im"));
 }
 
+void SystemTrayMenu::truggerUpdateMozcHiraganaMenu()
+{
+    mAgent->triggerProperty(QString("/Fcitx/mozc-composition-mode"));
+}
+
+void SystemTrayMenu::truggerUpdateMozcToolMenu()
+{
+    mAgent->triggerProperty(QString("/Fcitx/mozc-tool"));
+}
 void SystemTrayMenu::doUpdateVKListMenu(const QList<KimpanelProperty> &prop_list)
 {
     MyAction *menu;
@@ -174,12 +202,12 @@ void SystemTrayMenu::doUpdateVKListMenu(const QList<KimpanelProperty> &prop_list
     }
         this->addMenu(mVKListMenu);
     #endif
-
 }
 
-bool SystemTrayMenu::doUpdateIMListMenu(const QList<KimpanelProperty> &prop_list)
+QString SystemTrayMenu::doUpdateIMListMenu(const QList<KimpanelProperty> &prop_list)
 {
     bool checked = false;
+    QString value = "fcitx-kbd";
     MyAction *firstAction = NULL, *action = NULL, *actionChecked = NULL;
     QList<KimpanelProperty>::const_iterator iter;
 
@@ -197,6 +225,10 @@ bool SystemTrayMenu::doUpdateIMListMenu(const QList<KimpanelProperty> &prop_list
             firstAction = action;
         action->setCheckable(true);
         if (iter->label == this->mCurtIMLabel) {
+            if(iter->icon=="fcitx-kbd" || iter->icon==""||iter->icon.indexOf("indicator-keyboard")!=-1)
+                 value = "fcitx-kbd";
+            else
+                 value = iter->key;
             checked = true;
             actionChecked = action;
             action->setChecked(true);
@@ -210,9 +242,53 @@ bool SystemTrayMenu::doUpdateIMListMenu(const QList<KimpanelProperty> &prop_list
     }
 
     if (actionChecked == NULL)
-        return false;
-    else
-        return actionChecked->icon().name() == "fcitx-kbd";
+             value = "fcitx-kbd";
+     return value;
+}
+
+void SystemTrayMenu::doUpdateMozcToolListMenu(const QList<KimpanelProperty> &prop_list)
+{
+    MyAction *menu;
+    QList<KimpanelProperty>::const_iterator iter;
+    #ifdef IS_QT_5
+    for (iter = prop_list.begin(); iter != prop_list.end(); ++ iter) {
+        menu = new MyAction(QIcon(iter->icon), iter->label, this);
+        menu->setMyActionType(MozcToolAction);
+        menu->setProp(*iter);
+        this->addAction(menu);
+    }
+    #endif
+    #ifdef IS_QT_4
+    mMozcHiraganaMenu->clear();
+    for (iter = prop_list.begin(); iter != prop_list.end(); ++ iter) {
+        menu = new MyAction(QIcon(iter->icon), iter->label, this);
+        menu->setProp(*iter);
+        mMozcHiraganaMenu->addAction(menu);
+    }
+        this->addMenu(mMozcHiraganaMenu);
+    #endif
+}
+void SystemTrayMenu::doUpdateMozcHiraganaListMenu(const QList<KimpanelProperty> &prop_list)
+{
+    MyAction *menu;
+    QList<KimpanelProperty>::const_iterator iter;
+    #ifdef IS_QT_5
+    for (iter = prop_list.begin(); iter != prop_list.end(); ++ iter) {
+        menu = new MyAction(QIcon(iter->icon), iter->label, this);
+        menu->setMyActionType(MozcHiraganaAction);
+        menu->setProp(*iter);
+        this->addAction(menu);
+    }
+    #endif
+    #ifdef IS_QT_4
+    mMozcToolMenu->clear();
+    for (iter = prop_list.begin(); iter != prop_list.end(); ++ iter) {
+        menu =new MyAction(QIcon(iter->icon), iter->label, this);
+        menu->setProp(*iter);
+        mMozcToolMenu->addAction(menu);
+    }
+        this->addMenu(mMozcToolMenu);
+    #endif
 }
 
 bool SystemTrayMenu::isIMList(const QString &key)
@@ -225,6 +301,17 @@ bool SystemTrayMenu::isVKList(const QString &key)
     return key.startsWith("/Fcitx/vk");
 }
 
+bool SystemTrayMenu::isMozcHiraganaList(const QString &key)
+{
+    return key.startsWith("/Fcitx/mozc-composition-mode");
+}
+
+bool SystemTrayMenu::isMozcToolList(const QString &key)
+{
+    return key.startsWith("/Fcitx/mozc-tool");
+}
+
+
 void SystemTrayMenu::execMenu(const QList<KimpanelProperty> &prop_list)
 {
     QList<KimpanelProperty>::const_iterator iter = prop_list.begin();
@@ -232,7 +319,11 @@ void SystemTrayMenu::execMenu(const QList<KimpanelProperty> &prop_list)
         mIMList = prop_list;
     else if (isVKList(iter->key))
         mVKList = prop_list;
-    else {
+    else if (isMozcHiraganaList(iter->key))
+        mMozcHiraganaList=prop_list;
+    else if (isMozcToolList(iter->key))
+        mMozcToolList = prop_list;
+    else{
         for (iter = prop_list.begin(); iter != prop_list.end(); ++ iter) {
             qDebug() << QString("execMenuCallback(1:%1 2:%2 3:%3 4:%4 5:%5 6:%6)").arg(iter->key)
                 .arg(iter->label).arg(iter->icon).arg(iter->tip).arg(iter->state).arg(iter->menu);
@@ -354,7 +445,7 @@ void SystemTrayMenu::menuItemOnClick(QAction *action)
         if (SkinAction == myAction->getMyActionType()) {
             skinMenuItemOnClick(myAction);
         } else if (myAction->getProp().key != "") {
-            qDebug()<<"---------------------"<<myAction->getProp().key;
+//            qDebug()<<"---------------------"<<myAction->getProp().key;
             mAgent->triggerProperty(myAction->getProp().key);
         }
     }

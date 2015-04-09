@@ -229,6 +229,13 @@ msgstr "配置同步"
 msgid "Skin"
 msgstr "皮肤"
 
+#: system_tray_menu.cpp:62
+msgid "Mozc Edit mode"
+msgstr "Mozc 编辑模式"
+
+#: system_tray_menu.cpp:63
+msgid "Mozc Tool"
+msgstr "Mozc 工具"
 #: system_tray_menu.cpp:125 system_tray_menu.cpp:426
 msgid "Online &Help!"
 msgstr "在线帮助"

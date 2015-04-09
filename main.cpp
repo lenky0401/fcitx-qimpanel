@@ -113,7 +113,7 @@ int fcitxIsNotRunning()
 
 int main(int argc, char** argv)
 {
-    fcitx_utils_init_as_daemon();
+    //fcitx_utils_init_as_daemon();
     if (isRunning()) {
         exit(1);
     }

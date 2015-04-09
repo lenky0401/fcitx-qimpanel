@@ -43,6 +43,8 @@ private:
 private slots:
     void triggerUpdateVKListMenu();
     void triggerUpdateIMListMenu();
+    void truggerUpdateMozcHiraganaMenu();
+    void truggerUpdateMozcToolMenu();
     void menuItemOnClick(QAction* action);
 
 private:
@@ -54,8 +56,11 @@ public slots:
 
 private:
     //return True if is the fcitx-kbd checked.
-    bool doUpdateIMListMenu(const QList<KimpanelProperty> &prop_list);
+    QString doUpdateIMListMenu(const QList<KimpanelProperty> &prop_list);
     void doUpdateVKListMenu(const QList<KimpanelProperty> &prop_list);
+
+    void doUpdateMozcHiraganaListMenu(const QList<KimpanelProperty> &prop_list);
+    void doUpdateMozcToolListMenu(const QList<KimpanelProperty> &prop_list);
     void startChildApp(const char *app_exe, const char * const argv[] = NULL);
 public:
     void restart();
@@ -64,18 +69,23 @@ private:
     static bool isUnity();
     static bool isIMList(const QString &key);
     static bool isVKList(const QString &key);
-
+    static bool isMozcHiraganaList(const QString &key);
+    static bool isMozcToolList(const QString &key);
 private:
     QString mCurtIMLabel;
     //前两个用不到，见后端KimpanelRegisterAllStatus()函数
 #define StatusMenuSkip (2)
     QList<KimpanelProperty> mIMList;
     QList<KimpanelProperty> mVKList;
+    QList<KimpanelProperty> mMozcToolList;
+    QList<KimpanelProperty> mMozcHiraganaList;
     QList<KimpanelProperty> mStatusMenuList;
     QProcess *configtoolPro ;
 #ifdef IS_QT_4
     QMenu *mSkinMenu;
     QMenu *mVKListMenu;
+    QMenu *mMozcToolMenu;
+    QMenu *mMozcHiraganaMenu;
 #endif
 private:
     void skinMenuItemOnClick(QAction* action);

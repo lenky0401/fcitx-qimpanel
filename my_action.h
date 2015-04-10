@@ -29,6 +29,8 @@ typedef enum MyActionType
     StatusAction,
     VKAction,
     SkinAction,
+    MozcHiraganaAction,
+    MozcToolAction,
 } MyActionType;
 
 typedef enum SkinClass

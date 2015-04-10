@@ -90,10 +90,9 @@ void SystemTrayMenu::init()
 
 void SystemTrayMenu::registerProperties(const QList<KimpanelProperty> &props)
 {
-    int count = 0,i=0;
+    int count = 0;
     mStatusMenuList.clear();
     foreach(const KimpanelProperty &prop, props) {
-        i++;
 //        qDebug() << i<<QString("registerProperties(1:%1 2:%2 3:%3 4:%4 5:%5 6:%6)\n").arg(prop.key)
 //            .arg(prop.label).arg(prop.icon).arg(prop.tip).arg(prop.state).arg(prop.menu);
         if (count ++ < StatusMenuSkip)
@@ -106,8 +105,6 @@ void SystemTrayMenu::registerProperties(const QList<KimpanelProperty> &props)
 
 void SystemTrayMenu::updateProperty(const KimpanelProperty &prop)
 {
-    qDebug() <<QString("updateProperty(1:%1 2:%2 3:%3 4:%4 5:%5 6:%6)\n").arg(prop.key)
-        .arg(prop.label).arg(prop.icon).arg(prop.tip).arg(prop.state).arg(prop.menu);
     if (gettext("No input window") == prop.label)
         return;
     this->mCurtIMLabel = prop.label;
@@ -121,7 +118,6 @@ void SystemTrayMenu::updateMainMenu()
     this->addSeparator();
 
     QString currentIM = this->doUpdateIMListMenu(mIMList);
-    qDebug()<<"-------------------currentIM="<<currentIM;
     this->addSeparator();
     if (currentIM=="fcitx-kbd")
     {
@@ -131,7 +127,6 @@ void SystemTrayMenu::updateMainMenu()
     if (currentIM =="/Fcitx/im/mozc")
     {
         this->doUpdateMozcHiraganaListMenu(mMozcHiraganaList);
-        this->addSeparator();
         this->doUpdateMozcToolListMenu(mMozcToolList);
         this->addSeparator();
     }
@@ -311,7 +306,6 @@ bool SystemTrayMenu::isMozcToolList(const QString &key)
     return key.startsWith("/Fcitx/mozc-tool");
 }
 
-
 void SystemTrayMenu::execMenu(const QList<KimpanelProperty> &prop_list)
 {
     QList<KimpanelProperty>::const_iterator iter = prop_list.begin();
@@ -325,8 +319,8 @@ void SystemTrayMenu::execMenu(const QList<KimpanelProperty> &prop_list)
         mMozcToolList = prop_list;
     else{
         for (iter = prop_list.begin(); iter != prop_list.end(); ++ iter) {
-            qDebug() << QString("execMenuCallback(1:%1 2:%2 3:%3 4:%4 5:%5 6:%6)").arg(iter->key)
-                .arg(iter->label).arg(iter->icon).arg(iter->tip).arg(iter->state).arg(iter->menu);
+//            qDebug() << QString("execMenuCallback(1:%1 2:%2 3:%3 4:%4 5:%5 6:%6)").arg(iter->key)
+//                .arg(iter->label).arg(iter->icon).arg(iter->tip).arg(iter->state).arg(iter->menu);
         }
     }
 
@@ -337,7 +331,6 @@ void SystemTrayMenu::restart()
 {
     /* exec command */
     pid_t child_pid;
-
     child_pid = fork();
     if (child_pid < 0) {
         perror("fork");

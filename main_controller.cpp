@@ -397,6 +397,6 @@ void MainController::creatDBusService()
 
 void MainController::qtDbusSot_restartQimpanel()
 {
+     qDebug()<< "MainController::qtDbusSot_restartQimpanel()";
      mTrayMenu->restart();
-    qDebug()<< "MainController::qtDbusSot_restartQimpanel()";
 }

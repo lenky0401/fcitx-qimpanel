@@ -63,6 +63,9 @@ void SystemTrayMenu::init()
         mMozcToolMenu = new QMenu(gettext("Mozc Tool"), this);
    #endif
     QObject::connect(this, SIGNAL(aboutToShow()), this,
+        SLOT(clearMenu()));
+
+    QObject::connect(this, SIGNAL(aboutToShow()), this,
         SLOT(triggerUpdateVKListMenu()));
 
     QObject::connect(this, SIGNAL(aboutToShow()), this,
@@ -108,6 +111,10 @@ void SystemTrayMenu::updateProperty(const KimpanelProperty &prop)
     if (gettext("No input window") == prop.label)
         return;
     this->mCurtIMLabel = prop.label;
+}
+void SystemTrayMenu::clearMenu()
+{
+    this->clear();
 }
 
 void SystemTrayMenu::updateMainMenu()
@@ -274,6 +281,7 @@ void SystemTrayMenu::doUpdateMozcHiraganaListMenu(const QList<KimpanelProperty> 
         menu->setProp(*iter);
         this->addAction(menu);
     }
+    this->addSeparator();
     #endif
     #ifdef IS_QT_4
     mMozcToolMenu->clear();

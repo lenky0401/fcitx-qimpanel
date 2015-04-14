@@ -41,6 +41,7 @@ private:
     void updateMainMenu();
 
 private slots:
+    void clearMenu();
     void triggerUpdateVKListMenu();
     void triggerUpdateIMListMenu();
     void truggerUpdateMozcHiraganaMenu();

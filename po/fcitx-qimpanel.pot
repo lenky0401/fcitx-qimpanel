@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx-qimpanel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-14 17:42+0800\n"
+"POT-Creation-Date: 2015-04-15 10:34+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -230,46 +230,46 @@ msgstr ""
 msgid "Mozc Tool"
 msgstr ""
 
-#: system_tray_menu.cpp:124 system_tray_menu.cpp:394
+#: system_tray_menu.cpp:123 system_tray_menu.cpp:393
 msgid "Online &Help!"
 msgstr ""
 
-#: system_tray_menu.cpp:154 system_tray_menu.cpp:409
+#: system_tray_menu.cpp:153 system_tray_menu.cpp:408
 msgid "ConfigureFcitx"
 msgstr ""
 
-#: system_tray_menu.cpp:155 system_tray_menu.cpp:400
+#: system_tray_menu.cpp:154 system_tray_menu.cpp:399
 msgid "ConfigureIMPanel"
 msgstr ""
 
-#: system_tray_menu.cpp:159 system_tray_menu.cpp:419
+#: system_tray_menu.cpp:158 system_tray_menu.cpp:418
 msgid "Character Map"
 msgstr ""
 
-#: system_tray_menu.cpp:160 system_tray_menu.cpp:421
+#: system_tray_menu.cpp:159 system_tray_menu.cpp:420
 msgid "Keyboard Layout Chart"
 msgstr ""
 
-#: system_tray_menu.cpp:161 system_tray_menu.cpp:441
+#: system_tray_menu.cpp:160 system_tray_menu.cpp:440
 msgid "Text Entry Settings..."
 msgstr ""
 
-#: system_tray_menu.cpp:397
+#: system_tray_menu.cpp:396
 msgid "ConfigureIM"
 msgstr ""
 
-#: system_tray_menu.cpp:404
+#: system_tray_menu.cpp:403
 msgid "Warning"
 msgstr ""
 
-#: system_tray_menu.cpp:404
+#: system_tray_menu.cpp:403
 msgid "Please install fcitx-qimpanel-configtool!"
 msgstr ""
 
-#: system_tray_menu.cpp:412
+#: system_tray_menu.cpp:411
 msgid "Restart"
 msgstr ""
 
-#: system_tray_menu.cpp:416
+#: system_tray_menu.cpp:415
 msgid "Exit"
 msgstr ""

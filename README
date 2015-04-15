@@ -1,7 +1,7 @@
-Build fcitx-qimpanel based on qt5 default.
+Build fcitx-qimpanel based on qt4 default.
 
-Build fcitx-qimpanel based on qt4 by Using the cmake command as follows:
-  cmake -DQT_5=OFF -DQT_4=ON  ../
+Build fcitx-qimpanel based on qt5 by Using the cmake command as follows:
+  cmake -DQT_5=ON -DQT_4=OFF  ../
 
 How to Install fcitx-qimpanel in  ubuntu + qt5:
   mkdir build; cd build

@@ -62,20 +62,20 @@ void SystemTrayMenu::init()
         mMozcHiraganaMenu = new QMenu(gettext("Mozc Edit mode"), this);
         mMozcToolMenu = new QMenu(gettext("Mozc Tool"), this);
    #endif
-    QObject::connect(this, SIGNAL(aboutToShow()), this,
+    QObject::connect(this, SIGNAL(aboutToHide()), this,
         SLOT(clearMenu()));
 
     QObject::connect(this, SIGNAL(aboutToShow()), this,
         SLOT(triggerUpdateVKListMenu()));
 
     QObject::connect(this, SIGNAL(aboutToShow()), this,
-        SLOT(triggerUpdateIMListMenu()));
-
-    QObject::connect(this, SIGNAL(aboutToShow()), this,
         SLOT(truggerUpdateMozcHiraganaMenu()));
 
     QObject::connect(this, SIGNAL(aboutToShow()), this,
         SLOT(truggerUpdateMozcToolMenu()));
+
+    QObject::connect(this, SIGNAL(aboutToShow()), this,
+        SLOT(triggerUpdateIMListMenu()));
 
     QObject::connect(this, SIGNAL(triggered(QAction*)), this,
         SLOT(menuItemOnClick(QAction *)));
@@ -120,7 +120,6 @@ void SystemTrayMenu::clearMenu()
 void SystemTrayMenu::updateMainMenu()
 {
     this->clear();
-
     this->addAction(QIcon::fromTheme("help-contents"), gettext("Online &Help!"));
     this->addSeparator();
 
@@ -331,8 +330,8 @@ void SystemTrayMenu::execMenu(const QList<KimpanelProperty> &prop_list)
 //                .arg(iter->label).arg(iter->icon).arg(iter->tip).arg(iter->state).arg(iter->menu);
         }
     }
-
     updateMainMenu();
+
 }
 
 void SystemTrayMenu::restart()
@@ -450,6 +449,7 @@ void SystemTrayMenu::menuItemOnClick(QAction *action)
             mAgent->triggerProperty(myAction->getProp().key);
         }
     }
+        this->clear();
 }
 
 bool SystemTrayMenu::isUnity()

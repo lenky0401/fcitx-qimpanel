@@ -62,17 +62,20 @@ void SystemTrayMenu::init()
         mMozcHiraganaMenu = new QMenu(gettext("Mozc Edit mode"), this);
         mMozcToolMenu = new QMenu(gettext("Mozc Tool"), this);
    #endif
-    QObject::connect(this, SIGNAL(aboutToShow()), this,
-        SLOT(triggerUpdateVKListMenu()));
+    QObject::connect(this, SIGNAL(aboutToHide()), this,
+        SLOT(clearMenu()));
 
     QObject::connect(this, SIGNAL(aboutToShow()), this,
-        SLOT(triggerUpdateIMListMenu()));
+        SLOT(triggerUpdateVKListMenu()));
 
     QObject::connect(this, SIGNAL(aboutToShow()), this,
         SLOT(truggerUpdateMozcHiraganaMenu()));
 
     QObject::connect(this, SIGNAL(aboutToShow()), this,
         SLOT(truggerUpdateMozcToolMenu()));
+
+    QObject::connect(this, SIGNAL(aboutToShow()), this,
+        SLOT(triggerUpdateIMListMenu()));
 
     QObject::connect(this, SIGNAL(triggered(QAction*)), this,
         SLOT(menuItemOnClick(QAction *)));
@@ -109,11 +112,14 @@ void SystemTrayMenu::updateProperty(const KimpanelProperty &prop)
         return;
     this->mCurtIMLabel = prop.label;
 }
+void SystemTrayMenu::clearMenu()
+{
+    this->clear();
+}
 
 void SystemTrayMenu::updateMainMenu()
 {
     this->clear();
-
     this->addAction(QIcon::fromTheme("help-contents"), gettext("Online &Help!"));
     this->addSeparator();
 
@@ -274,6 +280,7 @@ void SystemTrayMenu::doUpdateMozcHiraganaListMenu(const QList<KimpanelProperty> 
         menu->setProp(*iter);
         this->addAction(menu);
     }
+    this->addSeparator();
     #endif
     #ifdef IS_QT_4
     mMozcToolMenu->clear();
@@ -323,8 +330,8 @@ void SystemTrayMenu::execMenu(const QList<KimpanelProperty> &prop_list)
 //                .arg(iter->label).arg(iter->icon).arg(iter->tip).arg(iter->state).arg(iter->menu);
         }
     }
-
     updateMainMenu();
+
 }
 
 void SystemTrayMenu::restart()
@@ -442,6 +449,7 @@ void SystemTrayMenu::menuItemOnClick(QAction *action)
             mAgent->triggerProperty(myAction->getProp().key);
         }
     }
+        this->clear();
 }
 
 bool SystemTrayMenu::isUnity()

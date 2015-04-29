@@ -113,6 +113,7 @@ public slots:
     void updateLookupTableCursor(int pos);
     void updatePreeditCaret(int pos);
     void qtDbusSot_restartQimpanel();
+    int qtDbusSot_exitQimpanel(int arg);
 
 
 public:

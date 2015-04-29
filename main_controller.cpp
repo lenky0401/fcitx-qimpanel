@@ -400,3 +400,8 @@ void MainController::qtDbusSot_restartQimpanel()
      qDebug()<< "MainController::qtDbusSot_restartQimpanel()";
      mTrayMenu->restart();
 }
+int MainController::qtDbusSot_exitQimpanel(int arg)
+{
+     qDebug()<< "MainController::qtDbusSot_exitQimpanel()";
+     exit(arg);
+}

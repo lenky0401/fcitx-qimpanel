@@ -46,22 +46,18 @@ SystemTrayMenu::~SystemTrayMenu()
 {
     if(configtoolPro)
         free(configtoolPro);
-    #ifdef IS_QT_4
-        delete mVKListMenu;
-        delete mSkinMenu;
-        delete mMozcHiraganaMenu;
-        delete mMozcToolMenu;
-    #endif
+    delete mVKListMenu;
+    delete mSkinMenu;
+    delete mMozcHiraganaMenu;
+    delete mMozcToolMenu;
 }
 
 void SystemTrayMenu::init()
 {
-    #ifdef IS_QT_4
-        mVKListMenu = new QMenu(gettext("Virtual Keyboard"), this);
-        mSkinMenu = new QMenu(gettext("Skin"), this);
-        mMozcHiraganaMenu = new QMenu(gettext("Mozc Edit mode"), this);
-        mMozcToolMenu = new QMenu(gettext("Mozc Tool"), this);
-   #endif
+    mVKListMenu = new QMenu(gettext("Virtual Keyboard"), this);
+    mSkinMenu = new QMenu(gettext("Skin"), this);
+    mMozcHiraganaMenu = new QMenu(gettext("Mozc Edit mode"), this);
+    mMozcToolMenu = new QMenu(gettext("Mozc Tool"), this);
     QObject::connect(this, SIGNAL(aboutToHide()), this,
         SLOT(clearMenu()));
 
@@ -186,23 +182,13 @@ void SystemTrayMenu::doUpdateVKListMenu(const QList<KimpanelProperty> &prop_list
 {
     MyAction *menu;
     QList<KimpanelProperty>::const_iterator iter;
-    #ifdef IS_QT_5
-    for (iter = prop_list.begin(); iter != prop_list.end(); ++ iter) {
-        menu = new MyAction(QIcon::fromTheme(iter->icon), iter->label, this);
-        menu->setMyActionType(VKAction);
-        menu->setProp(*iter);
-        this->addAction(menu);
-    }
-    #endif
-    #ifdef IS_QT_4
     mVKListMenu->clear();
     for (iter = prop_list.begin(); iter != prop_list.end(); ++ iter) {
         menu = new MyAction(QIcon::fromTheme(iter->icon), iter->label, this);
         menu->setProp(*iter);
         mVKListMenu->addAction(menu);
     }
-        this->addMenu(mVKListMenu);
-    #endif
+    this->addMenu(mVKListMenu);
 }
 
 QString SystemTrayMenu::doUpdateIMListMenu(const QList<KimpanelProperty> &prop_list)
@@ -251,46 +237,25 @@ void SystemTrayMenu::doUpdateMozcToolListMenu(const QList<KimpanelProperty> &pro
 {
     MyAction *menu;
     QList<KimpanelProperty>::const_iterator iter;
-    #ifdef IS_QT_5
-    for (iter = prop_list.begin(); iter != prop_list.end(); ++ iter) {
-        menu = new MyAction(QIcon(iter->icon), iter->label, this);
-        menu->setMyActionType(MozcToolAction);
-        menu->setProp(*iter);
-        this->addAction(menu);
-    }
-    #endif
-    #ifdef IS_QT_4
     mMozcHiraganaMenu->clear();
     for (iter = prop_list.begin(); iter != prop_list.end(); ++ iter) {
         menu = new MyAction(QIcon(iter->icon), iter->label, this);
         menu->setProp(*iter);
         mMozcHiraganaMenu->addAction(menu);
     }
-        this->addMenu(mMozcHiraganaMenu);
-    #endif
+    this->addMenu(mMozcHiraganaMenu);
 }
 void SystemTrayMenu::doUpdateMozcHiraganaListMenu(const QList<KimpanelProperty> &prop_list)
 {
     MyAction *menu;
     QList<KimpanelProperty>::const_iterator iter;
-    #ifdef IS_QT_5
-    for (iter = prop_list.begin(); iter != prop_list.end(); ++ iter) {
-        menu = new MyAction(QIcon(iter->icon), iter->label, this);
-        menu->setMyActionType(MozcHiraganaAction);
-        menu->setProp(*iter);
-        this->addAction(menu);
-    }
-    this->addSeparator();
-    #endif
-    #ifdef IS_QT_4
     mMozcToolMenu->clear();
     for (iter = prop_list.begin(); iter != prop_list.end(); ++ iter) {
         menu =new MyAction(QIcon(iter->icon), iter->label, this);
         menu->setProp(*iter);
         mMozcToolMenu->addAction(menu);
     }
-        this->addMenu(mMozcToolMenu);
-    #endif
+    this->addMenu(mMozcToolMenu);
 }
 
 bool SystemTrayMenu::isIMList(const QString &key)
@@ -471,9 +436,7 @@ void SystemTrayMenu::doUpdateSkinListMenu()
     SkinClass skinClass;
     bool localExist;
     MyAction *skinNameMenu = NULL;
-    #ifdef IS_QT_4
-        mSkinMenu->clear();
-    #endif
+    mSkinMenu->clear();
     QString localSkinPath = qgetenv("HOME") + "/.config/fcitx-qimpanel/skin/";
 
     for (i = 0; i < 1; i ++) {
@@ -496,12 +459,7 @@ void SystemTrayMenu::doUpdateSkinListMenu()
                 menu->setMyActionType(SkinAction);
                 menu->setSkinPath(iter->absoluteFilePath() + "/");
                 menu->setSkinClass(skinClass);
-                #ifdef IS_QT_5
-                    this->addAction(menu);
-                #endif
-                #ifdef IS_QT_4
-                    mSkinMenu->addAction(menu);
-                #endif
+                mSkinMenu->addAction(menu);
                 if (firstMenu == NULL)
                     firstMenu = menu;
                 menu->setCheckable(true);
@@ -552,12 +510,7 @@ void SystemTrayMenu::doUpdateSkinListMenu()
                 //qDebug() << iter->absoluteFilePath();
                 menu->setSkinPath(iter->absoluteFilePath() + "/");
                 menu->setSkinClass(skinClass);
-                #ifdef IS_QT_5
-                    this->addAction(menu);
-                #endif
-                #ifdef IS_QT_4
-                    mSkinMenu->addAction(menu);
-                #endif
+                mSkinMenu->addAction(menu);
                 if (firstMenu == NULL)
                     firstMenu = menu;
                 menu->setCheckable(true);
@@ -591,12 +544,7 @@ void SystemTrayMenu::doUpdateSkinListMenu()
                 menu->setMyActionType(SkinAction);
                 menu->setSkinPath(iter->absoluteFilePath() + "/");
                 menu->setSkinClass(skinClass);
-                #ifdef IS_QT_5
-                    this->addAction(menu);
-                #endif
-                #ifdef IS_QT_4
-                    mSkinMenu->addAction(menu);
-                #endif
+                mSkinMenu->addAction(menu);
                 if (firstMenu == NULL)
                     firstMenu = menu;
                 menu->setCheckable(true);
@@ -618,9 +566,7 @@ void SystemTrayMenu::doUpdateSkinListMenu()
     FcitxXDGFreePath(skinPath);
 
     skinMenuItemOnClick(skinNameMenu);
-    #ifdef IS_QT_4
     this->addMenu(mSkinMenu);
-    #endif
 }
 
 void SystemTrayMenu::skinMenuItemOnClick(QAction* action)

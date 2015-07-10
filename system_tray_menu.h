@@ -82,12 +82,10 @@ private:
     QList<KimpanelProperty> mMozcHiraganaList;
     QList<KimpanelProperty> mStatusMenuList;
     QProcess *configtoolPro ;
-#ifdef IS_QT_4
     QMenu *mSkinMenu;
     QMenu *mVKListMenu;
     QMenu *mMozcToolMenu;
     QMenu *mMozcHiraganaMenu;
-#endif
 private:
     void skinMenuItemOnClick(QAction* action);
     void doUpdateSkinListMenu();

@@ -23,7 +23,7 @@ private slots:
     void on_pushButtonInputColor_released();
     void on_pushButton_ok_released();
     void on_pushButton_refresh_released();
-    void on_pushButton_cannel_released();
+    void on_pushButton_cancel_released();
     void on_pushButtonIndexColor_released();
     void on_pushButtonFirstCandColor_released();
     void on_pushButtonOtherCandColor_released();

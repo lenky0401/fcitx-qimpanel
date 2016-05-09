@@ -134,7 +134,7 @@ msgid "AdjustHeight"
 msgstr "面板高度调节"
 
 #: config-tool/editingskindialog.cpp:67
-msgid "&Cannel"
+msgid "&Cancel"
 msgstr "取消"
 
 #: config-tool/editingskindialog.cpp:68

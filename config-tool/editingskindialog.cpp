@@ -64,7 +64,7 @@ EditingSkinDialog::EditingSkinDialog(bool pHorizontal,QListWidgetItem *item,
     ui->label_iAdjustWidth->setText(gettext("AdjustWidth"));
     ui->label_iAdjustHeight->setText(gettext("AdjustHeight"));
 
-    ui->pushButton_cannel->setText(gettext("&Cannel"));
+    ui->pushButton_cancel->setText(gettext("&Cancel"));
     ui->pushButton_ok->setText(gettext("&Ok"));
     ui->pushButton_refresh->setText(gettext("&Refresh"));
 
@@ -290,7 +290,7 @@ void EditingSkinDialog::on_pushButton_ok_released()
     this->close();
 }
 
-void EditingSkinDialog::on_pushButton_cannel_released()
+void EditingSkinDialog::on_pushButton_cancel_released()
 {
     this->close();
 }

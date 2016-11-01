@@ -12,7 +12,7 @@
 #include "editingskindialog.h"
 #include "ui_editingskindialog.h"
 
-#define FCITXSKINSYSTEM_PATH "/usr/share/fcitx-qimpanel/skin/"
+#define FCITXSKINSYSTEM_PATH (PREFIX "/share/fcitx-qimpanel/skin/")
 
 EditingSkinDialog::EditingSkinDialog(bool pHorizontal,QListWidgetItem *item,
                     QWidget *parent) :
@@ -186,7 +186,7 @@ void EditingSkinDialog::saveMainConf()
     QDir *temp = new QDir;
     if(false == temp->exists(localPath + mItem->text().mid(0,mItem->text().indexOf("(local)"))))
     {
-        QString cmd = "cp -R /usr/share/fcitx-qimpanel/skin/" + mItem->text() +" "+ localPath ;
+        QString cmd = "cp -R " PREFIX "share/fcitx-qimpanel/skin/" + mItem->text() +" "+ localPath ;
         qDebug()<<cmd;
         QByteArray ba = cmd.toLatin1();
         const char *transpd = ba.data();
@@ -277,7 +277,7 @@ void EditingSkinDialog::on_pushButton_ok_released()
 {
     if(mItem->text().indexOf("(local)")==-1)
     {
-        QString cmd = "cp -R /usr/share/fcitx-qimpanel/skin/" + mItem->text() +" "+ localPath ;
+        QString cmd = "cp -R " PREFIX "/share/fcitx-qimpanel/skin/" + mItem->text() +" "+ localPath ;
         qDebug()<<cmd;
         QByteArray ba = cmd.toLatin1();
         const char *transpd = ba.data();

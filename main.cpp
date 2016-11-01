@@ -76,8 +76,8 @@ int isRunning()
 
 char* getQimpanelSharePath(const char * const fileName)
 {
-    strcpy(filePath, "/usr/share/fcitx-qimpanel/");
-    strcpy(filePath + strlen("/usr/share/fcitx-qimpanel/"), fileName);
+    strcpy(filePath, PREFIX "/share/fcitx-qimpanel/");
+    strcpy(filePath + strlen(PREFIX "/share/fcitx-qimpanel/"), fileName);
     printf("%s\n", filePath);
 
     return filePath;
@@ -85,8 +85,8 @@ char* getQimpanelSharePath(const char * const fileName)
 
 char* getQimpanelBinPath(const char * const fileName)
 {
-    strcpy(filePath, "/usr/bin/");
-    strcpy(filePath + strlen("/usr/bin/"), fileName);
+    strcpy(filePath, PREFIX "/bin/");
+    strcpy(filePath + strlen(PREFIX "/bin/"), fileName);
     printf("%s\n", filePath);
 
     return filePath;
@@ -130,7 +130,7 @@ int main(int argc, char** argv)
 
     QApplication *app = new QApplication(argc, argv);
     setlocale(LC_ALL,"");
-    bindtextdomain ("fcitx-qimpanel", "/usr/share/locale"); //告诉gettext最终的生成的翻译文件mo的位置
+    bindtextdomain ("fcitx-qimpanel", PREFIX "/share/locale"); //告诉gettext最终的生成的翻译文件mo的位置
     bind_textdomain_codeset("fcitx-qimpanel","UTF-8"); //指定域消息条目(mo)中消息的字符编码
     textdomain("fcitx-qimpanel");//设定翻译环境，即指定使用gettext的翻译。
 

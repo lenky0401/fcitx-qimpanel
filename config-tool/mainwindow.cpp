@@ -8,7 +8,7 @@
 #include <QTime>
 #include <libintl.h>
 
-#define FCITXSKINSYSTEM_PATH "/usr/share/fcitx-qimpanel/skin/"
+#define FCITXSKINSYSTEM_PATH (PREFIX "/share/fcitx-qimpanel/skin/")
 
 MainWindow::MainWindow(QWidget *parent) :
     QDialog(parent),
@@ -112,7 +112,7 @@ void MainWindow::sltOnAllSkinItemDoubleClicked(QListWidgetItem *item)
 {
     if(curtSkinType.indexOf("local")==-1)
     {
-        QString localPath= "/usr/share/fcitx-qimpanel/skin/"+ curtSkinType.mid(0,curtSkinType.indexOf("(local)"));
+        QString localPath = PREFIX "/share/fcitx-qimpanel/skin/"+ curtSkinType.mid(0,curtSkinType.indexOf("(local)"));
         qDebug()<<localPath;
         QDir *temp = new QDir;
         if(true == temp->exists(localPath + "/skin.ini"))
@@ -148,7 +148,7 @@ void MainWindow::on_listWidgetAllSkin_currentItemChanged(QListWidgetItem *curren
     curtSkinType = current->text();
     if(curtSkinType.indexOf("local")==-1)
     {
-        QString localPath= "/usr/share/fcitx-qimpanel/skin/"+ curtSkinType.mid(0,curtSkinType.indexOf("(local)"));
+        QString localPath = PREFIX "/share/fcitx-qimpanel/skin/"+ curtSkinType.mid(0,curtSkinType.indexOf("(local)"));
         qDebug()<<localPath;
         QDir *temp = new QDir;
         if(true == temp->exists(localPath + "/skin.ini"))

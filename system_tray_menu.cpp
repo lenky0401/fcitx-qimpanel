@@ -136,7 +136,7 @@ void SystemTrayMenu::updateMainMenu()
     {
         foreach(const KimpanelProperty &prop, this->mStatusMenuList) {
               MyAction *menu=NULL;
-              if(prop.icon.contains("/usr/share/fcitx"))
+              if(prop.icon.contains(PREFIX "/share/fcitx"))
                     menu = new MyAction(QIcon(prop.icon), prop.label, this);
               else
                     menu = new MyAction(QIcon::fromTheme(prop.icon), prop.label, this);
@@ -201,7 +201,7 @@ QString SystemTrayMenu::doUpdateIMListMenu(const QList<KimpanelProperty> &prop_l
     for (iter = prop_list.begin(); iter != prop_list.end(); ++ iter) {
         if(iter->icon=="fcitx-kbd" || iter->icon==""||iter->icon.indexOf("indicator-keyboard")!=-1)
             action = new MyAction(QIcon::fromTheme("fcitx-kbd"), iter->label, this);
-        else if(iter->icon.contains("/usr/share/fcitx"))
+        else if(iter->icon.contains(PREFIX "/share/fcitx"))
             action = new MyAction(QIcon(iter->icon), iter->label, this);
         else
             action = new MyAction(QIcon::fromTheme(iter->icon), iter->label, this);

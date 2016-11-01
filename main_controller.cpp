@@ -52,7 +52,7 @@ bool MainController::isUbuntuKylin_os()
     QFile os_release("/etc/os-release");
     if(!os_release.exists())
         return false;
-    QFile ukSkinFile ("/usr/share/fcitx-qimpanel/skin/ubuntukylin-dark1/fcitx_skin.conf");
+    QFile ukSkinFile (PREFIX "/share/fcitx-qimpanel/skin/ubuntukylin-dark1/fcitx_skin.conf");
     if(!ukSkinFile.exists())
         return false;
     if(!os_release.open(QIODevice::ReadOnly))
@@ -279,7 +279,7 @@ void MainController::updateProperty(const KimpanelProperty &prop)
    QIcon icon;
    if(prop.icon=="fcitx-kbd" || prop.icon==""|| prop.icon.indexOf("indicator-keyboard")!=-1)
                icon = QIcon::fromTheme("fcitx-kbd");
-   else if(prop.icon.contains("/usr/share/fcitx"))
+   else if(prop.icon.contains(PREFIX "/share/fcitx"))
                icon = QIcon(prop.icon);
    else
          icon = QIcon::fromTheme(prop.icon, QIcon::fromTheme("fcitx-kbd"));

@@ -9,7 +9,7 @@
 #include <QDir>
 #include <fcitx-utils/utils.h>
 
-#define FCITXSKIN_PATH "/usr/share/fcitx-qimpanel/skin/ "
+#define FCITXSKIN_PATH (PREFIX "/share/fcitx-qimpanel/skin/")
 #define BUFF_SIZE (512)
 char sharePath[BUFF_SIZE] = {0};
 
@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
     QTranslator translator;
     QString locale = QLocale::system().name();
     if(locale == "zh_CN") {
-       if (translator.load("/usr/share/fcitx-qimpanel/fcitx_skin_zh_CN.qm") == false)
+       if (translator.load(PREFIX "/share/fcitx-qimpanel/fcitx_skin_zh_CN.qm") == false)
 //        if (translator.load(QString(getQimpanelSharePath("fcitx_skin_zh_CN.qm"))) == false)
             qDebug() << "load qm error.";
     }
@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
     }
 
     setlocale(LC_ALL,"");
-    bindtextdomain ("fcitx-qimpanel", "/usr/share/locale"); //告诉gettext最终的生成的翻译文件mo的位置
+    bindtextdomain ("fcitx-qimpanel", PREFIX "/share/locale"); //告诉gettext最终的生成的翻译文件mo的位置
     bind_textdomain_codeset("fcitx-qimpanel","UTF-8"); //指定域消息条目(mo)中消息的字符编码
     textdomain("fcitx-qimpanel");//设定翻译环境，即指定使用gettext的翻译。
 
